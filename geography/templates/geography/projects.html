@@ -1,0 +1,26 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+
+<p>{% if not user.is_authenticated %}Public {% endif %}Projects</p>
+
+<ul>
+	{% load tz %}
+    {% for project in projects %}
+        <li>
+        	<div class="card">
+        		<h5 class="card-header"><a href="{% url 'project' project.id %}">{{ project }}</a></h5>
+        		<div class="card-body">
+        			<h5 class="card-title">Last Edited || {{ project.date_edited|timezone:"America/Los_Angeles" }}</h5>
+        			<p class="card-text">{{project.text}}</p>
+        		</div>
+        	</div>
+        </li>
+    {% empty %}
+        <li>No projects have been added yet.</li>
+    {% endfor %}
+</ul>
+{% if user.is_authenticated %}
+<a href="{% url 'new_project' %}">Add a new project</a>
+{% endif %}
+{% endblock %}

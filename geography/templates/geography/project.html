@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <p><a href="{% url 'projects' %}">Project:</a> {{ project }}</p>
+    {% if user.is_authenticated %}
+    <p><a href="{% url 'new_post' project.id %}">add a new post</a></p>
+    {% endif %}
+    <ul>
+    {% for post in posts %}
+        <li>
+            <p> {{ post.text|linebreaks }} </p>
+        </li>
+        {% if user.is_authenticated %} 
+        <p><a href="{% url 'edit_post' post.id %}">Edit Entry</a></p>
+        {% endif %}
+    {% empty %}
+        <li>
+            There are not posts.
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}
