@@ -1,10 +1,14 @@
 {% extends 'main/base.html' %}
-
+{% load bootstrap4 %}
 {% block content %}
-    <p>Add a new Project</p>
-    <form action="{% url 'new_project' %}" method='post'>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button name="submit">add project</button>
-    </form>
+    <div class="container">
+    	<div class="jumbotron pt-4 pb-3">
+    		<h5 class="lead">New Project</h3>
+    	</div>
+    	<form action="{% url 'new_project' %}" method='post'>
+        	{% csrf_token %}
+        	{% bootstrap_form form %}
+        	<button class="btn btn-dark"name="submit">add project</button>
+    	</form>
+    </div>
 {% endblock %}

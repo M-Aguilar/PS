@@ -1,11 +1,15 @@
 {% extends 'main/base.html' %}
+{% load bootstrap4 %}
 
 {% block content %}
-    <p><a href="{% url 'project' project.id %}">{{ project }}</a></p>
-    <p>Add a new post</p>
-    <form action="{% url 'new_post' project.id %}" method='post'>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button name='submit'>add post</button>
-    </form>
+    <div class="container">
+    	<div class="jumbotron pt-4 pb-3">
+    		<h5 class='lead'><a class="mr-2 text-secondary" href="{% url 'project' project.id %}">{{ project }}</a>New Post</h5>
+    	</div>
+    	<form action="{% url 'new_post' project.id %}" method='post'>
+        	{% csrf_token %}
+       		{% bootstrap_form form %}
+        	<button class="btn btn-dark" name='submit'>Submit</button>
+ 		</form>
+	</div>
 {% endblock %}

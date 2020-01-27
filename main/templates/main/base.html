@@ -6,6 +6,45 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<style>
+			html, body {
+				height:100%;
+			}
+
+			footer a:link {
+				color: white;
+			}
+
+			footer a:visited {
+				color:white;
+			}
+
+			footer a:hover {
+			}
+			footer a:active {
+				color:blue;
+			}
+
+			footer a {
+				text-align: center;
+				height:100%;
+				padding: 2% 0;
+			}
+
+			.jumbotron {
+				border:black 1px solid;
+			}
+
+			footer {
+				width:100%;
+				display:flex;
+				justify-content: space-around;
+				color:red;
+				background-color: #696969;
+				border-top:2px black solid;
+			}
+
+		</style>
     </head>
 	<body>
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -34,10 +73,13 @@
 	    				<a class="nav-link" href="{% url 'register' %}">Register</a>
 	    			</li>
     				{% endif %}
+    				<li class="nav-item">
+	    				<a class="nav-link" href="{% url 'about' %}">About</a>
+	    			</li>
     			</ul>
     		</div>
     	</nav>
-    	<div class="container mt-5">
+    	<div class="container my-5">
 			<div class="page-header">
 				{% block header %}{% endblock %}
 			</div>
@@ -45,5 +87,11 @@
 				{% block content %}{% endblock %}
 			</div>
 		</div>
+		<footer>
+			<a href="">Link1</a>
+			<a href="">Link2</a>
+			<a href="">Link3</a>
+			<a href=''>Link4</a>
+		</footer>
 	</body>
 </html>

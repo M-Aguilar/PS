@@ -1,23 +1,27 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-
-    <p><a href="{% url 'projects' %}">Project:</a> {{ project }}</p>
-    {% if user.is_authenticated %}
-    <p><a href="{% url 'new_post' project.id %}">add a new post</a></p>
-    {% endif %}
-    <ul>
-    {% for post in posts %}
-        <li>
-            <p> {{ post.text|linebreaks }} </p>
-        </li>
-        {% if user.is_authenticated %} 
-        <p><a href="{% url 'edit_post' post.id %}">Edit Entry</a></p>
+    <div class="jumbotron pt-4 pb-3">
+        <h5 class='lead'><a class="text-secondary mr-2"href="{% url 'projects' %}">Projects</a> {{ project }}
+        {% if user.is_authenticated %}
+        <a class="text-secondary float-right" href="{% url 'new_post' project.id %}">new post</a>
         {% endif %}
-    {% empty %}
-        <li>
+        </h5>
+    </div>
+    <div class="container">
+    {% for post in posts %}
+        <div class="card my-4 border-left border-right border-top-0" style="border-color: #919090;">
+            <div class='card-body py-2 border-top border-dark rounded-top'>
+                <p> {{ post.text|linebreaks }} </p>
+            </div>
+            {% if user.is_authenticated %} 
+            <a class="btn btn-dark" href="{% url 'edit_post' post.id %}">edit</a>
+            {% endif %}
+        </div>
+        {% empty %}
+            <p>
             There are not posts.
-        </li>
-    {% endfor %}
-    </ul>
+            </p> 
+        {% endfor %}
+    </div>  
 {% endblock %}

@@ -9,7 +9,7 @@ from django.urls import reverse
 # Create your views here.
 def projects(request):
     if request.user.is_authenticated:
-        projects = Project.objects.filter(owner=request.user).order_by('date_added')
+        projects = Project.objects.filter(owner=request.user).order_by('-date_edited')
     else:
         projects = Project.objects.filter(public=True).order_by('date_added')
     context = {'projects':projects}
@@ -48,6 +48,7 @@ def new_post(request, project_id):
             new_post = form.save(commit=False)
             new_post.project = project
             new_post.save()
+            new_post.project.save()
             return HttpResponseRedirect(reverse('project', args=[project_id]))
     context = {'project':project,'form': form}
     return render(request, 'geography/new_post.html', context)
@@ -62,7 +63,6 @@ def edit_post(request, post_id):
         form = PostForm(instance=post)
     else:
         form = PostForm(instance=post, data=request.POST)
-
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('project', args=[project.id]))

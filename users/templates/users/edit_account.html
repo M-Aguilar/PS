@@ -1,0 +1,21 @@
+{% extends "main/base.html" %}
+
+{% block header %}
+	<h1>Edit Account</h1>
+{% endblock %}
+
+{% block content %}
+<div>
+    <form action="{% url 'edit_account' %}" method="post">
+    {% csrf_token %}
+        <!--{% bootstrap_form form %}-->
+        <div>
+            {% buttons %}
+            <button name="submit">Change Username</button>
+            {% endbuttons %}
+            <label for="your_name">Your Display Name:</label>
+            <input id="your_name" type="text" name="your_name" value="{{username}}">
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,26 +1,27 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-
-<p>{% if not user.is_authenticated %}Public {% endif %}Projects</p>
-
-<ul>
+<div class="jumbotron pt-4 pb-4">
+	<h2 class="display-4">{% if not user.is_authenticated %}Public {% endif %}Projects</h2>
+</div>
+<div class="container">
 	{% load tz %}
     {% for project in projects %}
-        <li>
-        	<div class="card">
-        		<h5 class="card-header"><a href="{% url 'project' project.id %}">{{ project }}</a></h5>
-        		<div class="card-body">
-        			<h5 class="card-title">Last Edited || {{ project.date_edited|timezone:"America/Los_Angeles" }}</h5>
-        			<p class="card-text">{{project.text}}</p>
-        		</div>
-        	</div>
-        </li>
+      <div class="card my-3" style="border-color: #919090;">
+        <div class="card-header" style="background-color:#e6e6e6;">
+          <h5 class="card-title my-auto">
+            <a class="text-secondary mr-2" href="{% url 'project' project.id %}">{{ project }}</a>Last edited {{ project.date_edited|timezone:"America/Los_Angeles" }} <div class="float-right">Posts: {{ project.post_set.count }}</div>
+          </h5>
+        </div>
+        <div class="card-body">
+       	  <p class="card-text">{{project.text}}</p>
+       	</div>
+      </div>
     {% empty %}
-        <li>No projects have been added yet.</li>
+        <div>No projects have been added yet.</div>
     {% endfor %}
-</ul>
-{% if user.is_authenticated %}
-<a href="{% url 'new_project' %}">Add a new project</a>
-{% endif %}
+	{% if user.is_authenticated %}
+	<a class="btn btn-dark" href="{% url 'new_project' %}">new project</a>
+	{% endif %}
+</div>
 {% endblock %}

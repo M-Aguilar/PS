@@ -1,0 +1,97 @@
+{% extends "main/base.html" %}
+
+{% block header %}
+	<div class='jumbotron pt-3 pb-3'>
+		<div class="display-4 text-center">About</div>
+	</div>
+{% endblock %}
+
+{% block content %}
+	<p class="lead">This page contains information about the site including software, hardware, and other relavent meterials used in setting up and executing this site. Feel free to contact me for any information regarding any project or the site itself via <a href="mailto:a.aguilar.moises@gmail.com">email.</a></p>
+	<p class="lead">Each site lists firther software and resources used in the development of each respectively. A full list of sites can be found here.</p>
+	<div class="card my-4">
+		<div class="card-header" style="background-color:#e6e6e6;">
+			<p class="card-title lead">Software</p>
+		</div>
+		<div class="card-body">
+			<h5>Raspbian</h5>
+			<hr>
+			<p class="card-text">
+				Raspbian is the recommended operating system for the raspberry pi.
+				It can be used as a personal computer by connecting various peripherals including mouse, keyboard, and display.
+				For my purposes I remote log in with a different computer or phone.
+			</p>
+			<h5>Python</h5>
+			<hr>
+			<p class="card-text">
+				Python is included in Raspbian and is used for various purposes such as create virtual environments and running simple scripts as well as designing the functionality of this site.
+			</p>
+			<h5>Django</h5>
+			<hr>
+			<p class="card-text">
+				Django is a python based framework that provides a complete option for developing a functional website. A different  python based alternaitve to Django is Flask.
+			</p>
+			<h5>Bootstrap</h5>
+			<hr>
+			<p class="card-text">
+				Bootstrap is a styling solution. Using jQuery to provide clean functional website elements.
+			</p>
+			<h5>Sublime Text Editor</h5>
+			<hr>
+			<p class="card-text">
+				Sublime is my preferred text editor. it is simple and small in size. It supports most languages and can be customized extensively as desired.
+			</p>
+			<h5>Apache</h5>
+			<hr>
+			<p class="card-text">
+				Apache is the most popular web serving framework or so I here and is a key piece in hosting a website.
+			</p>
+		</div>
+	</div>
+	<div class="card my-4">
+		<div class="card-header" style="background-color:#e6e6e6;">
+			<p class="card-title lead">Hardware</p>
+		</div>
+		<div class="card-body">
+			<h5>Raspberry pi</h5>
+			<hr>
+			<p class="card-text">
+				My main file sites are stored on my raspberry pi 2 model B+.
+				This is a great tool for learning basic computer functionality as well as an introduction to more technical skills such as programming, command line usage, and useful computer practices.
+				Some great projects include setting up and hosting a site, VPN, and NAS server.
+				<br>The raspberry pi was released on June 24, 2019 and can be used for a lot. Older models are also still viable today for most purposes.
+			</p>
+		</div>
+	</div>
+	<div class="card my-4">
+		<div class="card-header" style="background-color:#e6e6e6;">
+			<p class="card-title lead">Resources</p>
+		</div>
+		<div class="card-body">
+			<h5>Automate the Boring Stuff</h5>
+			<hr>
+			<p class="card-text">
+			</p>
+			<h5>Python Crash Course</h5>
+			<hr>
+			<p class="card-text">
+			</p>
+			<h5>Python Documentation</h5>
+			<hr>
+			<p class="card-text">
+			</p>
+			<h5>Django Documentation</h5>
+			<hr>
+			<p class="card-text">
+			</p>
+			<h5>W3 Schools</h5>
+			<hr>
+			<p class="card-text">
+			</p>
+			<h5>Bootstrap Documenation</h5>
+			<hr>
+			<p class="card-text">
+			</p>
+		</div>
+	</div>
+{% endblock %}

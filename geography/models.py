@@ -4,14 +4,15 @@ from django.contrib.auth.models import User
 # Create your models here.
 #change project text to textarea and move text to title
 class Project(models.Model):
-    text = models.CharField(max_length=100)
+    title = models.CharField(max_length=30)
+    text = models.CharField(max_length=100, blank=True)
     public = models.BooleanField(default=False)
     date_added = models.DateTimeField(auto_now_add=True)
     date_edited = models.DateTimeField(auto_now=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.text
+        return self.title
 
 class Post(models.Model):
     text = models.CharField(max_length=250)
