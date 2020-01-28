@@ -28,7 +28,7 @@
 			footer a {
 				text-align: center;
 				height:100%;
-				padding: 2% 0;
+				padding: 1vh;
 			}
 
 			.jumbotron {
@@ -61,7 +61,13 @@
     				<li class="nav-item active">
 	    				<a class="nav-link" href="{% url 'projects' %}">Projects</a>
 	    			</li>
-    				{% if user.is_authenticated %}
+    				<li class="nav-item">
+	    				<a class="nav-link" href="{% url 'games' %}">Games</a>
+	    			</li>
+    				<li class="nav-item">
+	    				<a class="nav-link" href="{% url 'about' %}">About</a>
+	    			</li>
+	    			{% if user.is_authenticated %}
     				<li class="nav-item">
     					<a class="nav-link" href="{% url 'logout' %}">Log out</a>
     				</li>
@@ -73,9 +79,6 @@
 	    				<a class="nav-link" href="{% url 'register' %}">Register</a>
 	    			</li>
     				{% endif %}
-    				<li class="nav-item">
-	    				<a class="nav-link" href="{% url 'about' %}">About</a>
-	    			</li>
     			</ul>
     		</div>
     	</nav>

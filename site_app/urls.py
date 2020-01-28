@@ -21,5 +21,5 @@ urlpatterns = [
     path('', include('main.urls')),
     path('geography/', include('geography.urls')),
     path('users/', include('users.urls')),
-    #path('games/', include('games.urls')),
+    path('games/', include('games.urls')),
 ]
