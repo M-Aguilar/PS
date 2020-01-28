@@ -1,0 +1,12 @@
+Package           Version
+----------------- -------
+asgiref           3.2.3  
+beautifulsoup4    4.8.2  
+Django            3.0.2  
+django-bootstrap4 1.1.1  
+pip               20.0.1 
+pkg-resources     0.0.0  
+pytz              2019.3 
+setuptools        44.0.0 
+soupsieve         1.9.5  
+sqlparse          0.3.0  
