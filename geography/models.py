@@ -1,10 +1,24 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User
+
+#this needs to be cleaned up
+#Currently we have user/project/<images>
+#               and user/
+
+class Projector(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	admin = models.BooleanField(default=False)
 
 def user_directory_path(instance, filename):
-    return settings.MEDIA_ROOT + '/user_{0}/{1}'.format(instance.user.id, filename)
-
+    try:
+        return settings.MEDIA_ROOT + '/user_{0}/{1}/{2}'.format(instance.project.owner.id, instance.project.id ,filename)
+    except AttributeError:
+        pass
+    try:
+        return settings.MEDIA_ROOT + '/user_{0}/{1}/{2}'.format(instance.owner.id, 'banner', filename)
+    except AttributeError:
+        pass
 # Create your models here.
 #change project text to textarea and move text to title
 class Project(models.Model):
@@ -15,7 +29,7 @@ class Project(models.Model):
     date_edited = models.DateTimeField(auto_now=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     url = models.URLField(blank=True)
-    #banner = models.ImageField(upload_to=user_directory_path)
+    banner = models.ImageField(upload_to=user_directory_path, blank=True)
 
     def __str__(self):
         return self.title
@@ -26,7 +40,7 @@ class Post(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     date_edited = models.DateTimeField(auto_now=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    #image = models.ImageField(upload_to=user_directory_path)
+    image = models.ImageField(upload_to=user_directory_path, blank=True)
 
     class Meta:
         verbose_name_plural = 'posts'

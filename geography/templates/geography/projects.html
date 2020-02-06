@@ -1,43 +1,42 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-<style>
-  .info {
-    background-color: black;
-    border-radius: 50%;
-    font-size: 11px;
-    width:13px;
-    text-align: center;
-    color:white;
-  }
-  .popover {
-    font-size: 11px;
-  }
-
-</style>
-<script>  
-  $(document).ready(function(){
-    $('[data-toggle="popover"]').popover();   
-});
-</script>
+  <script>  
+    $(document).ready(function(){
+      $('[data-toggle="popover"]').popover();
+    });
+  </script>
 <div class="jumbotron pt-4 pb-4">
 	<h2 class="display-4">{% if not user.is_authenticated %}Public {% endif %}Projects</h2>
 </div>
 <div class="container">
-	{% load tz %}
+  {% load tz %}
     {% for project in projects %}
       <div class="card my-3" style="border-color: #919090;">
-        <div class="card-header" style="background-color:#e6e6e6;">
-          <h5 class="card-title my-auto">
-            <a class="text-secondary mr-2" href="{% url 'project' project.id %}">{{ project }}</a>
-            <div class="float-right">
-              <div class="pop" data-placement="left" title="Posts: {{ project.post_set.count }}"data-toggle="popover" data-trigger="hover" data-content="Last edited {{ project.date_edited|timezone:'America/Los_Angeles'}}">
-              <div class="info">i</div></div>
+        <div class="card-header light-g p-1">
+          <h5 class="card-title">
+            <div>
+              <div class="float-left project">
+                <a class="text-secondary mr-2" href="{% url 'project' project.id %}">{{ project }}</a>
+              </div>
+              <div class="float-right">
+                <div class="pop-projects" data-placement="left" title="Posts: {{ project.post_set.count }}" data-toggle="popover" data-trigger="hover" data-content="Last edited {{ project.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ project.date_added|timezone:'America/Los_Angeles'}}<br>Created by {{ project.owner }}" data-html='true'>
+                  <div class="info">i</div>
+                </div>
+              </div>
+              {% if user.is_authenticated %}
+              <a class="btn bg-light text-secondary float-right mr-3" href="{% url 'edit_project' project.id %}">edit</a>
+              {% endif %}
             </div>
           </h5>
         </div>
         <div class="card-body">
-       	  <p class="card-text">{{project.text}}</p>
+          {% if project.text %}
+       	    <p class="card-text">{{ project.text }}
+          {% else %}
+            <p>No text entry
+          {% endif %}
+            </p>
        	</div>
       </div>
     {% empty %}

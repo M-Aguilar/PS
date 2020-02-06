@@ -9,12 +9,17 @@
 		<div>
 			<p class="my-1">Posted {{ post.date_added|timezone:"America/Los_Angeles"}}</p> 
 		    <p class="my-1">Last Edited {{ post.date_edited|timezone:"America/Los_Angeles" }}</p>
-		</div>
+            {% if post.image %}
+                <p>IMAGE {{ post.image }}</p>
+                <p>URL {{ post.image.url }}</p>
+                <img src="{{ post.image.url }}" alt="My image">
+            {% endif %}
+        </div>
 	</div>
 {% endblock %}
 {% block content %}
     <div class="container">
-	    <form action="{% url 'edit_post' post.id %}" method='post' oninput="char_count()">
+	    <form action="{% url 'edit_post' post.id %}" enctype="multipart/form-data" method='post' oninput="char_count()">
     	    {% csrf_token %}
     	    {% bootstrap_form form %}
     	   	<div class="d-flex">

@@ -1,21 +1,46 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-    <div class="jumbotron pt-4 pb-3">
-        <h5 class='lead'><a class="text-secondary mr-2"href="{% url 'projects' %}">Projects</a> {{ project }}
-        {% if user.is_authenticated %}
-        <a class="text-secondary float-right" href="{% url 'new_post' project.id %}">new post</a>
-        {% endif %}
+    <script>  
+        $(document).ready(function(){
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
+    <div class="jumbotron py-3">
+        <h5 class='lead'>
+            <a class="text-secondary mr-2"href="{% url 'projects' %}">Projects</a> {{ project }}
+            {% if user.is_authenticated %}
+            <a class="text-secondary float-right ml-3" href="{% url 'new_post' project.id %}">new post</a>
+            <a class="text-secondary float-right" href="{% url 'edit_project' project.id %}">edit project</a>
+            {% endif %}
         </h5>
     </div>
     <div class="container">
+    {% load static %}
     {% for post in posts %}
+    {% load tz %}
         <div class="card my-4 border-left border-right border-top-0" style="border-color: #919090;">
             <div class='card-body py-2 border-top border-dark rounded-top'>
-                <p> {{ post.text|linebreaks }} </p>
+                <h5 class="card-title my-auto">
+                    <div class="pop-project float-right">
+                        <div data-placement="left" data-toggle="popover" data-trigger="hover" data-content="Last edited {{ post.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ post.date_added|timezone:'America/Los_Angeles'}}" data-html='true'>
+                        <div class="info">i</div></div>
+                    </div>
+                </h5>
+                {% if post.text %}
+                    <p> {{ post.text|linebreaks }} </p>
+                {% else %} 
+                    <p>No text entry.</p>
+                {% endif %}
+                {% if post.image %}
+                    <p>IMAGE {{ post.image }}</p>
+                    <p>URL {{ post.image.url }}</p>
+                    <img src="{{ post.image }}" alt="My image">
+                    <img src="{{ post.image.url }}" alt="My image">
+                {% endif %}
             </div>
             {% if user.is_authenticated %} 
-            <a class="btn btn-dark" href="{% url 'edit_post' post.id %}">edit</a>
+            <a class="btn light-g text-secondary" href="{% url 'edit_post' post.id %}">edit post</a>
             {% endif %}
         </div>
         {% empty %}
