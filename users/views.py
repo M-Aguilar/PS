@@ -5,6 +5,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
+from geography.models import Projector
 from django.db.models import Count
 from .models import User
 from .forms import NameForm
@@ -42,8 +43,9 @@ def register(request):
 			new_user = form.save()
 			#Log the user in and then redirect to home page.
 			authenticated_user = authenticate(request, username=new_user.username, password=request.POST['password1'])
+			p = Projector(user=new_user)
+			p.save()
 			login(request, authenticated_user)
 			return HttpResponseRedirect(reverse('index'))
-
-	context = {'form': form}
+	context = {'form': form, 'nbar': 'register'}
 	return render(request,'users/register.html', context)

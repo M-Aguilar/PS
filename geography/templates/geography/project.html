@@ -8,8 +8,8 @@
     </script>
     <div class="jumbotron py-3">
         <h5 class='lead'>
-            <a class="text-secondary mr-2"href="{% url 'projects' %}">Projects</a> {{ project }}
-            {% if user.is_authenticated %}
+            <a class="text-secondary mr-2"href="{% url 'projects' %}">Projects</a> {{ project }} by <a href="" class="text-secondary ml-2">{{ project.owner }}</a>
+            {% if user.is_authenticated and request.user == project.owner %}
             <a class="text-secondary float-right ml-3" href="{% url 'new_post' project.id %}">new post</a>
             <a class="text-secondary float-right" href="{% url 'edit_project' project.id %}">edit project</a>
             {% endif %}
@@ -39,7 +39,7 @@
                     <img src="{{ post.image.url }}" alt="My image">
                 {% endif %}
             </div>
-            {% if user.is_authenticated %} 
+            {% if user.is_authenticated and user.projector.admin %} 
             <a class="btn light-g text-secondary" href="{% url 'edit_post' post.id %}">edit post</a>
             {% endif %}
         </div>

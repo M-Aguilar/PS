@@ -4,17 +4,12 @@
 {% block header %}
 	<div class="jumbotron bg-danger">
 		<div class="display-4">
-			<p>GAMES</p>
+			<p>{{game}}</p>
 		</div>
 	</div>
 {% endblock %}
 
 {% block content%}
-	<h4>Here are a list of games!</h4>
-	{% for game in games %}
-	<a href="{% url 'game' game.id %}">{{ game }}</a>
-	{% empty %}
-	There are no games
-	{% endfor %}
+	This is it
 {% endblock%}
 

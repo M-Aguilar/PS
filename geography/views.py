@@ -3,17 +3,50 @@ from .models import Project, Post
 from .forms import ProjectForm, PostForm
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
+from django.contrib.auth.models import User
 
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
-
+from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
-def projects(request):
-    if request.user.is_authenticated:
-        projects = Project.objects.filter(owner=request.user).order_by('-date_edited')
+'''
+possible inputs
+as registered user and projector
+    public -- other user -- own projects
+
+as registered non owner
+    public other - other user 
+
+as non registered
+    public -- specific user's public
+TODO adjust urls to show username instead of user id
+'''
+def projects(request, user_id='public'):
+    #public = True`
+    print(str(user_id) + str(type(user_id)))
+    print(str(request.user.id) + str(type(request.user.id)))
+    #user_id either equals public or it doesnt
+    if user_id != 'public':
+        #this is for user looking at their own files
+        try:
+            public = int(user_id)
+        except ValueError:
+            raise Http404
+        if request.user.is_authenticated and request.user.id == public:
+            projects = Project.objects.filter(owner=request.user).order_by('-date_edited')
+        else: #for all other viewing of no owners projects 
+            try:
+                projects = Project.objects.filter(owner=user_id, public=True).order_by('-date_added')
+            except NameError:
+                raise Http404
+        try:
+            public = User.objects.get(id=user_id)
+        except ObjectDoesNotExist:
+            raise Http404
     else:
         projects = Project.objects.filter(public=True).order_by('date_added')
-    context = {'projects':projects}
+        public = user_id
+    context = {'projects':projects, 'public': public, 'nbar': 'project'}
     return render(request, 'geography/projects.html', context)
 
 def project(request, project_id):
@@ -21,7 +54,7 @@ def project(request, project_id):
     if project.owner != request.user and not project.public:
         raise Http404
     posts = project.post_set.order_by('-date_added')
-    context = {'project': project, 'posts': posts}
+    context = {'project': project, 'posts': posts, 'nbar': 'project'}
     return render(request, 'geography/project.html', context)
 
 
@@ -36,7 +69,7 @@ def new_project(request):
             new_p.owner = request.user
             new_p.save()
             return HttpResponseRedirect(reverse('projects'))
-    context = {'form': form}
+    context = {'form': form, 'nbar': 'project'}
     return render(request, 'geography/new_project.html', context)
 
 @login_required
@@ -52,7 +85,7 @@ def new_post(request, project_id):
             new_post.save()
             new_post.project.save()
             return HttpResponseRedirect(reverse('project', args=[project_id]))
-    context = {'project':project,'form': form}
+    context = {'project':project,'form': form, 'nbar': 'project'}
     return render(request, 'geography/new_post.html', context)
 
 @login_required
@@ -68,7 +101,7 @@ def edit_post(request, post_id):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('project', args=[project.id]))
-    context = {'post': post, 'project':project, 'form':form}
+    context = {'post': post, 'project':project, 'form':form, 'nbar': 'project'}
     return render(request, 'geography/edit_post.html', context)
 
 @login_required
@@ -83,6 +116,6 @@ def edit_project(request, project_id):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('projects'))
-    context = {'project':project, 'form':form}
+    context = {'project':project, 'form':form, 'nbar': 'project'}
     return render(request, 'geography/edit_project.html', context)
 

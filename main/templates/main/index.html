@@ -2,11 +2,17 @@
 
 {% block header %}
 	<div class='jumbotron pt-5 pb-5'>
-		<div class="display-4 text-center">Hello!</div>
+		<div class="display-4 text-center">Hello! 
+			{% if user.is_authenticated %}
+				{{ user }}
+				{% endif %}
+			Welcome to Agullar.com
+		</div>
 	</div>
 {% endblock %}
 
 {% block content %}
 	<p class="lead">This is Moises Aguilar's presonal website page.</p>
-	<p class="lead">The current domain is my first initial plus a mispelled last name: MAgullar.com ("LL"). The correct spelling of my last name is Aguilar ("IL"). I will eventually pick up the correct domain. </p>
+	<p class="lead">This site is where I try out new ideas and show off some of the projects I have completed. This is my personnal site of which a lot is made public. Feel free to explore. A lot more is yet to come.</p>
+	<p>Gotta have some fun BAYBEE</p>
 {% endblock %}
