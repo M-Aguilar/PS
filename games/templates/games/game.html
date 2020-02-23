@@ -2,14 +2,25 @@
 {% load bootstrap4 %}
 
 {% block header %}
-	<div class="jumbotron bg-danger">
+{% if game.js %}
+<head>
+	<script type="text/javascript" src="/{{game.js}}"></script>
+</head>
+{% endif %}
+	<div class="start jumbotron bg-danger">
 		<div class="display-4">
-			<p>{{game}}</p>
+			<p>{{ game }}</p>
+			{% if user.is_authenticated %}
+				<a class="btn btn-dark" href="{% url 'edit_game' game.path %}">edit game</a>
+			{% endif %}
+
+			<button class="btn btn-dark" id="play" onclick="new_game();" type="btn">Play Game</button>
 		</div>
 	</div>
 {% endblock %}
 
 {% block content%}
-	This is it
+	<div class="start">
+		<p class="start">{{ game.text }}</p>
+	</div>
 {% endblock%}
-

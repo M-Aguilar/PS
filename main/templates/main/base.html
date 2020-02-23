@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		{% load static %}
 		<link rel="stylesheet" type="text/css" href="{% static 'main/basestyle.css' %}">
-    </head>
+	</head>
 	<body>
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -24,9 +24,9 @@
 	    				{% if request.user.is_authenticated %}
 	    				<div class="dropdown">
 	    					<a class="nav-link dropdown-toggle {% if nbar == 'project' %} active {% endif %}" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">Projects</a>
-	    					<div class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton">
-	    						<a class="nav-link dropdown-item text-dark" type="button" href="{% url 'projects' request.user.id %}">My Projects</a>
-	    						<a class="nav-link dropdown-item text-dark" type="button" href="{% url 'projects' 'public' %}">Public Projects</a>
+	    					<div class="dropdown-menu text-center bg-transparent border-0" aria-labelledby="dropdownMenuButton">
+	    						<a class="text-white nav-link dropdown-item bg-dark rounded my-2 py-1" type="button" href="{% url 'projects' request.user.id %}">My Projects</a>
+	    						<a class="nav-link dropdown-item bg-dark rounded py-1" type="button" href="{% url 'projects' 'public' %}">Public Projects</a>
 	    					</div>
 	    				</div>
 	    				{% else %}
@@ -58,7 +58,7 @@
 			<div class="page-header">
 				{% block header %}{% endblock %}
 			</div>
-			<div>
+			<div class="content">
 				{% block content %}{% endblock %}
 			</div>
 		</div>

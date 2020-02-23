@@ -12,9 +12,9 @@
 {% block content%}
 	<h4>Here are a list of games!</h4>
 	{% for game in games %}
-	<a href="{% url 'game' game.id %}">{{ game }}</a>
+	<a href="{% url 'game' game.path %}">{{ game }}</a>
 	{% empty %}
-	There are no games
+		There are no games
 	{% endfor %}
 {% endblock%}
 

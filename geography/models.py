@@ -10,15 +10,17 @@ class Projector(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	admin = models.BooleanField(default=False)
 
+#WHAT IS GOING ON!!! I FOUND THE PROBLEM. This may need to be changed for the regular server
 def user_directory_path(instance, filename):
     try:
         return settings.MEDIA_ROOT + '/user_{0}/{1}/{2}'.format(instance.project.owner.id, instance.project.id ,filename)
     except AttributeError:
         pass
-    try:
+    try: #settings.MEDIA_ROOT +
         return settings.MEDIA_ROOT + '/user_{0}/{1}/{2}'.format(instance.owner.id, 'banner', filename)
     except AttributeError:
         pass
+
 # Create your models here.
 #change project text to textarea and move text to title
 class Project(models.Model):

@@ -3,7 +3,7 @@
 
 {% block header %}
 	<div class="jumbotron pt-4 pb-3">
-		<h2>Project <a class="text-secondary ml-2" href="{% url 'project' project.id %}">{{ project }}</a></h2>
+		<h2>Edit Project <a class="text-secondary ml-2" href="{% url 'project' project.id %}">{{ project }}</a></h2>
 		<hr>
 		{% load tz %}
 		<div>
@@ -17,23 +17,12 @@
 	    <form action="{% url 'edit_project' project.id %}" enctype="multipart/form-data" method='post' oninput="char_count()">
     	    {% csrf_token %}
     	    {% bootstrap_form form %}
-    	   	<div class="d-flex">
-    	   		<button name="submit" class="btn btn-dark mr-auto">save changes</button>
-    			<div class="ml-auto">
-    				<div id="cc"></div>
-    				<div class="float-right" id="wc"></div>
-    			</div>
-    		</div>
+    		<div class="d-inline">
+                <button name="submit" class="btn btn-dark mr-auto mt-3">save changes</button>
+                <div id="counter" class="float-right">
+                </div>
+            </div>
     	</form>
-    	<script>
-    		var limit = " / " + document.getElementById("id_text").form.text.maxLength.toString();
-    		char_count();
-
-    		function char_count() {
-    			text = document.getElementById("id_text").form.text.value;
-    			document.getElementById('cc').innerHTML = "Char Count: " + text.length.toString() + limit;
-    			document.getElementById('wc').innerHTML = "Word Count: " + text.split(' ').length;
-    		};
-    	</script>
+    	<script type="text/javascript" src="/static/main/base.js"></script>
     </div>
 {% endblock %}

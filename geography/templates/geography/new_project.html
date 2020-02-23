@@ -8,21 +8,12 @@
     	<form action="{% url 'new_project' %}" method='post' oninput="char_count()">
         	{% csrf_token %}
         	{% bootstrap_form form %}
-                <button class="btn btn-dark"name="submit">add project</button>
-                <div class="ml-auto float-right">
-                    <div id="cc"></div>
-                    <div id="wc"></div>
+                <div class="d-inline">
+                    <button class="btn btn-dark mt-3" name="submit">add project</button>
+                    <div id="counter" class="float-right">
                 </div>
+            </div>
     	</form>
     </div>
-    <script>
-        var limit = " / " + document.getElementById("id_text").form.text.maxLength.toString();
-        char_count();
-
-        function char_count() {
-            text = document.getElementById("id_text").form.text.value;
-            document.getElementById('cc').innerHTML = "Char Count: " + text.length.toString() + limit;
-            document.getElementById('wc').innerHTML = "Word Count: " + text.split(' ').length;
-        };
-    </script>
+    <script type="text/javascript" src="/static/main/base.js"></script>
 {% endblock %}

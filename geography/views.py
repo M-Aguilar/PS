@@ -22,9 +22,7 @@ as non registered
 TODO adjust urls to show username instead of user id
 '''
 def projects(request, user_id='public'):
-    #public = True`
-    print(str(user_id) + str(type(user_id)))
-    print(str(request.user.id) + str(type(request.user.id)))
+    #public = True
     #user_id either equals public or it doesnt
     if user_id != 'public':
         #this is for user looking at their own files

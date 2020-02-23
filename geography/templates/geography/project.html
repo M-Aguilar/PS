@@ -33,9 +33,6 @@
                     <p>No text entry.</p>
                 {% endif %}
                 {% if post.image %}
-                    <p>IMAGE {{ post.image }}</p>
-                    <p>URL {{ post.image.url }}</p>
-                    <img src="{{ post.image }}" alt="My image">
                     <img src="{{ post.image.url }}" alt="My image">
                 {% endif %}
             </div>

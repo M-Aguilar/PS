@@ -3,15 +3,19 @@
 
 {% block header %}
 	<div class="jumbotron pt-4 pb-3">
-		<h2>Project <a class="text-secondary ml-2" href="{% url 'project' project.id %}">{{ project }}</a></h2>
-		<hr>
+       <div class='d-block'>
+            <h2 class="float-right">Project <a class="text-secondary ml-2" href="{% url 'project' project.id %}">{{ project }}</a></h2>
+            <h1>Edit Post</h1>
+		</div>
+        <hr>
 		{% load tz %}
 		<div>
-			<p class="my-1">Posted {{ post.date_added|timezone:"America/Los_Angeles"}}</p> 
-		    <p class="my-1">Last Edited {{ post.date_edited|timezone:"America/Los_Angeles" }}</p>
+			<div class="my-1">
+                <p class="d-inline">Posted {{ post.date_added|timezone:"America/Los_Angeles"}}</p> 
+                <p class="d-inline float-right">Last Edited {{ post.date_edited|timezone:"America/Los_Angeles" }}</p>
+            </div>            
             {% if post.image %}
-                <p>IMAGE {{ post.image }}</p>
-                <p>URL {{ post.image.url }}</p>
+                <h5 class="lead">Current Image:</h5>
                 <img src="{{ post.image.url }}" alt="My image">
             {% endif %}
         </div>
@@ -22,23 +26,12 @@
 	    <form action="{% url 'edit_post' post.id %}" enctype="multipart/form-data" method='post' oninput="char_count()">
     	    {% csrf_token %}
     	    {% bootstrap_form form %}
-    	   	<div class="d-flex">
-    	   		<button name="submit" class="btn btn-dark mr-auto">save changes</button>
-    			<div class="ml-auto">
-    				<div id="cc"></div>
-    				<div class="float-right" id="wc"></div>
-    			</div>
-    		</div>
+            <div class="d-inline">
+                <button name="submit" class="btn btn-dark mr-auto my-3">save changes</button>
+                <div id="counter" class="float-right">
+                </div>
+            </div>
     	</form>
-    	<script>
-    		var limit = " / " + document.getElementById("id_text").form.text.maxLength.toString();
-    		char_count();
-
-    		function char_count() {
-    			text = document.getElementById("id_text").form.text.value;
-    			document.getElementById('cc').innerHTML = "Char Count: " + text.length.toString() + limit;
-    			document.getElementById('wc').innerHTML = "Word Count: " + text.split(' ').length;
-    		};
-    	</script>
+    	<script type="text/javascript" src="/static/main/base.js"></script>
     </div>
 {% endblock %}
