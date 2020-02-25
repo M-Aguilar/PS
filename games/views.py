@@ -18,6 +18,19 @@ def game(request, path):
 	context ={'nbar': 'games', 'game': game, 'scores': scores}
 	return render(request, 'games/game.html', context)
 
+def new_game(request):
+	if not request.user.projector.admin:
+		raise Http404
+	if request.method != 'POST':
+		form = GameForm()
+	else:
+		form = GameForm(data=request.POST)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect(reverse('games'))
+	context = {'game': game,'form': form,'nbar':'games'}
+	return render(request, 'games/new_game.html', context)
+
 @login_required
 def edit_game(request, path):
 	game = Game.objects.get(path=path)

@@ -43,39 +43,45 @@
         <a class="dropdown-item text-dark" type="button" onclick="sort('{{ projects }}')">queryset</a>
       </div>
     </div>-->
-    {% for project in projects %}
-      <div class="card my-3" style="border-color: #919090;">
-        <div class="card-header light-g p-1">
-          <h5 class="card-title">
-            <div>
-              <div class="float-left project">
-                <a class="text-secondary mr-2" href="{% url 'project' project.id %}">{{ project }}</a>
-              </div>
-              <div class="float-right">
-                <div class="pop-projects" data-placement="left" title="Posts: {{ project.post_set.count }}" data-toggle="popover" data-trigger="hover" data-content="Last edited {{ project.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ project.date_added|timezone:'America/Los_Angeles'}}<br>Created by {{ project.owner }}" data-html='true'>
-                  <div class="info">i</div>
-                </div>
-              </div>
-              {% if user.is_authenticated and user.projector.admin %}
-              <a class="btn bg-light text-secondary float-right mr-3" href="{% url 'edit_project' project.id %}">edit</a>
-              {% endif %}
+  {% for project in projects %}
+  <div class="card my-3" style="border-color: #919090;">
+    <div class="card-header light-g p-1">
+      <h5 class="card-title">
+        <div class="d-inline">
+          <div class="float-left project">
+            <a class="text-secondary mr-2" href="{% url 'project' project.id %}">{{ project }}</a>
+          </div>
+          <div class="float-right">
+            <div class="pop-projects" data-placement="left" title="Posts: {{ project.post_set.count }}" data-toggle="popover" data-trigger="hover" data-content="Last edited {{ project.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ project.date_added|timezone:'America/Los_Angeles'}}<br>Created by {{ project.owner }}" data-html='true'>
+              <div class="info">i</div>
             </div>
-          </h5>
-        </div>
-        <div class="card-body">
-          {% if project.text %}
-       	    <p class="card-text">{{ project.text }}
-          {% else %}
-            <p>No text entry
+          </div>
+          {% if user.is_authenticated and user.projector.admin and request.user == project.owner %}
+          <div class="d-inline float-right mr-3">
+            {% if project.public %}
+            <p class="d-inline text-success">Public</p>
+            {% else %}
+            <p class="d-inline text-secondary">Private</p>
+            {% endif %}
+            <a class="btn bg-light text-secondary ml-3" href="{% url 'edit_project' project.id %}">edit</a>
+          </div>
           {% endif %}
-            </p>
-       	</div>
-      </div>
-    {% empty %}
-        <div>No projects have been added yet.</div>
-    {% endfor %}
-	{% if user.is_authenticated and user.projector.admin %}
-	<a class="btn btn-dark" href="{% url 'new_project' %}">new project</a>
-	{% endif %}
+        </div>
+      </h5>
+    </div>
+    <div class="card-body">
+    {% if project.text %}
+      <p class="card-text">{{ project.text }}</p>
+    {% else %}
+      <p>No text entry</p>
+    {% endif %}
+    </div>
+  </div>
+  {% empty %}
+  <div>No projects have been added yet.</div>
+  {% endfor %}
+  {% if user.is_authenticated and user.projector.admin and request.user == projects.owner %}
+  <a class="btn btn-dark" href="{% url 'new_project' %}">new project</a>
+  {% endif %}
 </div>
 {% endblock %}

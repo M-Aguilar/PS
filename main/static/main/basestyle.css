@@ -1,0 +1,65 @@
+html, body {
+				height:100%;
+			}
+
+			footer a:link {
+				color: white;
+			}
+
+			footer a:visited {
+				color:white;
+			}
+
+			footer a:hover {
+			}
+			footer a:active {
+				color:blue;
+			}
+
+			footer a {
+				text-align: center;
+				height:100%;
+				padding: 1vh;
+			}
+
+			.light-g {
+				background-color:#e6e6e6;
+			}
+
+			.jumbotron {
+				border:black 1px solid;
+			}
+
+			footer {
+				width:100%;
+				display:flex;
+				justify-content: space-around;
+				color:red;
+				background-color: #696969;
+				border-top:2px black solid;
+			}
+
+			.project {
+				margin:1% 1%;
+			}
+
+			.pop-project {
+				margin-top:2%;
+			}
+
+			.pop-projects {
+				margin: 80% -30%;
+			}
+
+			.info {
+				background-color: black;
+				border-radius: 50%;
+				font-size: 11px;
+				width:13px;
+				text-align: center;
+				color:white;
+			}
+
+			.popover {
+				font-size: 11px;
+			}
