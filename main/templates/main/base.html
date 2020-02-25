@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Welcome</title>
+		<title>Pi Dev</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -14,7 +14,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 		<nav class='navbar navbar-expand-lg navbar-dark bg-dark'>
- 		  	<a class="navbar-brand" href="{% url 'index' %}">Home</a>
+ 		  	<a class="navbar-brand mb-1" href="{% url 'index' %}">Home</a>
  		  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
  		  		<span class="navbar-toggler-icon"></span>
  		  	</button>
@@ -25,19 +25,24 @@
 	    				<div class="dropdown">
 	    					<a class="nav-link dropdown-toggle {% if nbar == 'project' %} active {% endif %}" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">Projects</a>
 	    					<div class="dropdown-menu text-center bg-transparent border-0" aria-labelledby="dropdownMenuButton">
-	    						<a class="text-white nav-link dropdown-item bg-dark rounded my-2 py-1" type="button" href="{% url 'projects' request.user.id %}">My Projects</a>
-	    						<a class="nav-link dropdown-item bg-dark rounded py-1" type="button" href="{% url 'projects' 'public' %}">Public Projects</a>
+	    						<hr class="d-lg-none py-0 my-0 light-g">
+	    						<a class="text-light text-left nav-link dropdown-item bg-dark rounded my-2 py-1" type="button" href="{% url 'projects' request.user.id %}">My Projects</a>
+	    						<hr class="d-lg-none py-0 my-0 light-g">
+	    						<a class="nav-link text-left text-light dropdown-item bg-dark rounded py-1" type="button" href="{% url 'projects' 'public' %}">Public Projects</a>
 	    					</div>
 	    				</div>
 	    				{% else %}
 	    				<a class="nav-link {% if nbar == 'project' %}{% endif %}" href="{% url 'projects' 'public' %}">Public Projects</a>
 	    				{% endif %}
+	    				<hr class="d-lg-none py-0 my-0 light-g">
 	    			</li>
     				<li class="nav-item">
 	    				<a class="nav-link {% if nbar == 'games' %}active{% endif %}" href="{% url 'games' %}">Games</a>
+	    				<hr class="d-lg-none py-0 my-0 light-g">
 	    			</li>
     				<li class="nav-item">
 	    				<a class="nav-link {% if nbar == 'about' %} active {% endif %}" href="{% url 'about' %}">About</a>
+	    				<hr class="d-lg-none py-0 my-0 light-g">
 	    			</li>
 	    			{% if user.is_authenticated %}
     				<li class="nav-item">
@@ -46,6 +51,7 @@
     				{% else %}
     				<li class="nav-item">
 	    				<a class="nav-link {% if not nbar %}active{% endif %}" href="{% url 'login' %}">Login</a>
+	    				<hr class="d-lg-none py-0 my-0 light-g">
     				</li>
     				<li class="nav-item">
 	    				<a class="nav-link {% if nbar == 'register' %} active {% endif %}" href="{% url 'register' %}">Register</a>
@@ -54,19 +60,21 @@
     			</ul>
     		</div>
     	</nav>
-    	<div class="container my-5">
-			<div class="page-header">
-				{% block header %}{% endblock %}
+    	<div class="scope">
+			<div class="container my-5">
+				<div class="page-header">
+					{% block header %}{% endblock %}
+				</div>
+				<div class="content">
+					{% block content %}{% endblock %}
+				</div>
 			</div>
-			<div class="content">
-				{% block content %}{% endblock %}
-			</div>
+			<footer class="mt-5">
+					<a href="">Link1</a>
+					<a href="">Link2</a>
+					<a href="">Link3</a>
+					<a href=''>Link4</a>
+			</footer>
 		</div>
-		<footer>
-			<a href="">Link1</a>
-			<a href="">Link2</a>
-			<a href="">Link3</a>
-			<a href=''>Link4</a>
-		</footer>
 	</body>
 </html>

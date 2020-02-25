@@ -8,11 +8,13 @@
     </script>
     <div class="jumbotron py-3">
         <h5 class='lead'>
-            <a class="text-secondary mr-2"href="{% url 'projects' %}">Projects</a> {{ project }} by <a href="" class="text-secondary ml-2">{{ project.owner }}</a>
-            {% if user.is_authenticated and request.user == project.owner %}
-            <a class="text-secondary float-right ml-3" href="{% url 'new_post' project.id %}">new post</a>
-            <a class="text-secondary float-right" href="{% url 'edit_project' project.id %}">edit project</a>
-            {% endif %}
+           <div class="my-1">
+                <a class="text-secondary mr-2"href="{% url 'projects' %}">Project</a> {{ project }} by <a href="" class="text-secondary ml-2">{{ project.owner }}</a>
+                {% if user.is_authenticated and request.user == project.owner %}
+                <a class="text-secondary float-right ml-3" href="{% url 'new_post' project.id %}">new post</a>
+                <a class="text-secondary float-right" href="{% url 'edit_project' project.id %}">edit project</a>
+                {% endif %}
+            </div>
         </h5>
     </div>
     <div class="container">
@@ -28,7 +30,7 @@
                     </div>
                 </h5>
                 {% if post.text %}
-                    <p> {{ post.text|linebreaks }} </p>
+                    <p> {{ post.text|linebreaks|urlize }} </p>
                 {% else %} 
                     <p>No text entry.</p>
                 {% endif %}
