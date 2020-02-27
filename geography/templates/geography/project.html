@@ -5,14 +5,24 @@
         $(document).ready(function(){
             $('[data-toggle="popover"]').popover();
         });
+
+        function r() {
+            document.getElementById('p-link').innerHTML = 'Projects:';
+        }
+
+        function p() {
+            document.getElementById('p-link').innerHTML = 'All Projects:';
+        }
     </script>
-    <div class="jumbotron py-3">
-        <h5 class='lead'>
-           <div class="my-1">
-                <a class="text-secondary mr-2"href="{% url 'projects' %}">Project</a> {{ project }} by <a href="" class="text-secondary ml-2">{{ project.owner }}</a>
+    <div class="jumbotron pt-3 pb-2">
+        <h5 class='lead d-inline-block w-100'>
+           <div class="d-inline">
+                <a id="p-link" class="text-secondary" onmouseover="p()" onmouseleave="r()" href="{% url 'projects' project.owner.id %}">Project:</a> {{ project }} by <a href="" class="text-secondary">{{project.owner }}</a>
                 {% if user.is_authenticated and request.user == project.owner %}
-                <a class="text-secondary float-right ml-3" href="{% url 'new_post' project.id %}">new post</a>
-                <a class="text-secondary float-right" href="{% url 'edit_project' project.id %}">edit project</a>
+                <div class="d-inline ml-2">
+                    <a class="text-secondary float-right ml-3" href="{% url 'new_post' project.id %}">new post</a>
+                    <a class="text-secondary float-right" href="{% url 'edit_project' project.id %}">edit project</a>
+                </div>
                 {% endif %}
             </div>
         </h5>
@@ -35,7 +45,7 @@
                     <p>No text entry.</p>
                 {% endif %}
                 {% if post.image %}
-                    <img src="{{ post.image.url }}" alt="My image">
+                    <img class="mw-100 mx-auto d-block" src="{{ post.image.url }}" alt="My image">
                 {% endif %}
             </div>
             {% if user.is_authenticated and user.projector.admin %} 

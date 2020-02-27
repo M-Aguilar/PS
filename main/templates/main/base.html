@@ -13,55 +13,58 @@
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-		<nav class='navbar navbar-expand-lg navbar-dark bg-dark'>
- 		  	<a class="navbar-brand mb-1" href="{% url 'index' %}">Home</a>
- 		  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<div class="main-container">
+			<nav class='navbar navbar-expand-lg navbar-dark bg-dark'>
+ 		  		<a class="navbar-brand mb-1" href="{% url 'index' %}">Home</a>
+ 		  		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
  		  		<span class="navbar-toggler-icon"></span>
- 		  	</button>
- 		  	<div class="collapse navbar-collapse" id="navbarSupportedContent">
- 		  		<ul class="navbar-nav mr-auto">
-    				<li class="nav-item {% if nbar == 'project' %} active {% endif %}">
-	    				{% if request.user.is_authenticated %}
-	    				<div class="dropdown">
-	    					<a class="nav-link dropdown-toggle {% if nbar == 'project' %} active {% endif %}" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">Projects</a>
-	    					<div class="dropdown-menu text-center bg-transparent border-0" aria-labelledby="dropdownMenuButton">
-	    						<hr class="d-lg-none py-0 my-0 light-g">
-	    						<a class="text-light text-left nav-link dropdown-item bg-dark rounded my-2 py-1" type="button" href="{% url 'projects' request.user.id %}">My Projects</a>
-	    						<hr class="d-lg-none py-0 my-0 light-g">
-	    						<a class="nav-link text-left text-light dropdown-item bg-dark rounded py-1" type="button" href="{% url 'projects' 'public' %}">Public Projects</a>
+ 		  		</button>
+ 		  		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+ 		  			<ul class="navbar-nav mr-auto">
+    					<li class="nav-item {% if nbar == 'project' %} active {% endif %}">
+	    					{% if request.user.is_authenticated %}
+	    					<div class="dropdown">
+	    						<a class="nav-link dropdown-toggle{% if nbar == 'project' %} active {% endif %}" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">Projects</a>
+	    						<div class="dropdown-menu text-center bg-transparent border-0 py-0 my-0" aria-labelledby="dropdownMenuButton">
+	    							<hr class="d-lg-none py-0 my-0 light-g">
+	    							<div class='d-down'>
+	    								<br class="d-none d-lg-inline my-0 py-0">
+		    							<a class="nav-link text-left dropdown-item rounded dark{% if nbar == 'private' %} active {% endif %}" type="button" href="{% url 'projects' request.user.id %}">My Projects</a>
+	    								<hr class="d-lg-none py-0 my-0 light-g">
+	    								<a class="nav-link text-left dropdown-item rounded {% if nbar == 'public' %} active {% endif %}" type="button" href="{% url 'projects' %}">Public Projects</a>
+	    							</div>
+	    						</div>
 	    					</div>
-	    				</div>
-	    				{% else %}
-	    				<a class="nav-link {% if nbar == 'project' %}{% endif %}" href="{% url 'projects' 'public' %}">Public Projects</a>
-	    				{% endif %}
-	    				<hr class="d-lg-none py-0 my-0 light-g">
-	    			</li>
-    				<li class="nav-item">
-	    				<a class="nav-link {% if nbar == 'games' %}active{% endif %}" href="{% url 'games' %}">Games</a>
-	    				<hr class="d-lg-none py-0 my-0 light-g">
-	    			</li>
-    				<li class="nav-item">
-	    				<a class="nav-link {% if nbar == 'about' %} active {% endif %}" href="{% url 'about' %}">About</a>
-	    				<hr class="d-lg-none py-0 my-0 light-g">
-	    			</li>
-	    			{% if user.is_authenticated %}
-    				<li class="nav-item">
-    					<a class="nav-link" href="{% url 'logout' %}">Log out</a>
-    				</li>
-    				{% else %}
-    				<li class="nav-item">
-	    				<a class="nav-link {% if not nbar %}active{% endif %}" href="{% url 'login' %}">Login</a>
-	    				<hr class="d-lg-none py-0 my-0 light-g">
-    				</li>
-    				<li class="nav-item">
-	    				<a class="nav-link {% if nbar == 'register' %} active {% endif %}" href="{% url 'register' %}">Register</a>
-	    			</li>
-    				{% endif %}
-    			</ul>
-    		</div>
-    	</nav>
-    	<div class="scope">
-			<div class="container my-5">
+	    					{% else %}
+	    					<a class="nav-link {% if nbar == 'public' %} active {% endif %}" href="{% url 'projects' 'public' %}">Public Projects</a>
+	    					{% endif %}
+	    					<hr class="d-lg-none py-0 my-0 light-g">
+	    				</li>
+    					<li class="nav-item">
+	    					<a class="nav-link {% if nbar == 'games' %}active{% endif %}" href="{% url 'games' %}">Games</a>
+	    					<hr class="d-lg-none py-0 my-0 light-g">
+	    				</li>
+    					<li class="nav-item">
+	    					<a class="nav-link {% if nbar == 'about' %} active {% endif %}" href="{% url 'about' %}">About</a>
+	    					<hr class="d-lg-none py-0 my-0 light-g">
+	    				</li>
+	    				{% if user.is_authenticated %}
+    					<li class="nav-item">
+    						<a class="nav-link" href="{% url 'logout' %}">Log out</a>
+    					</li>
+    					{% else %}
+    					<li class="nav-item">
+	    					<a class="nav-link {% if not nbar %}active{% endif %}" href="{% url 'login' %}">Login</a>
+	    					<hr class="d-lg-none py-0 my-0 light-g">
+    					</li>
+    					<li class="nav-item">
+	    					<a class="nav-link {% if nbar == 'register' %} active {% endif %}" href="{% url 'register' %}">Register</a>
+	    				</li>
+    					{% endif %}
+    				</ul>
+    			</div>
+    		</nav>
+    		<div class="scope">
 				<div class="page-header">
 					{% block header %}{% endblock %}
 				</div>
@@ -69,12 +72,14 @@
 					{% block content %}{% endblock %}
 				</div>
 			</div>
-			<footer class="mt-5">
-					<a href="">Link1</a>
-					<a href="">Link2</a>
-					<a href="">Link3</a>
-					<a href=''>Link4</a>
-			</footer>
-		</div>
+			<div class="footer">
+				<footer>
+						<a href="">Link1</a>
+						<a href="">Link2</a>
+						<a href="">Link3</a>
+						<a href=''>Link4</a>
+				</footer>
+			</div>
+		</div>	
 	</body>
 </html>

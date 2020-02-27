@@ -21,15 +21,20 @@
     };*/
   </script>
 <div class="jumbotron pt-4 pb-4">
-	<h2 class="display-4">
+  <div class="d-inline-block w-100">
+    <h2 class="display-4 text-center d-block">
     {% if public == 'public' %}
-      All Public
+    All Public
     {% elif request.user.is_authenticated and request.user == public %} 
-      My
+    My
     {% else %}
-      {{ public }}'s Public
+    {{ public }}'s Public
     {% endif %} Projects
-  </h2>
+    {% if user.is_authenticated and user.projector.admin and request.user == public %}
+    <a class="btn btn-dark float-right my-3 text-secondary bg-light border-0" href="{% url 'new_project' %}">new project</a>
+    {% endif %}  
+    </h2>
+  </div>
 </div>
 <div class="container">
   {% load tz %}
@@ -57,31 +62,31 @@
             </div>
           </div>
           {% if user.is_authenticated and user.projector.admin and request.user == project.owner %}
-          <div class="d-inline float-right mr-3">
+          <div class="d-inline float-right mr-3 my-1">
             {% if project.public %}
-            <p class="d-inline text-success">Public</p>
+            <p class="d-inline-block my-1 text-success">Public</p>
             {% else %}
-            <p class="d-inline text-secondary">Private</p>
+            <p class="d-inline-block my-1 text-secondary">Private</p>
             {% endif %}
-            <a class="btn bg-light text-secondary ml-3 my-1" href="{% url 'edit_project' project.id %}">edit project</a>
-          </div>
-          {% endif %}
+            <a class="btn bg-light text-secondary float-right ml-3" href="{% url 'edit_project' project.id %}">edit project</a>
+            <a class="btn bg-light text-secondary float-right ml-3" href="{% url 'new_post' project.id %}">new post</a>
+            {% endif %}
         </div>
       </h5>
     </div>
     <div class="card-body">
+    {% if project.banner %}
+      <img class="mw-100" src="{{ project.banner.url }}" alt="My image">
+    {% endif %}
     {% if project.text %}
       <p class="card-text">{{ project.text }}</p>
     {% else %}
-      <p>No text entry</p>
+      <p class="card-text font-weight-bold">No text entry</p>
     {% endif %}
     </div>
   </div>
   {% empty %}
   <div>No projects have been added yet.</div>
   {% endfor %}
-  {% if user.is_authenticated and user.projector.admin and request.user == projects.owner %}
-  <a class="btn btn-dark" href="{% url 'new_project' %}">new project</a>
-  {% endif %}
 </div>
 {% endblock %}

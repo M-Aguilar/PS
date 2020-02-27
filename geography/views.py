@@ -22,9 +22,10 @@ as non registered
 TODO adjust urls to show username instead of user id
 '''
 def projects(request, user_id='public'):
-    #public = True
     #user_id either equals public or it doesnt
+    nbar = 'public'
     if user_id != 'public':
+        nbar='private'
         #this is for user looking at their own files
         try:
             public = int(user_id)
@@ -44,7 +45,7 @@ def projects(request, user_id='public'):
     else:
         projects = Project.objects.filter(public=True).order_by('date_added')
         public = user_id
-    context = {'projects':projects, 'public': public, 'nbar': 'project'}
+    context = {'projects':projects, 'public': public, 'nbar': nbar}
     return render(request, 'geography/projects.html', context)
 
 def project(request, project_id):
@@ -61,7 +62,7 @@ def new_project(request):
     if request.method != 'POST':
         form = ProjectForm()
     else:
-        form = ProjectForm(request.POST)
+        form = ProjectForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             new_p = form.save(commit=False)
             new_p.owner = request.user
@@ -76,7 +77,7 @@ def new_post(request, project_id):
     if request.method != 'POST':
         form = PostForm()
     else:
-        form = PostForm(data=request.POST)
+        form = PostForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             new_post = form.save(commit=False)
             new_post.project = project
