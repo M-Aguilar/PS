@@ -1,8 +1,14 @@
 from django.shortcuts import render
-
+from geography.models import Project
 # Create your views here.
 def index(request):
-	context = {'nbar': 'index'}
+	banners = []
+	#control max num probably
+	projects = Project.objects.filter(public=True)
+	for project in projects:
+		if project.banner:
+			banners.append(project)
+	context = {'nbar': 'index', 'projects': banners}
 	return render(request, 'main/index.html', context)
 
 def about(request):

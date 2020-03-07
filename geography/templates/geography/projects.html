@@ -76,7 +76,9 @@
     </div>
     <div class="card-body">
     {% if project.banner %}
-      <img class="mw-100" src="{{ project.banner.url }}" alt="My image">
+    <div>
+      <a href="{{project.url}}"><img class="w-100" src="{{ project.banner.url }}" alt="My image"></a>
+    </div>
     {% endif %}
     {% if project.text %}
       <p class="card-text">{{ project.text }}</p>

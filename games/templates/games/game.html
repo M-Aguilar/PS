@@ -13,8 +13,7 @@
 			{% if user.is_authenticated %}
 				<a class="btn btn-dark" href="{% url 'edit_game' game.path %}">edit game</a>
 			{% endif %}
-
-			<button class="btn btn-dark" id="play" onclick="new_game();" type="btn">Play Game</button>
+		<button class="btn btn-dark" id="play" onclick="new_game({{gps}});" type="btn">Play Game</button>
 		</div>
 	</div>
 {% endblock %}

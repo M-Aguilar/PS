@@ -32,20 +32,24 @@
     {% for post in posts %}
     {% load tz %}
         <div class="card my-4 border-left border-right border-top-0" style="border-color: #919090;">
-            <div class='card-body py-2 border-top border-dark rounded-top'>
-                <h5 class="card-title my-auto">
+            <div class='card-body p-0 border-top border-dark rounded-top'>
+                <h5 class="card-title my-auto mx-2 px-2">
                     <div class="pop-project float-right">
                         <div data-placement="left" data-toggle="popover" data-trigger="hover" data-content="Last edited {{ post.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ post.date_added|timezone:'America/Los_Angeles'}}" data-html='true'>
                         <div class="info">i</div></div>
                     </div>
                 </h5>
+                <div class="px-2">
                 {% if post.text %}
-                    <p> {{ post.text|linebreaks|urlize }} </p>
+                    <p > {{ post.text|linebreaks|urlize }} </p>
                 {% else %} 
                     <p>No text entry.</p>
                 {% endif %}
+                </div>
                 {% if post.image %}
-                    <img class="mw-100 mx-auto d-block" src="{{ post.image.url }}" alt="My image">
+                <div>
+                    <img class="mw-100 mx-auto d-block rounded" src="{{ post.image.url }}" alt="My image">
+                </div>
                 {% endif %}
             </div>
             {% if user.is_authenticated and user.projector.admin %} 

@@ -20,6 +20,18 @@ div.scope {
 	padding-bottom: 10px;
 }
 
+
+/* As related to games specifically
+
+*/
+#a {
+	font-size: 25vw;
+}
+
+#prompt p {
+	display:inline;
+}
+
 nav.navbar {
 	min-height:50px;
 }
@@ -52,13 +64,17 @@ a.nav-link {
 		margin: 2vh 1vw 0 1vw;
 	}
 
+	/*as related to games 
+	*/
+	#choices button {
+		width:100%;
+	}
 }
 
 @media screen and (min-width: 992px) {
 	.dropdown-menu a {
 		margin-bottom: 7%;
 	}
-
 }
 
 div.footer footer {
