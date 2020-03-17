@@ -13,6 +13,7 @@
         function p() {
             document.getElementById('p-link').innerHTML = 'All Projects:';
         }
+
     </script>
     <div class="jumbotron pt-3 pb-2">
         <h5 class='lead d-inline-block w-100'>
@@ -32,10 +33,10 @@
     {% for post in posts %}
     {% load tz %}
         <div class="card my-4 border-left border-right border-top-0" style="border-color: #919090;">
-            <div class='card-body p-0 border-top border-dark rounded-top'>
+            <div class='card-body p-0 border-top border-dark rounded-top {% if user.is_authenticated and user.projector.admin %}{% if not post.public %} bg-warning {% endif %} bg-{% endif %}'>
                 <h5 class="card-title my-auto mx-2 px-2">
                     <div class="pop-project float-right">
-                        <div data-placement="left" data-toggle="popover" data-trigger="hover" data-content="Last edited {{ post.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ post.date_added|timezone:'America/Los_Angeles'}}" data-html='true'>
+                        <div data-placement="left" data-toggle="popover" data-trigger="hover" data-content="Last edited {{ post.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ post.date_added|timezone:'America/Los_Angeles'}} {% if user.is_authenticated and user.projector.admin %}<br>{% if not post.public %}<p class='text-warning pb-0 mb-0'>Private</p>{% else %}<p class='text-success pb-0 mb-0'>Public</p>{% endif %}{% endif %}" data-html='true'>
                         <div class="info">i</div></div>
                     </div>
                 </h5>
@@ -53,7 +54,10 @@
                 {% endif %}
             </div>
             {% if user.is_authenticated and user.projector.admin %} 
-            <a class="btn light-g text-secondary" href="{% url 'edit_post' post.id %}">edit post</a>
+            <div class="w-100">
+                <a class="btn light-g text-secondary w-50 float-right" href="{% url 'delete_post' post.id %}">delete post</a>
+                <a class="btn light-g text-secondary w-50" href="{% url 'edit_post' post.id %}">edit post</a>
+            </div>
             {% endif %}
         </div>
         {% empty %}
@@ -61,5 +65,16 @@
             There are not posts.
             </p> 
         {% endfor %}
+        {% if p_tot > 0 %}
+        {{pnum}}
+        {{p_tot}}
+            <div class="text-center">
+                <a class="btn light-g text-dark" href="{% url 'project' project.id %}">First</a>
+                {% if pnum is not p_tot %}
+                    <a class="btn light-g text-dark" href="{% url 'project' project.id pnum %}">Next</a>
+               {% endif %}
+                <a class="btn light-g text-dark" href="{% url 'project' project.id %}">Last</a>
+            </div>
+        {% endif %}
     </div>  
 {% endblock %}

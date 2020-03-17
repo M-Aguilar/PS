@@ -17,13 +17,37 @@ div.main-container {
 div.scope {
 	width:80vw;
 	margin: 5vh 10vw 5vh 10vw;
-	padding-bottom: 10px;
+	padding-bottom: 50px;
 }
 
+/*------ABOUT------*/
 
-/* As related to games specifically
+.ab-f {
+	font-size: 30px;
+	padding: 0;
+	margin:0 auto;
 
-*/
+}
+
+/*-----------------*/
+
+/* As related to games specifically*/
+
+.game-link a:link {
+	color:red;
+}
+
+.game-link a:visited {
+	color:red;
+}
+
+.game_d {
+	font-size: 30px;
+	font-family: "Courier New", Courier, monospace;
+}
+
+/*-------- ID ---------*/
+
 #a {
 	font-size: 25vw;
 }
@@ -32,6 +56,8 @@ div.scope {
 	display:inline;
 }
 
+
+/*-------NAVBAR/DROPDOWN----------*/
 nav.navbar {
 	min-height:50px;
 }
@@ -58,10 +84,14 @@ a.nav-link {
 	background-color:#343a40;
 }
 
+
+/*--------SMALL SCREEN---------*/
+
 @media screen and (max-width: 768px) {
 	div.scope {
 		width:98vw;
 		margin: 2vh 1vw 0 1vw;
+		padding-bottom: 50px;
 	}
 
 	/*as related to games 
@@ -71,11 +101,15 @@ a.nav-link {
 	}
 }
 
+/*-------BIG SCREEN----------*/
 @media screen and (min-width: 992px) {
 	.dropdown-menu a {
 		margin-bottom: 7%;
 	}
 }
+
+
+/*--------FOOTER---------*/
 
 div.footer footer {
 	position: absolute;
@@ -108,6 +142,10 @@ footer a {
 	width:100%;
 }
 
+
+/*-----------------*/
+
+/*--------LIGHT GREY---------*/
 .light-g {
 	background-color:#e6e6e6;
 }
@@ -115,6 +153,9 @@ footer a {
 .light-g-text {
 	color:#e6e6e6;
 }
+
+
+/*-----------------*/
 
 .jumbotron {
 	border:black 1px solid;

@@ -32,6 +32,8 @@
 		    							<a class="nav-link text-left dropdown-item rounded dark{% if nbar == 'private' %} active {% endif %}" type="button" href="{% url 'projects' request.user.id %}">My Projects</a>
 	    								<hr class="d-lg-none py-0 my-0 light-g">
 	    								<a class="nav-link text-left dropdown-item rounded {% if nbar == 'public' %} active {% endif %}" type="button" href="{% url 'projects' %}">Public Projects</a>
+	    								<hr class="d-lg-none py-0 my-0 light-g">
+	    								<a class="nav-link text-left dropdown-item rounded {% if nbar == 'new_project' %} active {% endif %}" type="button" href="{% url 'new_project' %}">New Project +</a>
 	    							</div>
 	    						</div>
 	    					</div>

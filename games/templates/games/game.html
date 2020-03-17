@@ -8,18 +8,18 @@
 </head>
 {% endif %}
 	<div class="start jumbotron bg-danger">
-		<div class="display-4">
+		<div class="display-4 text-center">
 			<p>{{ game }}</p>
-			{% if user.is_authenticated %}
-				<a class="btn btn-dark" href="{% url 'edit_game' game.path %}">edit game</a>
+			{% if user.is_authenticated and user.projector.admin %}
+				<a class="btn btn-dark game-b" href="{% url 'edit_game' game.path %}">edit game</a>
 			{% endif %}
-		<button class="btn btn-dark" id="play" onclick="new_game({{gps}});" type="btn">Play Game</button>
+		<button class="btn btn-dark game-b" id="play" onclick="new_game({{gps}});" type="btn">play game</button>
 		</div>
 	</div>
 {% endblock %}
 
 {% block content%}
 	<div class="start">
-		<p class="start">{{ game.text }}</p>
+		<p class="start game_d">{{ game.text }}</p>
 	</div>
 {% endblock%}

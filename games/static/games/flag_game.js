@@ -38,7 +38,7 @@ var canvas = {
 		this.c = document.createElement('DIV');
 
 		this.setup();
-		this.update(this.next_question());
+		this.update();
 	},
 
 	setup : function() {
@@ -66,41 +66,64 @@ var canvas = {
 	},
 
 	//updates the choices
-	choices : function (answer) {
+	choices : function () {
 		const cs = 4;
 		let a = [];
 		var i;
-		let index = Math.floor(Math.random() * 4);
+		var temp = Object.keys(this.ref);
+		var index = Math.floor(Math.random() * 4);
 		for(var i = 0; i < cs; i++) {
 			if (i == index) {
-				a.push(answer);
-				this.buttons[i].innerHTML = answer;
+				a.push(this.cur);
+				this.buttons[i].innerHTML = this.cur;
 			} else {
-				var temp = Object.keys(this.ref);
-				var wrong = temp[Math.floor(Math.random() * temp.length)];
-				a.push(wrong);
-				this.buttons[i].innerHTML = wrong;
+			//IM RIGHT HERE
+				var acceptable = true;
+				while (acceptable) {
+					var wrong = temp[Math.floor(Math.random() * temp.length)];
+					if (!a.includes(wrong) && wrong != this.cur) {
+						acceptable = false;
+						a.push(wrong);
+						this.buttons[i].innerHTML = wrong;
+					}
+				}
 			}
 			this.buttons[i].setAttribute('onclick','canvas.submit('.concat(i,')'));
 			//document.getElementById('choices').appendChild(b);
 		}
-		this.choices = a;
+		this.ch = a;
 	},
 
 	submit : function (answer) {
-		var user_answer = this.buttons[answer];
-		if (this.ref[this.cur] == user_answer) {
-			this.pp.innerHTML = "CONGRATS!";
-			this.correct.push(this.pool.splice(this.cur,1));
+		var i;
+		var user_answer = this.ch[answer];
+		this.toggle_buttons();
+		if (this.cur == user_answer) {
+			this.pp.innerHTML = "CORRECT!!";
+			this.correct.push(user_answer);
 		} else {
-			this.pp.innerHTML = "WRONG!!";
-			this.incorrect.push(this.pool.splice(this.cur,1));
+			this.pp.innerHTML = "WRONG!";
+			this.incorrect.push(answer);
 		}
-		this.update(this.next_question);
+		setTimeout(function() {canvas.update();canvas.toggle_buttons();}, 2000);
 	},
+
+	toggle_buttons : function () {
+		var i;
+		for(i = 0; i < this.buttons.length; i++) {
+			if (this.buttons[i].getAttribute('class').search('disabled') > -1) {
+				this.buttons[i].setAttribute("class", "btn btn-dark my-2");
+				this.buttons[i].setAttribute('onclick','canvas.submit('.concat(i,')'));
+			} else {
+				this.buttons[i].setAttribute("class", this.buttons[i].getAttribute('class').concat(" disabled"));
+				this.buttons[i].setAttribute('onclick','');
+			}
+		}
+	},
+
 	//returns formated score
 	score : function() {
-		var score = ''.concat((this.correct.length + this.incorrect.length).toString(), ' out of ' ,''.concat((this.correct.length)));
+		var score = ''.concat(this.correct.length, ' out of ' ,''.concat((this.correct.length + this.incorrect.length)));
 		return score;
 	},
 
@@ -110,21 +133,36 @@ var canvas = {
 		var acceptable = false;
 		var temp = Object.keys(this.ref); 
 		while (!acceptable) {
-			var num = Math.floor(Math.random * this.ref.length);
+			var num = Math.floor(Math.random() * temp.length);
 			var r = temp[num];
-			if (!(r in this.correct) && !(r in this.incorrect)) {
+			if (!this.correct.includes(r) && !this.correct.includes(r)) {
 				acceptable = true;
-				this.cur = this.ref[r];
-				return temp[num];
+				this.cur = r;
+				//return r;
 			}
 		}
 	},
 
 	//updates the question
-	update : function (new_name) {
-		this.s.innerHTML = this.score();
-		this.pp.innerHTML = "Which country does this correspond to?";
-		this.a.innerHTML = this.cur;
-		this.choices(new_name);
+	update : function () {
+		if ((this.correct.length + this.incorrect.length) == Object.keys(this.ref).length) {
+			this.endgame();
+		} else {
+			this.next_question();
+			this.s.innerHTML = this.score();
+			this.pp.innerHTML = "Which country does this correspond to?";
+			this.choices();
+			this.a.innerHTML = this.ref[this.cur];
+		}
+	},
+
+	endgame :function () {
+		this.p.innerHTML = "Congratulations on completing the quiz!"
+		this.a.style = "font-size:15vw;";
+		this.a.innerHTML = (((this.correct.length/(this.correct.length+this.incorrect.length))*100).toString() + "% ").concat("Your score is ", this.score(), "!");
+		var i;
+		for (i = 0; i < this.buttons.length; i++) {
+			this.buttons[i].setAttribute('class', 'd-none');
+		}
 	},
 };

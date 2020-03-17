@@ -3,18 +3,18 @@
 
 {% block content %}
 <div class="container">
-    	<div class="jumbotron pt-4 pb-3">
-    		<h5 class="lead">New Game</h3>
-    	</div>
-    	<form action="{% url 'new_game' %}" method='post' oninput="char_count()">
-        	{% csrf_token %}
-        	{% bootstrap_form form %}
-                <div class="d-inline">
-                    <button class="btn btn-dark mt-3" name="submit">add game</button>
-                    <div id="counter" class="float-right">
-                </div>
-            </div>
-    	</form>
+    <div class="jumbotron pt-4 pb-3">
+        <h5 class="lead">New Game</h3>
     </div>
-    <script type="text/javascript" src="/static/main/base.js"></script>
+    <form action="{% url 'new_game' %}" method='post' oninput="char_count()">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+        <div class="d-inline">
+            <button class="btn btn-dark mt-3" name="submit">add game</button>
+            <div id="counter" class="float-right">
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="/static/main/base.js"></script>
 {% endblock %}

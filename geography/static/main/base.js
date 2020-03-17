@@ -11,7 +11,11 @@ document.getElementById('counter').appendChild(cc);
 char_count();
 
 function char_count() {
-	text = document.getElementById("id_text").form.text.value;
+	var text = document.getElementById("id_text").form.text.value.trim();
+	if (text == '' || text == ' ') {
+		document.getElementById('wc').innerHTML = "Word Count: " + "0".toString();
+	} else {
+		document.getElementById('wc').innerHTML = "Word Count: " + text.split(' ').length;
+	}
 	document.getElementById('cc').innerHTML = "Char Count: " + text.length.toString() + limit;
-	document.getElementById('wc').innerHTML = "Word Count: " + text.split(' ').length;
 };
