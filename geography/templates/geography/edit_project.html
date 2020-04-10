@@ -19,10 +19,41 @@
     	    {% bootstrap_form form %}
     		<div class="d-inline">
                 <button name="submit" class="btn btn-dark mr-auto mt-3">save changes</button>
+                <a href="" class="btn btn-dark mr-auto mt-3" data-toggle="modal" data-target="#centerconsole">delete project</a>
+                <div class="modal fade" id="centerconsole" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalDeleteProject">Confirm</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Please confirm that you would like to remove this project.    
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn light-g" data-dismiss="modal">Cancel</button>
+                                <a href="{% url 'delete_project' project.id %}"><button type="button" class="btn light-g">Confirm</button></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div id="counter" class="float-right">
                 </div>
             </div>
     	</form>
+        {% load static %}
+        {% if project.banner_path %}
+        <div>
+            <img id="preview" src="{{ project.banner_p }}" class="w-100 mx-auto d-block rounded" alt="...bp">
+        </div>
+        {% elif project.banner %}
+        <div>
+            <img id="preview" src="{{ project.banner.url }}" class="w-100 mx-auto d-block rounded" alt="Banner">
+        </div>
+        {% endif %}
     	<script type="text/javascript" src="/static/main/base.js"></script>
     </div>
+
 {% endblock %}

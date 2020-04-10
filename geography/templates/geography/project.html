@@ -18,17 +18,102 @@
     <div class="jumbotron pt-3 pb-2">
         <h5 class='lead d-inline-block w-100'>
            <div class="d-inline">
-                <a id="p-link" class="text-secondary" onmouseover="p()" onmouseleave="r()" href="{% url 'projects' project.owner.id %}">Project:</a> {{ project }} by <a href="" class="text-secondary">{{project.owner }}</a>
+                <a id="p-link" class="text-secondary" onmouseover="p()" onmouseleave="r()" href="{% url 'projects' project.owner %}">Project:</a> {{ project }} by <a href="" class="text-secondary">{{project.owner }}</a>
                 {% if user.is_authenticated and request.user == project.owner %}
                 <div class="d-inline ml-2">
                     <a class="text-secondary float-right ml-3" href="{% url 'new_post' project.id %}">new post</a>
-                    <a class="text-secondary float-right" href="{% url 'edit_project' project.id %}">edit project</a>
+                    <a class="text-secondary float-right ml-3" href="{% url 'edit_project' project.id %}">edit project</a>
+                    <a href="" class="text-secondary float-right ml-3" data-toggle="modal" data-target="#centerconsole">delete project</a>
+                    <div class="modal fade" id="centerconsole" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalDeleteProject">Confirm</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Please confirm that you would like to remove this project.    
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn light-g" data-dismiss="modal">Cancel</button>
+                                    <a href="{% url 'delete_project' project.id %}"><button type="button" class="btn light-g">Confirm</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 {% endif %}
             </div>
         </h5>
     </div>
     <div class="container">
+        {% load cur_range %}
+        {% with c=posts|length|add:'-1' cur=page_num|cur_range:total %}
+        <p class="float-right">{{cur}}{% if cur != '0' %}-{{cur|add:c}}{% endif %} of {{total}}</p>
+        {% endwith %}
+        <div class="dropdown">
+            <button class="nav-link btn light-g text-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">{{ sort }}</button>
+            <div class="dropdown-menu light-g" aria-labelledby="dropdownMenuButton">
+            <!-- ALSO NOT RELEVANT
+            {% if sort == 'title' %}
+                {% with "-title" as s %}
+                <a href="{% url 'project' project.id s 1 %}"><button id="name" class="dropdown-item text-dark" type="button">-title</button></a>
+                {% endwith %}
+            {% else %} 
+                {% with "title" as s %}
+                <a href="{% url 'project' project.id s 1 %}"><button id="name" class="dropdown-item text-dark" type="button">title</button></a>
+                {% endwith %}
+            {% endif %}-->
+            {% if sort == '-date_added' %}
+                {% with "date_added" as s %}
+                <a href="{% url 'project' project.id s 1 %}"><button id="created" class="dropdown-item text-dark" type="button">-created</button></a>
+                {% endwith %}
+            {% else %}
+                {% with "-date_added" as s %}
+                <a href="{% url 'project' project.id s 1 %}"><button id="created" class="dropdown-item text-dark" type="button">created</button></a>
+                {% endwith %}
+            {% endif %}
+            {% if sort == '-date_edited' %}
+                {% with "date_edited" as s %}
+                <a href="{% url 'project' project.id s 1 %}"><button id="edited" class="dropdown-item text-dark" type="button">-edited</button></a>
+                {% endwith %}
+            {% else %}
+                {% with "-date_edited" as s %}
+                <a href="{% url 'project' project.id s 1 %}"><button id="edited" class="dropdown-item text-dark" type="button">edited</button></a>
+                {% endwith %}
+            {% endif %}
+
+            {% if sort == "-public" %}
+                {% with "public" as s %}
+                <a href="{% url 'project' project.id s 1 %}"><button id="public" class="dropdown-item text-dark" type="button">-public</button></a>
+                {% endwith %}
+            {% else %}
+                {% with "-public" as s %}
+                <a href="{% url 'project' project.id s 1 %}"><button id="pubilc" class="dropdown-item text-dark" type="button">public</button></a>
+                {% endwith %}
+            {% endif %}
+            {% if sort == "-image" %}
+                {% with "image" as s %}
+                <a href="{% url 'project' project.id s 1 %}"><button id="public" class="dropdown-item text-dark" type="button">-image</button></a>
+                {% endwith %}
+            {% else %}
+                {% with "-image" as s %}
+                <a href="{% url 'project' project.id s 1 %}"><button id="pubilc" class="dropdown-item text-dark" type="button">image</button></a>
+                {% endwith %}
+            {% endif %}
+            {% if sort == "-pdf" %}
+                {% with "pdf" as s %}
+                <a href="{% url 'project' project.id s 1 %}"><button id="public" class="dropdown-item text-dark" type="button">-pdf</button></a>
+                {% endwith %}
+            {% else %}
+                {% with "-pdf" as s %}
+                <a href="{% url 'project' project.id s 1 %}"><button id="pubilc" class="dropdown-item text-dark" type="button">pdf</button></a>
+                {% endwith %}
+            {% endif %}
+            </div>
+        </div>
     {% load static %}
     {% for post in posts %}
     {% load tz %}
@@ -52,29 +137,57 @@
                     <img class="mw-100 mx-auto d-block rounded" src="{{ post.image.url }}" alt="My image">
                 </div>
                 {% endif %}
+                {% if post.pdf %}
+                <div>
+                    <iframe src="https://docs.google.com/viewer?url={{ post.pdf.url }}&embedded=true" frameborder="0" height="500px" width="100%"></iframe>
+                </div>
+                {% endif %}
+                {% if post.pdf_path %}
+                <div>
+                    <iframe src="https://docs.google.com/viewer?url={{ post.pdf_p }}&embedded=true" frameborder="0" height="500px" width="100%"></iframe>
+                </div>
+                {% endif %}
             </div>
             {% if user.is_authenticated and user.projector.admin %} 
             <div class="w-100">
+                <a class="btn btn-light text-dark w-50 border-top" href="{% url 'edit_post' post.id %}">edit post</a>
+                <button type="button" class="btn btn-light text-dark w-50 float-right border-top border-left" data-toggle="modal" data-target="#centerconsole2">delete</button>
+                <div class="modal fade" id="centerconsole2" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalDeletePost">Confirm</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Please confirm that you would like to remove this post.    
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn light-g" data-dismiss="modal">Cancel</button>
+                                <a href="{% url 'delete_post' post.id %}"><button type="button" class="btn light-g">Confirm</button></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!--
                 <a class="btn light-g text-secondary w-50 float-right" href="{% url 'delete_post' post.id %}">delete post</a>
                 <a class="btn light-g text-secondary w-50" href="{% url 'edit_post' post.id %}">edit post</a>
+            -->
             </div>
             {% endif %}
         </div>
         {% empty %}
-            <p>
-            There are not posts.
-            </p> 
+        <p>There are not posts.</p> 
         {% endfor %}
-        {% if p_tot > 0 %}
-        {{pnum}}
-        {{p_tot}}
-            <div class="text-center">
-                <a class="btn light-g text-dark" href="{% url 'project' project.id %}">First</a>
-                {% if pnum is not p_tot %}
-                    <a class="btn light-g text-dark" href="{% url 'project' project.id pnum %}">Next</a>
-               {% endif %}
-                <a class="btn light-g text-dark" href="{% url 'project' project.id %}">Last</a>
-            </div>
+        <div class="text-center">
+        {% if page_num > 1 %}
+            <a href="{% url 'project' project.id sort page_num|add:'-1' %}"><button id="prev" class="btn btn-secondary">prev</button></a>
         {% endif %}
+        {% if next %}
+            <a href="{% url 'project' project.id sort page_num|add:'1' %}"><button id="next" class="btn btn-secondary">next</button></a>
+        {% endif %}
+        </div>
     </div>  
 {% endblock %}

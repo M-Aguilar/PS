@@ -10,7 +10,8 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'main/basestyle.css' %}">
 	</head>
 	<body>
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 		<div class="main-container">
@@ -24,14 +25,18 @@
     					<li class="nav-item {% if nbar == 'project' %} active {% endif %}">
 	    					{% if request.user.is_authenticated %}
 	    					<div class="dropdown">
-	    						<a class="nav-link dropdown-toggle{% if nbar == 'project' %} active {% endif %}" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">Projects</a>
+	    						<a class="nav-link dropdown-toggle{% if nbar == 'project' %} active {% endif %} rounded" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">Projects</a>
 	    						<div class="dropdown-menu text-center bg-transparent border-0 py-0 my-0" aria-labelledby="dropdownMenuButton">
 	    							<hr class="d-lg-none py-0 my-0 light-g">
 	    							<div class='d-down'>
 	    								<br class="d-none d-lg-inline my-0 py-0">
-		    							<a class="nav-link text-left dropdown-item rounded dark{% if nbar == 'private' %} active {% endif %}" type="button" href="{% url 'projects' request.user.id %}">My Projects</a>
+		    							<div>
+			    							<a class="nav-link text-left dropdown-item rounded dark{% if nbar == 'private' %} active {% endif %}" type="button" href="{% url 'projects' request.user %}">My Projects</a>
+			    						</div>
 	    								<hr class="d-lg-none py-0 my-0 light-g">
-	    								<a class="nav-link text-left dropdown-item rounded {% if nbar == 'public' %} active {% endif %}" type="button" href="{% url 'projects' %}">Public Projects</a>
+	    								<div>
+		    								<a class="nav-link text-left dropdown-item rounded {% if nbar == 'public' %} active {% endif %}" type="button" href="{% url 'projects' %}">Public Projects</a>
+										</div>
 	    								<hr class="d-lg-none py-0 my-0 light-g">
 	    								<a class="nav-link text-left dropdown-item rounded {% if nbar == 'new_project' %} active {% endif %}" type="button" href="{% url 'new_project' %}">New Project +</a>
 	    							</div>

@@ -3,18 +3,22 @@
 {% block header %}
 <div class='jumbotron py-5'>
 	<div class="display-4 text-center">Hello! 
+    {% load tz %}
 		{% if user.is_authenticated %}
 			{{ user }}
 		{% endif %}
 		Welcome to Agullar.com
+    {% timezone "US/Pacific" %}
+    <br>It is the {% now "jS \o\f F Y h:iA" %}
+    {% endtimezone %}
 	</div>
 </div>
 {% endblock %}
 
 {% block content %}
 <div class="intro">
-	<p class="lead">This is Moises Aguilar's presonal website page.</p>
-	<p class="lead">This is my site. Enjoy. There is not much to see at the moment. It is a work in progress. I used to have a complete-ish site I promise. I lost it. I know. I preach backing up then fail to do so myself. I've learned my lesson and this one should last. Check out some of my games or look at some of my projects. I am learning all the time and would love constructive feedback. But not really. I have many ideas and passions that I want to puruse and am continually coming across problems to solve and interesting topics. The only drive in this work is that I keep challenging myself to be better. There is so much knowledge out there worth granting attention. I still don't know what I want this site to be, besides a tool for landing a good job. Otherwise, there are literally endless possibilities for what I can attach or mold this thing into. As you can see hopefully from this site is I don't limit myself and neither should you.</div>
+	<p class="lead">This is Moises Aguilar's personal website page.</p>
+	<p>This is my site. Enjoy.</div>
 
 <div id="carouselExampleControls" class="carousel slide mb-5" data-ride="carousel">
   <div class="carousel-inner">
@@ -22,7 +26,11 @@
   		{% with projects|first as fb %}
     	<div class="carousel-item {% cycle 'active' silent %}">
     	{% load static %}
-   			<a href="{{ project.url }}"><img class="d-block w-100" src="{{ project.banner.url }}" alt="image"></a>
+   			{% if project.banner %}
+        <a href="{{ project.url }}"><img class="d-block w-100" src="{{ project.banner.url }}" alt="image"></a>
+        {% elif project.banner_path %}
+        <a href="{{ project.url }}"><img class="d-block w-100" src="{{ project.banner_p }}" alt="image"></a>
+        {% endif %}
    		</div>
     	{% endwith %}
     {% empty %}
@@ -37,5 +45,13 @@
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </a>
+</div>
+<div>
+  <p>There are various projects available to view. Much more to come. For now I need some text to give this site the illusion of substance. Below is a quote of a book I am almost done reading.</p>
+  <hr class='bg-dark'>
+  <p>
+“Listen to what is being preached today. Look at everyone around us. You've wondered why they suffer, why they seek happiness and never find it. If any man stopped and asked himself whether he's ever held a truly personal desire, he'd find the answer. He'd see that all his wishes, his efforts, his dreams, his ambitions are motivated by other men. He's not really struggling even for material wealth, but for the second-hander's delusion - prestige. A stamp of approval, not his own. He can find no joy in the struggle and no joy when he has succeeded. He can't say about a single thing: 'This is what I wanted because I wanted it, not because it made my neighbors gape at me'. Then he wonders why he's unhappy.”<br>
+</p>
+<p class="lead text-right">― Ayn Rand, The Fountainhead </p>
 </div>
 {% endblock %}

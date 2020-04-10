@@ -5,7 +5,7 @@
     	<div class="jumbotron pt-4 pb-3">
     		<h5 class="lead">New Project</h3>
     	</div>
-    	<form action="{% url 'new_project' %}" method='post' oninput="char_count()">
+    	<form action="{% url 'new_project' %}" method='post' enctype="multipart/form-data" oninput="char_count()">
         	{% csrf_token %}
         	{% bootstrap_form form %}
                 <div class="d-inline">

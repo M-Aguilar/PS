@@ -1,25 +1,6 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-  <script>  
-    $(document).ready(function(){
-      $('[data-toggle="popover"]').popover();
-    });
-/*
-    function sort(pj, par) {
-      if (par == 'name') {
-        window.alert('sort by name');
-      } else if (par == 'edited') {
-        window.alert('sort by edited');
-      } else if (par == 'created') {
-        window.alert('sort by created');
-      } else if (par == 'post_num'){
-        window.alert('sort by post_num');
-      } else {
-        window.alert(typeof(pj));
-      }
-    };*/
-  </script>
 <div class="jumbotron pt-4 pb-4">
   <div class="d-inline-block w-100">
     <h2 class="display-4 text-center d-block">
@@ -30,65 +11,15 @@
     {% else %}
     {{ public }}'s Public
     {% endif %} Projects
-    {% if user.is_authenticated and user.projector.admin and request.user == public %}
+    {% if request.user.is_authenticated and user.projector.admin and request.user == public %}
     <a class="btn btn-dark float-right my-3 text-secondary bg-light border-0" href="{% url 'new_project' %}">new project</a>
     {% endif %}  
     </h2>
   </div>
 </div>
 <div class="container">
-  {% load tz %}
-    <!--<div class="dropdown btn light-g p-0">
-      <a class="nav-link dropdown-toggle text-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">sort by</a>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item text-dark" type="button" onclick="sort('{{ projects }}', 'name')">name</a>
-        <a class="dropdown-item text-dark" type="button" onclick="sort('{{ projects }}', 'created')">created</a>
-        <a class="dropdown-item text-dark" type="button" onclick="sort('{{ projects }}', 'edited')">edited</a>
-        <a class="dropdown-item text-dark" type="button" onclick="sort('{{ projects }}', 'post_num')"># of posts</a>
-        <a class="dropdown-item text-dark" type="button" onclick="sort('{{ projects }}')">queryset</a>
-      </div>
-    </div>-->
-  {% for project in projects %}
-  <div class="card my-3" style="border-color: #919090;">
-    <div class="card-header light-g p-1">
-      <h5 class="card-title">
-        <div class="d-inline">
-          <div class="float-left project my-2">
-            <a class="text-secondary mr-2" href="{% url 'project' project.id %}">{{ project }}</a>
-          </div>
-          <div class="float-right my-1">
-            <div class="pop-projects" data-placement="left" title="Posts: {{ project.post_set.count }}" data-toggle="popover" data-trigger="hover" data-content="Last edited {{ project.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ project.date_added|timezone:'America/Los_Angeles'}}<br>Created by {{ project.owner }}" data-html='true'>
-              <div class="info">i</div>
-            </div>
-          </div>
-          {% if user.is_authenticated and user.projector.admin and request.user == project.owner %}
-          <div class="d-inline float-right mr-3 my-1">
-            {% if project.public %}
-            <p class="d-inline-block my-1 text-success">Public</p>
-            {% else %}
-            <p class="d-inline-block my-1 text-secondary">Private</p>
-            {% endif %}
-            <a class="btn bg-light text-secondary float-right ml-3" href="{% url 'edit_project' project.id %}">edit project</a>
-            <a class="btn bg-light text-secondary float-right ml-3" href="{% url 'new_post' project.id %}">new post</a>
-            {% endif %}
-        </div>
-      </h5>
+    <div id="projects">
+      {% include 'geography/projects_inject.html' %}
     </div>
-    <div class="card-body">
-    {% if project.banner %}
-    <div>
-      <a href="{{project.url}}"><img class="w-100" src="{{ project.banner.url }}" alt="My image"></a>
-    </div>
-    {% endif %}
-    {% if project.text %}
-      <p class="card-text">{{ project.text }}</p>
-    {% else %}
-      <p class="card-text font-weight-bold">No text entry</p>
-    {% endif %}
-    </div>
-  </div>
-  {% empty %}
-  <div>No projects have been added yet.</div>
-  {% endfor %}
 </div>
 {% endblock %}

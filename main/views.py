@@ -6,7 +6,7 @@ def index(request):
 	#control max num probably
 	projects = Project.objects.filter(public=True)
 	for project in projects:
-		if project.banner:
+		if project.banner or project.banner_path:
 			banners.append(project)
 	context = {'nbar': 'index', 'projects': banners}
 	return render(request, 'main/index.html', context)
