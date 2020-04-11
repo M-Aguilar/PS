@@ -24,6 +24,26 @@
     	    {% bootstrap_form form %}
             <div class="d-inline">
                 <button name="submit" class="btn btn-dark mr-auto my-3">save changes</button>
+                <a href="" class="btn btn-dark mr-auto my-3" data-toggle="modal" data-target="#centerconsole">delete post</a>
+                <div class="modal fade" id="centerconsole" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalDeleteProject">Confirm</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Please confirm that you would like to remove this post.    
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn light-g" data-dismiss="modal">Cancel</button>
+                                <a href="{% url 'delete_post' post.id %}"><button type="button" class="btn light-g">Confirm</button></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div id="counter" class="float-right">
                 </div>
             </div>
@@ -37,6 +57,16 @@
         {% if post.image_path %}
         <div>
             <img id="#preview" class="mw-100 mx-auto d-block rounded" src="{{ post.image_p }}" alt="My image">
+        </div>
+        {% endif %}
+        {% if post.pdf %}
+        <div>
+            <iframe src="https://docs.google.com/viewer?url={{ post.pdf.url }}&embedded=true" frameborder="0" height="500px" width="100%"></iframe>
+        </div>
+        {% endif %}
+        {% if post.pdf_path %}
+        <div>
+            <iframe src="https://docs.google.com/viewer?url={{ post.pdf_p }}&embedded=true" frameborder="0" height="500px" width="100%"></iframe>
         </div>
         {% endif %}
     	<script type="text/javascript" src="/static/main/base.js"></script>

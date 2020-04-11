@@ -104,7 +104,7 @@ def projects(request, user_id='public', sort='', page_num=0):
                 page_num = int(page_num)
             except ValueError:
                 raise Http404
-            if page_num < -1:
+            if page_num < 0:
                 print(7)
                 raise Http404
         if page_num == math.ceil(len(projects)/10):

@@ -15,16 +15,33 @@ function char_count() {
 	if (text == '' || text == ' ') {
 		document.getElementById('wc').innerHTML = "Word Count: " + "0".toString();
 	} else {
-		document.getElementById('wc').innerHTML = "Word Count: " + text.split(/\r\n|\r|\n/).length;
+		document.getElementById('wc').innerHTML = "Word Count: " + true_word_count(text);
 	}
-	document.getElementById('cc').innerHTML = "Char Count: " + true_text_length(text.trim()) + limit;
+	document.getElementById('cc').innerHTML = "Char Count (in progress): " + true_text_length(text.trim()) + limit;
 }
 
-function true_text_length(t) {
-	var te = t.search(/\r\n|\r|\n/);
-	var num = t.split('').length;
+function true_word_count(text) {
+	var len = 0;
+	var t =text.split(/\r\n|\r|\n|\s/g);
+	var i;
+	for (i = 0; i < t.length;i++) {
+		if (t[i] != '' && t[i] != ' ')
+			len +=1;
+	}
+	return len.toString();
+}
+
+
+function true_text_length(text) {
+	var len = 0;
+	var i = 0;
+	//var te = t.search(/\r\n|\r|\n/g);
+	var t = text.split('');
+	for (i = 0; i < t.length;i++) {
+		len +=1;
+	}
 	//num += t;
-	return num.toString();
+	return len.toString();
 }
 
 $(document).ready(function(){
