@@ -7,7 +7,7 @@ urlpatterns = [
     path('<user_id>/projects/<page_num>', views.projects, name='projects'),
    	path('<user_id>/projects/<sort>', views.projects, name='projects'),
     path('<user_id>/projects', views.projects, name='projects'),
-    
+
     path('project/<project_id>/<sort>/<page_num>', views.project, name='project'),
     path('project/<project_id>/<page_num>', views.project, name='project'),
     path('project/<project_id>/<sort>', views.project, name='project'),

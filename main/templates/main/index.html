@@ -22,20 +22,23 @@
 
 <div id="carouselExampleControls" class="carousel slide mb-5" data-ride="carousel">
   <div class="carousel-inner">
-  	{% for project in projects %}
-  		{% with projects|first as fb %}
-    	<div class="carousel-item {% cycle 'active' silent %}">
-    	{% load static %}
-   			{% if project.banner %}
-        <a href="{{ project.url }}"><img class="d-block w-100" src="{{ project.banner.url }}" alt="image"></a>
-        {% elif project.banner_path %}
-        <a href="{{ project.url }}"><img class="d-block w-100" src="{{ project.banner_p }}" alt="image"></a>
-        {% endif %}
+  	{% with projects|first as fb %}
+    {% for project in projects %}
+      {% if project is fb %}
+      <div class="carousel-item active">
+      {% else %}
+      <div class="carousel-item">
+      {% endif %}
+   		{% if project.banner %}
+        <a href="{% url 'project' project.id %}"><img class="d-block mw-100" src="{{ project.banner.url }}" alt="image"></a>
+      {% elif project.banner_path %}
+        <a href="{% url 'project' project.id %}"><img class="d-block mw-100 text-center" src="{{ project.banner_p }}" alt="image"></a>
+      {% endif %}
    		</div>
-    	{% endwith %}
     {% empty %}
     	<p>Oh what a sad day. Nothing to see here. </p>
   	{% endfor %}
+    {% endwith %}
   </div>
   <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
