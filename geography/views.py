@@ -58,7 +58,7 @@ def projects(request, user_id='public', sort='', page_num=0):
                 projects = projects.annotate(count=Count('post')).order_by('-count')
             else: 
                 try:
-                    Project._meta.get_field(p_sort.replace('-',''))
+                    #Project._meta.get_field(p_sort.replace('-',''))
                     projects = projects.order_by(p_sort)
                 except FieldDoesNotExist:
                     print(3)
@@ -73,7 +73,7 @@ def projects(request, user_id='public', sort='', page_num=0):
                 projects = projects.annotate(Count('posts'))
             else:
                 try:
-                    Project._meta.get_field(p_sort.replace('-',''))
+                    #Project._meta.get_field(p_sort.replace('-',''))
                     projects = projects.order_by(p_sort)
                 except FieldDoesNotExist:
                     print(5)
@@ -87,7 +87,7 @@ def projects(request, user_id='public', sort='', page_num=0):
                 projects = projects.annotate(count=Count('post')).order_by('-count')
         else:
             try:
-                Project._meta.get_field(p_sort.replace('-',''))
+                #Project._meta.get_field(p_sort.replace('-',''))
                 projects = projects.order_by(p_sort)
             except FieldDoesNotExist:
                 print(6)
@@ -136,13 +136,13 @@ def project(request, project_id, sort='', page_num=0):
         raise Http404
     if request.user.is_authenticated and request.user == project.owner:
         try:
-            Post._meta.get_field(p_sort.replace('-',''))
+            #Post._meta.get_field(p_sort.replace('-',''))
             posts = project.post_set.order_by(p_sort)
         except FieldDoesNotExist:
             raise Http404
     else:
         try:
-            Post._meta.get_field(p_sort.replace('-',''))
+            #Post._meta.get_field(p_sort.replace('-',''))
             posts = project.post_set.filter(public=True).order_by(p_sort)
         except FieldDoesNotExist:
             raise Http404

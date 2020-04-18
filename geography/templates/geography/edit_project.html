@@ -46,12 +46,14 @@
         {% load static %}
         {% if project.banner_path %}
         <div class="card-body">
-            <img id="preview" src="{{ project.banner_p }}" class="mw-100 mx-auto d-block rounded mt-3" alt="...bp">
+            <img id="preview" src="{{ project.banner_p }}" class="mw-100 mx-auto d-block rounded mt-3" alt="No Image">
         </div>
         {% elif project.banner %}
         <div class="card-body">
-            <img id="preview" src="{{ project.banner.url }}" class="mw-100 mx-auto d-block rounded" alt="Banner">
+            <img id="preview" src="{{ project.banner.url }}" class="mw-100 mx-auto d-block rounded" alt="No Image">
         </div>
+        {% else %}
+            <img id="preview" src="" class="mw-100 mx-auto d-block rounded" alt="No Image">
         {% endif %}
     	<script type="text/javascript" src="/static/main/base.js"></script>
     </div>

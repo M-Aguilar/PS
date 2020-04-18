@@ -51,12 +51,16 @@
         {% load static %}
         {% if post.image %}
         <div>
-            <img id="#preview" class="mw-100 mx-auto d-block rounded" src="{{ post.image.url }}" alt="My image">
+            <img id="#preview" class="mw-100 mx-auto d-block rounded" src="{{ post.image.url }}" alt="No Image">
         </div>
         {% endif %}
         {% if post.image_path %}
         <div>
-            <img id="#preview" class="mw-100 mx-auto d-block rounded" src="{{ post.image_p }}" alt="My image">
+            <img id="#preview" class="mw-100 mx-auto d-block rounded" src="{{ post.image_p }}" alt="No Image">
+        </div>
+        {% else %}
+        <div>
+            <img id="#preview" class="mw-100 mx-auto d-block rounded" src="" alt="No Image">
         </div>
         {% endif %}
         {% if post.pdf %}

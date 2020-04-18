@@ -20,6 +20,11 @@ div.scope {
 	padding-bottom: 50px;
 }
 
+a.car-item:hover {
+	background-color:grey;
+	opacity:.2;
+}
+
 /*------ABOUT------*/
 
 .ab-f {
@@ -134,12 +139,13 @@ footer a:hover {
 	background-color: black;
 }
 footer a:active {
-	color:blue;
+	color:yellow;
 }
 footer a {
 	text-align: center;
 	padding: 5px;
-	width:100%;
+	height:100%;
+	width:25%;
 }
 
 
