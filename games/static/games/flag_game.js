@@ -55,7 +55,7 @@ var canvas = {
 		var i;
 		for(i = 0; i < 4; i++) {
 			var button = document.createElement('BUTTON');
-			button.setAttribute('class','btn btn-dark my-2');
+			button.setAttribute('class','btn light-g btn-light my-2');
 			this.n.appendChild(button);
 			this.buttons.push(button);
 		}
@@ -112,7 +112,7 @@ var canvas = {
 		var i;
 		for(i = 0; i < this.buttons.length; i++) {
 			if (this.buttons[i].getAttribute('class').search('disabled') > -1) {
-				this.buttons[i].setAttribute("class", "btn btn-dark my-2");
+				this.buttons[i].setAttribute("class", "btn light-g btn-light my-2");
 				this.buttons[i].setAttribute('onclick','canvas.submit('.concat(i,')'));
 			} else {
 				this.buttons[i].setAttribute("class", this.buttons[i].getAttribute('class').concat(" disabled"));

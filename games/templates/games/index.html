@@ -2,12 +2,12 @@
 {% load bootstrap4 %}
 
 {% block header %}
-	<div class="jumbotron">
+	<div class="jumbotron bg-light py-5">
 		<div class="w-100 d-inline-block m-0 p-0">
 			<div class="display-4">
 				<p class="text-center">GAMES</p>
 				{% if user.projector.admin and user.is_authenticated %}
-				<a class="btn btn-dark float-right" href="{% url 'new_game' %}">new game</a>
+				<a class="btn btn-secondary dark-g float-right" href="{% url 'new_game' %}">new game</a>
 				{% endif %}
 			</div>
 		</div>
@@ -19,14 +19,16 @@
 		<h4>Here are a list of games!</h4>
 	</div>
 	{% for game in games %}
-	<div class="card bg-dark">
- 		 <div class="card-body">
-			<a class="game-link lead text-white" href="{% url 'game' game.path %}">{{ game }}</a>
-    		<div class="float-right lead text-white">High Score: 
-    		</div>
-    		<div class="float-right lead text-white mr-4">Rating: ***** 
-    		</div>
-	  	</div>
+	<div class="card bg-secondary">
+ 		<a class="game-link lead text-white" href="{% url 'game' game.path %}">
+ 		 	<div class="card-body py-2">
+				{{ game }}
+    			<div class="float-right lead text-white">High Score: Moi: 100%
+    			</div>
+    			<div class="float-right lead text-white mr-4">Rating: 3.5/5 
+    			</div>
+	  		</div>
+	  	</a>	
 	</div>
 	{% empty %}
 		There are no games

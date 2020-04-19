@@ -2,7 +2,6 @@ from django.shortcuts import render
 from .models import Project, Post
 from .forms import ProjectForm, PostForm
 from django.contrib.auth.decorators import login_required
-#from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import User
 
 from django.http import HttpResponseRedirect, Http404
@@ -10,23 +9,10 @@ from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist, FieldDoesNotExist
 
 from django.db.models import Count
-#unused currently
 import math
 import os
-from django.conf import settings
+#from django.conf import settings
 # Create your views here.
-'''
-possible inputs
-as registered user and projector
-    public -- other user -- own projects
-
-as registered non owner
-    public other - other user 
-
-as non registered
-    public -- specific user's public
-'''
-
 def projects(request, user_id='public', sort='', page_num=0):
     if sort is '':
         p_sort = '-date_edited'
@@ -57,8 +43,7 @@ def projects(request, user_id='public', sort='', page_num=0):
             elif sort == '-post_num':
                 projects = projects.annotate(count=Count('post')).order_by('-count')
             else: 
-                try:
-                    #Project._meta.get_field(p_sort.replace('-',''))
+                try:#*
                     projects = projects.order_by(p_sort)
                 except FieldDoesNotExist:
                     print(3)
@@ -72,8 +57,7 @@ def projects(request, user_id='public', sort='', page_num=0):
             if sort == 'post_num' or sort == '-post_num':
                 projects = projects.annotate(Count('posts'))
             else:
-                try:
-                    #Project._meta.get_field(p_sort.replace('-',''))
+                try:#*
                     projects = projects.order_by(p_sort)
                 except FieldDoesNotExist:
                     print(5)
@@ -86,8 +70,7 @@ def projects(request, user_id='public', sort='', page_num=0):
         elif sort == '-post_num':
                 projects = projects.annotate(count=Count('post')).order_by('-count')
         else:
-            try:
-                #Project._meta.get_field(p_sort.replace('-',''))
+            try:#*
                 projects = projects.order_by(p_sort)
             except FieldDoesNotExist:
                 print(6)
@@ -135,14 +118,12 @@ def project(request, project_id, sort='', page_num=0):
     if project.owner != request.user and not project.public:
         raise Http404
     if request.user.is_authenticated and request.user == project.owner:
-        try:
-            #Post._meta.get_field(p_sort.replace('-',''))
+        try:#*
             posts = project.post_set.order_by(p_sort)
         except FieldDoesNotExist:
             raise Http404
     else:
-        try:
-            #Post._meta.get_field(p_sort.replace('-',''))
+        try:#*
             posts = project.post_set.filter(public=True).order_by(p_sort)
         except FieldDoesNotExist:
             raise Http404
@@ -253,3 +234,10 @@ def delete_project(request, project_id):
     else:
         project.delete()
         return HttpResponseRedirect(reverse('projects', args=[owner]))
+
+'''
+interesting command worth understanding further
+Project._meta.get_field(p_sort.replace('-',''))
+found at *
+
+'''

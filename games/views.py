@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 import csv
 import os
+from django.conf import settings
 from django.urls import reverse
 # Create your views here.
 
@@ -14,12 +15,13 @@ def index(request):
 	return render(request, 'games/index.html', context)
 
 #When creating other games this may need to be chnged. 
+#this probabl needs to be changed
 def game(request, path):
 	ojs = {}
 	game = get_object_or_404(Game, path=path)
 	#may need to add a try except for none js games
 	try:
-		with open('/home/pi/site/games/static/games/' + path +'.csv', newline='') as c:
+		with open(os.path.join(settings.STATIC_ROOT, 'games', (path + '.csv')), newline='') as c:
 			f = csv.reader(c)
 			for i in f:
 				ojs[i[2]] = list(i[:2])

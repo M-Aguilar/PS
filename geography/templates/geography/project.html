@@ -116,10 +116,10 @@
         </div>
         <div class="text-center">
         {% if page_num > 1 %}
-            <a href="{% url 'project' project.id sort page_num|add:'-1' %}"><button id="prev" class="btn btn-secondary">prev</button></a>
+            <a href="{% url 'project' project.id sort page_num|add:'-1' %}"><button id="prev" class="btn bg-light text-secondary border">prev</button></a>
         {% endif %}
         {% if next %}
-            <a href="{% url 'project' project.id sort page_num|add:'1' %}"><button id="next" class="btn btn-secondary">next</button></a>
+            <a href="{% url 'project' project.id sort page_num|add:'1' %}"><button id="next" class="btn bg-light text-secondary border">next</button></a>
         {% endif %}
         </div>
     {% load static %}
@@ -197,10 +197,10 @@
         {% endfor %}
         <div class="text-center">
         {% if page_num > 1 %}
-            <a href="{% url 'project' project.id sort page_num|add:'-1' %}"><button id="prev" class="btn btn-secondary">prev</button></a>
+            <a href="{% url 'project' project.id sort page_num|add:'-1' %}"><button id="prev" class="btn bg-light text-secondary border">prev</button></a>
         {% endif %}
         {% if next %}
-            <a href="{% url 'project' project.id sort page_num|add:'1' %}"><button id="next" class="btn btn-secondary">next</button></a>
+            <a href="{% url 'project' project.id sort page_num|add:'1' %}"><button id="next" class="btn bg-light text-secondary border">next</button></a>
         {% endif %}
         </div>
     </div>  

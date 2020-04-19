@@ -14,7 +14,7 @@ def user_directory_path(instance, filename):
     except AttributeError:
         print("Attribute Error 1")
         pass
-    try: #settings.MEDIA_ROOT +
+    try:
         return '/user_{0}/{1}/{2}'.format(instance.owner.id, 'banner', filename)
     except AttributeError:
         print("Attribute Error 2")
@@ -23,7 +23,6 @@ def user_directory_path(instance, filename):
 def images_path():
     return settings.MEDIA_ROOT
 # Create your models here.
-#change project text to textarea and move text to title
 class Project(models.Model):
     title = models.CharField(max_length=30)
     text = models.CharField(max_length=100, blank=True)
@@ -41,15 +40,16 @@ class Project(models.Model):
     #this is the answer
     def banner_p(self):
         return self.banner_path[self.banner_path.index(settings.MEDIA_URL):]
-
+'''
     def images_path(self):
         if settings.DEBUG:
             return os.path.join(settings.MEDIA_ROOT,settings.MEDIA_URL,'user_',self.owner.id)
         else:
             return os.path.join(settings.MEDIA_ROOT,'user_',self.owner.id)
-            
+'''
+
 class Post(models.Model):
-    text = models.CharField(max_length=250)
+    text = models.CharField(max_length=250, blank=True)
     public = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_edited = models.DateTimeField(auto_now=True)
@@ -66,12 +66,6 @@ class Post(models.Model):
     class Meta:
         verbose_name_plural = 'posts'
 
-    def images_path(self):
-        if settings.DEBUG:
-            return os.path.join(settings.MEDIA_ROOT,settings.MEDIA_URL,'user_',self.project.owner.id)
-        else:
-            return os.path.join(settings.MEDIA_ROOT,'user_',self.project.owner.id)
-
     def image_p(self):
         return self.image_path[self.image_path.index(settings.MEDIA_URL):]
     
@@ -80,3 +74,10 @@ class Post(models.Model):
 
     def __str__(self):
         return self.text[:50] + "..."
+'''
+    def images_path(self):
+        if settings.DEBUG:
+            return os.path.join(settings.MEDIA_ROOT,settings.MEDIA_URL,'user_',self.project.owner.id)
+        else:
+            return os.path.join(settings.MEDIA_ROOT,'user_',self.project.owner.id)
+'''

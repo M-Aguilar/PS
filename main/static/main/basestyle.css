@@ -38,12 +38,9 @@ a.car-item:hover {
 
 /* As related to games specifically*/
 
-.game-link a:link {
-	color:red;
-}
-
-.game-link a:visited {
-	color:red;
+a.game-link:hover {
+	text-decoration: none;
+	background-color: #5a6268;
 }
 
 .game_d {
@@ -143,7 +140,6 @@ footer a:active {
 }
 footer a {
 	text-align: center;
-	padding: 5px;
 	height:100%;
 	width:25%;
 }

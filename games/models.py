@@ -12,6 +12,9 @@ class Game(models.Model):
 	creator = models.ForeignKey(User, on_delete=models.CASCADE)
 	js = models.FilePathField(path=os.path.join(settings.STATIC_ROOT,'games'), recursive=True, blank=True, match=".*js")
 
+	def js_p(self):
+		return self.js[self.js.index(settings.STATIC_URL):]
+
 	def __str__(self):
 		return self.name
 
