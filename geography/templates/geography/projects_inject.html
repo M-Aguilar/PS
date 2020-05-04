@@ -94,22 +94,22 @@
         </div>
       </h5>
     </div>
-    <div class="card-body">
+    {% if project.banner or project.banner_path or project.text %}
       {% if project.banner %}
-      <div class="card-body">
+      <div class="card-body px-1">
         <a href="{% url 'project' project.id %}"><img class="mw-100 mx-auto d-block rounded" src="{{ project.banner.url }}" alt="My image"></a>
       </div>
       {% elif project.banner_path %}
-      <div class="card-body">
+      <div class="card-body px-1">
         <a href="{% url 'project' project.id %}"><img class="mw-100 mx-auto d-block rounded" src="{{ project.banner_p }}" alt="My image"></a>
       </div>
       {% endif %}
       {% if project.text %}
-      <p class="card-text">{{ project.text }}</p>
-      {% else %}
-      <p class="card-text font-weight-bold">No text entry</p>
+       <div class="card-body"> 
+        <p class="card-text">{{ project.text }}</p>
+      </div>
       {% endif %}
-    </div>
+    {% endif %}
   </div>
   {% empty %}
   <div>There is nothing here.</div>

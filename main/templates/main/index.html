@@ -30,9 +30,9 @@
       <div class="carousel-item">
       {% endif %}
    		{% if project.banner %}
-        <a href="{% url 'project' project.id %}"><img class="d-block mw-100" src="{{ project.banner.url }}" alt="image"></a>
+        <a href="{% url 'project' project.id %}"><img class="d-block text-center mx-auto mw-100" src="{{ project.banner.url }}" alt="image"></a>
       {% elif project.banner_path %}
-        <a href="{% url 'project' project.id %}"><img class="d-block mw-100 text-center" src="{{ project.banner_p }}" alt="image"></a>
+        <a href="{% url 'project' project.id %}"><img class="d-block text-center mx-auto mw-100" src="{{ project.banner_p }}" alt="image"></a>
       {% endif %}
    		</div>
     {% empty %}

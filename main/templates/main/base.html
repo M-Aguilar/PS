@@ -29,21 +29,15 @@
     					<li class="nav-item {% if nbar == 'project' %} active {% endif %}">
 	    					{% if request.user.is_authenticated %}
 	    					<div class="dropdown">
-	    						<a class="nav-link dropdown-toggle{% if nbar == 'project' %} active {% endif %} rounded" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">Projects</a>
+		    					<a class="nav-link text-left mx-auto dropdown-toggle{% if nbar == 'project' %} active {% endif %} rounded" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Projects</a>
 	    						<div class="dropdown-menu text-center bg-transparent border-0 py-0 my-0" aria-labelledby="dropdownMenuButton">
 	    							<hr class="d-lg-none py-0 my-0 light-g">
-	    							<div class='d-down'>
-	    								<br class="d-none d-lg-inline my-0 py-0">
-		    							<div>
-			    							<a class="nav-link text-left dropdown-item rounded dark{% if nbar == 'private' %} active {% endif %}" type="button" href="{% url 'projects' request.user %}">My Projects</a>
-			    						</div>
-	    								<hr class="d-lg-none py-0 my-0 light-g">
-	    								<div>
-		    								<a class="nav-link text-left dropdown-item rounded {% if nbar == 'public' %} active {% endif %}" type="button" href="{% url 'projects' %}">Public Projects</a>
-										</div>
-	    								<hr class="d-lg-none py-0 my-0 light-g">
-	    								<a class="nav-link text-left dropdown-item rounded {% if nbar == 'new_project' %} active {% endif %}" type="button" href="{% url 'new_project' %}">New Project +</a>
-	    							</div>
+	    							<br class="d-none d-lg-inline my-0 py-0">
+		    						<a class="nav-link text-left dropdown-item rounded mx-auto {% if nbar == 'private' %} active {% endif %}" role="button" href="{% url 'projects' request.user %}">My Projects</a>
+	    							<hr class="d-lg-none py-0 my-0 light-g">
+		    						<a class="nav-link text-left dropdown-item rounded mx-auto {% if nbar == 'public' %} active {% endif %}" role="button" href="{% url 'projects' %}">Public Projects</a>
+	    							<hr class="d-lg-none py-0 my-0 light-g">
+	    							<a class="nav-link text-left dropdown-item rounded mx-auto {% if nbar == 'new_project' %} active {% endif %}" role="button" href="{% url 'new_project' %}">New Project +</a>
 	    						</div>
 	    					</div>
 	    					{% else %}
@@ -52,24 +46,24 @@
 	    					<hr class="d-lg-none py-0 my-0 light-g">
 	    				</li>
     					<li class="nav-item">
-	    					<a class="nav-link {% if nbar == 'games' %}active{% endif %}" href="{% url 'games' %}">Games</a>
+	    					<a class="nav-link text-left mx-auto {% if nbar == 'games' %}active{% endif %}" href="{% url 'games' %}">Games</a>
 	    					<hr class="d-lg-none py-0 my-0 light-g">
 	    				</li>
     					<li class="nav-item">
-	    					<a class="nav-link {% if nbar == 'about' %} active {% endif %}" href="{% url 'about' %}">About</a>
+	    					<a class="nav-link text-left mx-auto {% if nbar == 'about' %} active {% endif %}" href="{% url 'about' %}">About</a>
 	    					<hr class="d-lg-none py-0 my-0 light-g">
 	    				</li>
 	    				{% if user.is_authenticated %}
     					<li class="nav-item">
-    						<a class="nav-link" href="{% url 'logout' %}">Log out</a>
+    						<a class="nav-link text-left mx-auto " href="{% url 'logout' %}">Log out</a>
     					</li>
     					{% else %}
     					<li class="nav-item">
-	    					<a class="nav-link {% if not nbar %}active{% endif %}" href="{% url 'login' %}">Login</a>
+	    					<a class="nav-link {% if not nbar %}active{% endif %} text-left mx-auto " href="{% url 'login' %}">Login</a>
 	    					<hr class="d-lg-none py-0 my-0 light-g">
     					</li>
     					<li class="nav-item">
-	    					<a class="nav-link {% if nbar == 'register' %} active {% endif %}" href="{% url 'register' %}">Register</a>
+	    					<a class="nav-link {% if nbar == 'register' %} active {% endif %} text-left mx-auto " href="{% url 'register' %}">Register</a>
 	    				</li>
     					{% endif %}
     				</ul>

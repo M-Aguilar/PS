@@ -72,18 +72,30 @@ a.nav-link.active {
 	background-color: #343a40;
 }
 
-a.nav-link {
-	background-color: #343a40;	
-	margin: 0 4px;
+a.nav-link:hover {
+	background-color:#003b75;
 }
 
-.dropdown-menu a:link {
+li.nav-item a.nav-link {
+	background-color: #343a40;	
+	padding-left: 5px;
+}
+
+div.dropdown-menu a.nav-link {
+	padding-left: 5px;
+}
+
+li.nav-item a.nav-link:hover {
+	background-color: #003b75;
+}
+
+.dropdown-menu a.nav-link:link {
 	background-color: #343a40;
 	color: #e6e6e6;	
 }
 
-.dropdown-menu a:hover {
-	background-color:#343a40;
+a.nav-link:hover {
+	background-color:#003b75;
 }
 
 
@@ -93,9 +105,8 @@ a.nav-link {
 	div.scope {
 		width:98vw;
 		margin: 2vh 1vw 0 1vw;
-		padding-bottom: 50px;
+		padding-bottom: 50px
 	}
-
 	/*as related to games 
 	*/
 	#choices button {
@@ -105,7 +116,8 @@ a.nav-link {
 
 /*-------BIG SCREEN----------*/
 @media screen and (min-width: 992px) {
-	.dropdown-menu a {
+	
+	.dropdown-menu a.nav-link {
 		margin-bottom: 7%;
 	}
 }

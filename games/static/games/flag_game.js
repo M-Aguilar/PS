@@ -52,6 +52,7 @@ var canvas = {
 		this.p.setAttribute('class', 'jumbotron py-2');
 		this.s.setAttribute('class', 'float-right');
 		this.a.setAttribute('id', 'a');
+		this.a.setAttribute('style', 'font-family: Segoe UI Emoji');
 		var i;
 		for(i = 0; i < 4; i++) {
 			var button = document.createElement('BUTTON');
@@ -102,7 +103,7 @@ var canvas = {
 			this.pp.innerHTML = "CORRECT!!";
 			this.correct.push(user_answer);
 		} else {
-			this.pp.innerHTML = "WRONG!";
+			this.pp.innerHTML = "WRONG! The correct answer was ".concat(this.cur);
 			this.incorrect.push(answer);
 		}
 		setTimeout(function() {canvas.update();canvas.toggle_buttons();}, 2000);
@@ -152,7 +153,8 @@ var canvas = {
 			this.s.innerHTML = this.score();
 			this.pp.innerHTML = "Which country does this correspond to?";
 			this.choices();
-			this.a.innerHTML = this.ref[this.cur];
+			this.a.innerHTML = this.ref[this.cur][0];
+			this.a.setAttribute('alt',this.ref[this.cur][1]);
 		}
 	},
 
