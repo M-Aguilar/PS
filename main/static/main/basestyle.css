@@ -72,8 +72,9 @@ a.nav-link.active {
 	background-color: #343a40;
 }
 
-a.nav-link:hover {
+div.dropdown-menu a.nav-link:hover {
 	background-color:#003b75;
+
 }
 
 li.nav-item a.nav-link {
@@ -85,19 +86,10 @@ div.dropdown-menu a.nav-link {
 	padding-left: 5px;
 }
 
-li.nav-item a.nav-link:hover {
-	background-color: #003b75;
-}
-
 .dropdown-menu a.nav-link:link {
 	background-color: #343a40;
 	color: #e6e6e6;	
 }
-
-a.nav-link:hover {
-	background-color:#003b75;
-}
-
 
 /*--------SMALL SCREEN---------*/
 
@@ -114,6 +106,16 @@ a.nav-link:hover {
 	}
 }
 
+@media screen and (max-width: 992px) {
+	a.nav-link:hover {
+		background-color:#003b75;
+	}
+
+	li.nav-item a.nav-link:hover {
+		background-color: #003b75;
+	}
+
+}
 /*-------BIG SCREEN----------*/
 @media screen and (min-width: 992px) {
 	

@@ -98,7 +98,7 @@ var canvas = {
 	submit : function (answer) {
 		var i;
 		var user_answer = this.ch[answer];
-		this.toggle_buttons();
+		this.toggle_buttons(this.ch.indexOf(this.cur));
 		if (this.cur == user_answer) {
 			this.pp.innerHTML = "CORRECT!!";
 			this.correct.push(user_answer);
@@ -106,18 +106,23 @@ var canvas = {
 			this.pp.innerHTML = "WRONG! The correct answer was ".concat(this.cur);
 			this.incorrect.push(answer);
 		}
-		setTimeout(function() {canvas.update();canvas.toggle_buttons();}, 2000);
+		setTimeout(function() {canvas.toggle_buttons(-1);canvas.update();}, 2000);
 	},
 
-	toggle_buttons : function () {
+	toggle_buttons : function (answer) {
 		var i;
 		for(i = 0; i < this.buttons.length; i++) {
 			if (this.buttons[i].getAttribute('class').search('disabled') > -1) {
 				this.buttons[i].setAttribute("class", "btn light-g btn-light my-2");
 				this.buttons[i].setAttribute('onclick','canvas.submit('.concat(i,')'));
 			} else {
-				this.buttons[i].setAttribute("class", this.buttons[i].getAttribute('class').concat(" disabled"));
-				this.buttons[i].setAttribute('onclick','');
+				if (answer == i) {
+					this.buttons[i].setAttribute("class", this.buttons[i].getAttribute('class').concat(" text-light bg-success disabled"));
+					this.buttons[i].setAttribute('onclick','');
+				} else {
+					this.buttons[i].setAttribute("class", this.buttons[i].getAttribute('class').concat(" text-light bg-danger disabled"));
+					this.buttons[i].setAttribute('onclick','');
+				}
 			}
 		}
 	},
