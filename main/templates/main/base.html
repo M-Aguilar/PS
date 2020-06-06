@@ -70,15 +70,15 @@
     					{% endif %}
     					<li class="nav-item ml-lg-auto mr-lg-2">
     						<hr class="d-lg-none py-0 mt-0 mb-1 light-g">
-    						<form>
+    						<form action="{% url 'search_results' %}" method='get'>
 		    					<div class="form-row">
 		    						<div class='col pr-0'>
-			    						<input class="form-control" type="search" placeholder="Search" aria-label="Search">
+			    						<input name="q" class="form-control" type="text" placeholder="Search" aria-label="Search">
 									</div>
 		    						<div class='mr-1 search-b'>
 		    							<button class="btn btn-light" type="submit"><i class="fa fa-search"></i></button>
-									</div>    							
-	    						</div>
+									</div>
+								</div>
     						</form>
     					</li>
     				</ul>

@@ -11,9 +11,30 @@ from django.core.exceptions import ObjectDoesNotExist, FieldDoesNotExist
 from django.db.models import Count
 import math
 import os
+
+from django.db.models import Q
+from django.views.generic import ListView
+
+class SearchResultsView(ListView):
+    model = Post
+    template_name = 'geography/search_results.html'
+
+    def get_queryset(self):
+        public = True
+        if self.request.user.is_authenticated:
+            public = False
+        query = self.request.GET.get('q')
+        object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__owner__username__icontains=query), Q(public=public) | Q(project__owner=self.request.user))
+        return {'object_list': object_list, 'q': query}
+
+'''def search(request):
+    posts = Post.objects.filter(public=True)
+    context = {'posts': posts}
+    return render(request, 'geography/search_results.html', context)
+'''
 #from django.conf import settings
 # Create your views here.
-def projects(request, user_id='public', sort='', page_num=0):
+def projects(request, user_id='public', sort='', page_num=0, search=None):
     if sort is '':
         p_sort = '-date_edited'
     else:
