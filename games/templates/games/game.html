@@ -1,6 +1,8 @@
 {% extends "main/base.html" %}
 {% load bootstrap4 %}
 
+{% block title %}{{game}}{% endblock %}
+
 {% block header %}
 {% if game.js %}
 <head>

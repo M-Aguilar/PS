@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>M. Aguilar</title>
+		<title>{% block title %}{% endblock %}</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -12,6 +12,7 @@
 		<link rel="icon" type="image/png" sizes="16x16" href="{% static 'main/favicon_io/favicon-16x16.png' %}">
 		<link rel="manifest" href="{% static 'main/favicon_io/site.webmanifest' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'main/basestyle.css' %}">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
 	<body>
 		<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
@@ -25,9 +26,10 @@
  		  		<span class="navbar-toggler-icon"></span>
  		  		</button>
  		  		<div class="collapse navbar-collapse" id="navbarSupportedContent">
- 		  			<ul class="navbar-nav mr-auto">
+ 		  			<ul class="navbar-nav mt-0 w-100">
     					<li class="nav-item {% if nbar == 'project' %} active {% endif %}">
 	    					{% if request.user.is_authenticated %}
+	    					<hr class="d-lg-none py-0 my-0 light-g">
 	    					<div class="dropdown">
 		    					<a class="nav-link text-left mx-auto dropdown-toggle{% if nbar == 'project' %} active {% endif %} rounded" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Projects</a>
 	    						<div class="dropdown-menu text-center bg-transparent border-0 py-0 my-0" aria-labelledby="dropdownMenuButton">
@@ -66,6 +68,19 @@
 	    					<a class="nav-link {% if nbar == 'register' %} active {% endif %} text-left mx-auto " href="{% url 'register' %}">Register</a>
 	    				</li>
     					{% endif %}
+    					<li class="nav-item ml-lg-auto mr-lg-2">
+    						<hr class="d-lg-none py-0 mt-0 mb-1 light-g">
+    						<form>
+		    					<div class="form-row">
+		    						<div class='col pr-0'>
+			    						<input class="form-control" type="search" placeholder="Search" aria-label="Search">
+									</div>
+		    						<div class='mr-1 search-b'>
+		    							<button class="btn btn-light" type="submit"><i class="fa fa-search"></i></button>
+									</div>    							
+	    						</div>
+    						</form>
+    					</li>
     				</ul>
     			</div>
     		</nav>

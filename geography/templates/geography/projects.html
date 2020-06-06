@@ -1,4 +1,13 @@
 {% extends "main/base.html" %}
+{% block title %}
+    {% if public == 'public' %}
+    All Public
+    {% elif request.user.is_authenticated and request.user == public %} 
+    My
+    {% else %}
+    {{ public }}'s Public
+    {% endif %} Projects
+{% endblock %}
 
 {% block content %}
 <div class="jumbotron pt-4 pb-4">

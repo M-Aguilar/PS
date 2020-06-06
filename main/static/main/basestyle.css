@@ -5,6 +5,16 @@ html,body {
 	position:relative;
 }
 
+/*--SEARCH------*/
+div.col input.form-control {
+	border-radius: 10px 0 0 10px;
+}
+
+div.search-b button {
+		border-radius: 0 10px 10px 0;
+}
+/*-----------------*/
+
 div.main-container {
 	position:absolute;
 	min-height: 100%;
@@ -118,7 +128,7 @@ div.dropdown-menu a.nav-link {
 }
 /*-------BIG SCREEN----------*/
 @media screen and (min-width: 992px) {
-	
+
 	.dropdown-menu a.nav-link {
 		margin-bottom: 7%;
 	}
