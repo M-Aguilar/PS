@@ -20,12 +20,40 @@ class SearchResultsView(ListView):
     template_name = 'geography/search_results.html'
 
     def get_queryset(self):
-        public = True
-        if self.request.user.is_authenticated:
-            public = False
         query = self.request.GET.get('q')
-        object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__owner__username__icontains=query), Q(public=public) | Q(project__owner=self.request.user))
-        return {'object_list': object_list, 'q': query}
+        page_num = self.request.GET.get('page_num')
+        if not page_num:
+            page_num=0
+
+        #if not logged in.
+        if self.request.user.is_authenticated:
+            object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__owner__username__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query), Q(public=True) | Q(project__owner=self.request.user))
+        else:
+            object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query) | Q(project__owner__username__icontains=query), Q(public=True))
+        total = len(object_list)
+        next_p = False
+        if total > 10:
+            if page_num == 0 or page_num == '0':
+                page_num = 1
+            else:
+                try:
+                    page_num = int(page_num)
+                except ValueError:
+                    raise Http404
+                if page_num < 0 or page_num > math.ceil(len(object_list)/10):
+                    print(7)
+                    raise Http404
+            if page_num == math.ceil(len(object_list)/10):
+                if (math.floor(len(object_list)/10)) == page_num:
+                    object_list = object_list[(page_num-1)*10:]
+                else:
+                    object_list = object_list[(math.floor(len(object_list)/10))*10:]
+            else:
+                object_list = object_list[(page_num-1)*10:10 * page_num]
+                next_p = True
+        return {'object_list': object_list, 'q': query, 'total': total, 'page_num': page_num, 'next':next_p}
+
+
 
 '''def search(request):
     posts = Post.objects.filter(public=True)

@@ -31,8 +31,8 @@
 	    					{% if request.user.is_authenticated %}
 	    					<hr class="d-lg-none py-0 my-0 light-g">
 	    					<div class="dropdown">
-		    					<a class="nav-link text-left mx-auto dropdown-toggle{% if nbar == 'project' %} active {% endif %} rounded" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Projects</a>
-	    						<div class="dropdown-menu text-center bg-transparent border-0 py-0 my-0" aria-labelledby="dropdownMenuButton">
+		    					<a class="btn text-left nav-link mx-auto dropdown-toggle{% if nbar == 'project' %} active {% endif %} rounded" role="button" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Projects</a>
+	    						<div class="dropdown-menu text-center bg-transparent border-0 py-0 my-0">
 	    							<hr class="d-lg-none py-0 my-0 light-g">
 	    							<br class="d-none d-lg-inline my-0 py-0">
 		    						<a class="nav-link text-left dropdown-item rounded mx-auto {% if nbar == 'private' %} active {% endif %}" role="button" href="{% url 'projects' request.user %}">My Projects</a>
@@ -73,7 +73,7 @@
     						<form action="{% url 'search_results' %}" method='get'>
 		    					<div class="form-row">
 		    						<div class='col pr-0'>
-			    						<input name="q" class="form-control" type="text" placeholder="Search" aria-label="Search">
+			    						<input name="q" class="form-control" type="search" placeholder="Search" aria-label="Search">
 									</div>
 		    						<div class='mr-1 search-b'>
 		    							<button class="btn btn-light" type="submit"><i class="fa fa-search"></i></button>

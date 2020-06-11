@@ -4,14 +4,18 @@ html,body {
 	padding:0;
 	position:relative;
 }
+ /*in the search place*/
+.title {
+	font-size: 20px;
+}
 
 /*--SEARCH------*/
 div.col input.form-control {
-	border-radius: 10px 0 0 10px;
+	border-radius: 15px 0 0 15px;
 }
 
 div.search-b button {
-		border-radius: 0 10px 10px 0;
+		border-radius: 0 15px 15px 0;
 }
 /*-----------------*/
 
@@ -156,6 +160,10 @@ footer a:visited {
 	color:white;
 }
 
+.highlight {
+	background-color: yellow;
+}
+
 footer a:hover {
 	background-color: black;
 }
@@ -168,11 +176,9 @@ footer a {
 	width:25%;
 }
 
-
 /*-----------------*/
 
 /*--------LIGHT GREY---------*/
-
 .light-g {
 	background-color:#e6e6e6;
 }
@@ -181,9 +187,7 @@ footer a {
 	color:#e6e6e6;
 }
 
-
 /*-----------------*/
-
 .jumbotron {
 	border:black 1px solid;
 }
@@ -193,20 +197,22 @@ footer a {
 }
 
 .pop-project {
-	margin-top:2%;
+	margin-top:5px;
 }
 
 .pop-projects {
-	margin: 80% -30%;
+	margin: auto 10px 0 4px;
 }
 
 .info {
+	border:none;
+	border-radius:50%;
 	background-color: black;
-	border-radius: 50%;
 	font-size: 11px;
-	width:13px;
+	font-weight: bold;
 	text-align: center;
 	color:white;
+	padding: 1px 5px;
 }
 
 .popover {

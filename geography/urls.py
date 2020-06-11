@@ -8,8 +8,8 @@ urlpatterns = [
    	path('<user_id>/projects/<sort>', views.projects, name='projects'),
     path('<user_id>/projects', views.projects, name='projects'),
 
+    #path('search/<page_num>/',views.SearchResultsView.as_view(), name='search_page'),
     path('search/', views.SearchResultsView.as_view(), name='search_results'),
-#    path('search/', views.search, name='search_results'),
 
     path('project/<project_id>/<sort>/<page_num>', views.project, name='project'),
     path('project/<project_id>/<page_num>', views.project, name='project'),
