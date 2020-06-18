@@ -23,11 +23,11 @@
 
     </script>
     <div class="jumbotron pt-3 pb-2 theme">
-        <h5 class='lead d-inline-block w-100'>
-           <div class="d-inline text-theme">
-                <a id="p-link" onmouseover="p()" onmouseleave="r()" class="text-theme" href="{% url 'projects' project.owner %}">Project:</a> {{ project }} by <a class="text-theme" href="">{{ project.owner }}</a>
-                {% if user.is_authenticated and request.user == project.owner %}
+        <h5 class='lead d-inline-block w-100 mt-2'>
+            <div class="d-inline text-theme">
                 <div class="d-inline ml-2">
+                    <a id="p-link" onmouseover="p()" onmouseleave="r()" class="text-theme" href="{% url 'projects' project.owner %}">Project:</a> {{ project }} by <a class="text-theme" href="">{{ project.owner }}</a>
+                    {% if user.is_authenticated and request.user == project.owner %}
                     <a class="float-right ml-3 text-theme" href="{% url 'new_post' project.id %}">new post</a>
                     <a class="float-right ml-3 text-theme" href="{% url 'edit_project' project.id %}">edit project</a>
                     <a href="" class="float-right ml-3 text-theme" data-toggle="modal" data-target="#centerconsole">delete project</a>
@@ -50,11 +50,11 @@
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
-                {% endif %}
             </div>
             {% if project.text %}
-            <hr class="mt-4">
+            <hr class="mt-4 text-back">
             <div><p class="text-theme">{{ project.text }}</p></div>
             {% endif %}
         </h5>
@@ -153,7 +153,7 @@
                         <button class="info" role="button">i</button></div>
                     </div>
                 </h5>
-                <div class="px-2 text-theme">
+                <div class="my-4 mx-3 text-theme">
                 {% if post.text %}
                     <p > {{ post.text|linebreaks|urlize }} </p>
                 {% else %} 

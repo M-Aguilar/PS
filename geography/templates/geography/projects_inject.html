@@ -56,7 +56,7 @@
     </div>
     <div class="text-center">
     {% if page_num > 1 %}
-      <a href="{% url 'projects' public sort page_num|add:'-1' %}"><button id="prev" class="btn">prev</button></a>
+      <a href="{% url 'projects' public sort page_num|add:'-1' %}"><button id="prev" class="btn alt-btn">prev</button></a>
     {% endif %}
     {% if next %}
       <a href="{% url 'projects' public sort page_num|add:'1' %}"><button id="next" class="btn alt-btn">next</button></a>
@@ -96,8 +96,9 @@
       </h5>
     </div>
     {% if project.banner or project.banner_path or project.text %}
+    <div class="card-body p-0 theme rounded-bottom">
       {% if project.banner %}
-      <div class="card-body px-1 theme">
+      <div>
         {% if project.url %}
         <a href="{{ project.url }}"><img class="mw-100 mx-auto d-block rounded" src="{{ project.banner_pp }}" alt="My image"></a>
         {% else %}
@@ -105,7 +106,7 @@
         {% endif %}
       </div>
       {% elif project.banner_path %}
-      <div class="card-body px-1 theme">
+      <div>
         {% if project.url %}
         <a href="{{ project.url }}"><img class="mw-100 mx-auto d-block rounded" src="{{ project.banner_p }}" alt="My image"></a>
         {% else %}
@@ -114,10 +115,11 @@
       </div>
       {% endif %}
       {% if project.text %}
-       <div class="card-body theme"> 
+      <div class="m-3"> 
         <p class="card-text text-theme">{{ project.text }}</p>
       </div>
       {% endif %}
+    </div>
     {% endif %}
   </div>
   {% empty %}
