@@ -22,30 +22,30 @@
         }
 
     </script>
-    <div class="jumbotron pt-3 pb-2">
+    <div class="jumbotron pt-3 pb-2 theme">
         <h5 class='lead d-inline-block w-100'>
-           <div class="d-inline">
-                <a id="p-link" class="text-secondary" onmouseover="p()" onmouseleave="r()" href="{% url 'projects' project.owner %}">Project:</a> {{ project }} by <a href="" class="text-secondary">{{ project.owner }}</a>
+           <div class="d-inline text-theme">
+                <a id="p-link" onmouseover="p()" onmouseleave="r()" class="text-theme" href="{% url 'projects' project.owner %}">Project:</a> {{ project }} by <a class="text-theme" href="">{{ project.owner }}</a>
                 {% if user.is_authenticated and request.user == project.owner %}
                 <div class="d-inline ml-2">
-                    <a class="text-secondary float-right ml-3" href="{% url 'new_post' project.id %}">new post</a>
-                    <a class="text-secondary float-right ml-3" href="{% url 'edit_project' project.id %}">edit project</a>
-                    <a href="" class="text-secondary float-right ml-3" data-toggle="modal" data-target="#centerconsole">delete project</a>
+                    <a class="float-right ml-3 text-theme" href="{% url 'new_post' project.id %}">new post</a>
+                    <a class="float-right ml-3 text-theme" href="{% url 'edit_project' project.id %}">edit project</a>
+                    <a href="" class="float-right ml-3 text-theme" data-toggle="modal" data-target="#centerconsole">delete project</a>
                     <div class="modal fade" id="centerconsole" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
+                            <div class="modal-content blank">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="modalDeleteProject">Confirm</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
+                                        <span class="text-theme" aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    Please confirm that you would like to remove this project.    
+                                    Please confirm that you would like to remove this project.
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn light-g" data-dismiss="modal">Cancel</button>
-                                    <a href="{% url 'delete_project' project.id %}"><button type="button" class="btn light-g">Confirm</button></a>
+                                    <button type="button" class="btn btn-theme" data-dismiss="modal">Cancel</button>
+                                    <a href="{% url 'delete_project' project.id %}"><button type="button" class="btn btn-theme">Confirm</button></a>
                                 </div>
                             </div>
                         </div>
@@ -55,115 +55,105 @@
             </div>
             {% if project.text %}
             <hr class="mt-4">
-            <div><p>{{ project.text }}</p></div>
+            <div><p class="text-theme">{{ project.text }}</p></div>
             {% endif %}
         </h5>
     </div>
     <div class="container">
         {% load cur_range %}
         {% with c=posts|length|add:'-1' cur=page_num|cur_range:total %}
-        <p class="float-right">{{cur}}{% if cur != '0' %}-{{cur|add:c}}{% endif %} of {{total}}</p>
+        <p class="float-right text-theme">{{cur}}{% if cur != '0' %}-{{cur|add:c}}{% endif %} of {{total}}</p>
         {% endwith %}
         <div class="dropdown">
-            <button class="nav-link btn light-g text-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">{{ sort }}</button>
-            <div class="dropdown-menu light-g" aria-labelledby="dropdownMenuButton">
-            <!-- ALSO NOT RELEVANT
-            {% if sort == 'title' %}
-                {% with "-title" as s %}
-                <a href="{% url 'project' project.id s 1 %}"><button id="name" class="dropdown-item text-dark" type="button">-title</button></a>
-                {% endwith %}
-            {% else %} 
-                {% with "title" as s %}
-                <a href="{% url 'project' project.id s 1 %}"><button id="name" class="dropdown-item text-dark" type="button">title</button></a>
-                {% endwith %}
-            {% endif %}-->
+            <button class="nav-link btn alt-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">{{ sort }}</button>
+            <div class="dropdown-menu theme" aria-labelledby="dropdownMenuButton">
             {% if sort == '-date_added' %}
                 {% with "date_added" as s %}
-                <a href="{% url 'project' project.id s 1 %}"><button id="created" class="dropdown-item text-dark" type="button">-created</button></a>
+                <a href="{% url 'project' project.id s 1 %}"><button id="created" class="dropdown-item text-theme" type="button">-created</button></a>
                 {% endwith %}
             {% else %}
                 {% with "-date_added" as s %}
-                <a href="{% url 'project' project.id s 1 %}"><button id="created" class="dropdown-item text-dark" type="button">created</button></a>
+                <a href="{% url 'project' project.id s 1 %}"><button id="created" class="dropdown-item text-theme" type="button">created</button></a>
                 {% endwith %}
             {% endif %}
             {% if sort == '-date_edited' %}
                 {% with "date_edited" as s %}
-                <a href="{% url 'project' project.id s 1 %}"><button id="edited" class="dropdown-item text-dark" type="button">-edited</button></a>
+                <a href="{% url 'project' project.id s 1 %}"><button id="edited" class="dropdown-item text-theme" type="button">-edited</button></a>
                 {% endwith %}
             {% else %}
                 {% with "-date_edited" as s %}
-                <a href="{% url 'project' project.id s 1 %}"><button id="edited" class="dropdown-item text-dark" type="button">edited</button></a>
+                <a href="{% url 'project' project.id s 1 %}"><button id="edited" class="dropdown-item text-theme" type="button">edited</button></a>
                 {% endwith %}
             {% endif %}
 
             {% if sort == "-public" %}
                 {% with "public" as s %}
-                <a href="{% url 'project' project.id s 1 %}"><button id="public" class="dropdown-item text-dark" type="button">-public</button></a>
+                <a href="{% url 'project' project.id s 1 %}"><button id="public" class="dropdown-item text-theme" type="button">-public</button></a>
                 {% endwith %}
             {% else %}
                 {% with "-public" as s %}
-                <a href="{% url 'project' project.id s 1 %}"><button id="pubilc" class="dropdown-item text-dark" type="button">public</button></a>
+                <a href="{% url 'project' project.id s 1 %}"><button id="pubilc" class="dropdown-item text-theme" type="button">public</button></a>
                 {% endwith %}
             {% endif %}
             {% if sort == "-image" %}
                 {% with "image" as s %}
-                <a href="{% url 'project' project.id s 1 %}"><button id="public" class="dropdown-item text-dark" type="button">-image</button></a>
+                <a href="{% url 'project' project.id s 1 %}"><button id="public" class="dropdown-item text-theme" type="button">-image</button></a>
                 {% endwith %}
             {% else %}
                 {% with "-image" as s %}
-                <a href="{% url 'project' project.id s 1 %}"><button id="pubilc" class="dropdown-item text-dark" type="button">image</button></a>
+                <a href="{% url 'project' project.id s 1 %}"><button id="pubilc" class="dropdown-item text-theme" type="button">image</button></a>
                 {% endwith %}
             {% endif %}
             {% if sort == "-pdf" %}
                 {% with "pdf" as s %}
-                <a href="{% url 'project' project.id s 1 %}"><button id="public" class="dropdown-item text-dark" type="button">-pdf</button></a>
+                <a href="{% url 'project' project.id s 1 %}"><button id="public" class="dropdown-item text-theme" type="button">-pdf</button></a>
                 {% endwith %}
             {% else %}
                 {% with "-pdf" as s %}
-                <a href="{% url 'project' project.id s 1 %}"><button id="pubilc" class="dropdown-item text-dark" type="button">pdf</button></a>
+                <a href="{% url 'project' project.id s 1 %}"><button id="pubilc" class="dropdown-item text-theme" type="button">pdf</button></a>
                 {% endwith %}
             {% endif %}
             </div>
         </div>
         <div class="text-center">
         {% if page_num > 1 %}
-            <a href="{% url 'project' project.id sort page_num|add:'-1' %}"><button id="prev" class="btn bg-light text-secondary border">prev</button></a>
+            <a href="{% url 'project' project.id sort page_num|add:'-1' %}"><button id="prev" class="btn alt-btn">prev</button></a>
         {% endif %}
         {% if next %}
-            <a href="{% url 'project' project.id sort page_num|add:'1' %}"><button id="next" class="btn bg-light text-secondary border">next</button></a>
+            <a href="{% url 'project' project.id sort page_num|add:'1' %}"><button id="next" class="btn alt-btn">next</button></a>
         {% endif %}
         </div>
     {% load static %}
     <div class="modal fade" id="centerconsole2" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
+                        <div class="modal-content blank">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="modalDeletePost">Confirm</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                                    <span class="text-theme" aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
                                 Please confirm that you would like to remove this post.    
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn light-g" data-dismiss="modal">Cancel</button>
-                                <a id='delete' href=""><button type="button" class="btn light-g">Confirm</button></a>
+                                <button type="button" class="btn btn-theme" data-dismiss="modal">Cancel</button>
+                                <a id='delete' href=""><button type="button" class="btn btn-theme">Confirm</button></a>
                             </div>
                         </div>
                     </div>
                 </div>
     {% for post in posts %}
     {% load tz %}
-        <div class="card my-4 border-left border-right border-top-0" style="border-color: #919090;">
-            <div class='card-body p-0 border-top border-dark rounded-top {% if user.is_authenticated and user.projector.admin %}{% if not post.public %} bg-warning {% endif %} bg-{% endif %}'>
+        <div class="card my-4">
+            <div class='card-body theme p-0 rounded-top {% if user.is_authenticated and user.projector.admin %}{% if not post.public %} bg-warning {% endif %} bg-{% endif %}'>
                 <h5 class="card-title my-auto mx-2 px-2">
                     <div class="pop-project float-right">
                         <div data-placement="left" data-toggle="popover" data-trigger="hover" data-content="Last edited {{ post.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ post.date_added|timezone:'America/Los_Angeles'}} {% if user.is_authenticated and user.projector.admin %}<br>{% if not post.public %}<p class='text-warning pb-0 mb-0'>Private</p>{% else %}<p class='text-success pb-0 mb-0'>Public</p>{% endif %}{% endif %}" data-html='true'>
                         <button class="info" role="button">i</button></div>
                     </div>
                 </h5>
-                <div class="px-2">
+                <div class="px-2 text-theme">
                 {% if post.text %}
                     <p > {{ post.text|linebreaks|urlize }} </p>
                 {% else %} 
@@ -194,12 +184,8 @@
             {% if user.is_authenticated and user.projector.admin %} 
             <div class="w-100">
                 {% url 'delete_post' post.id as p %}
-                <a class="btn btn-light text-dark w-50 border-top" href="{% url 'edit_post' post.id %}">edit post</a>
-                <button type="button" class="btn btn-light text-dark w-50 float-right border-top border-left" data-toggle="modal" data-target="#centerconsole2" onclick="document.getElementById('delete').href = '{{p}}'">delete</button>
-            <!--
-                <a class="btn light-g text-secondary w-50 float-right" href="{% url 'delete_post' post.id %}">delete post</a>
-                <a class="btn light-g text-secondary w-50" href="{% url 'edit_post' post.id %}">edit post</a>
-            -->
+                <a class="btn btn-theme w-50" href="{% url 'edit_post' post.id %}">edit post</a>
+                <button type="button" class="btn btn-theme w-50 float-right" data-toggle="modal" data-target="#centerconsole2" onclick="document.getElementById('delete').href = '{{p}}'">delete</button>
             </div>
             {% endif %}
         </div>
@@ -208,10 +194,10 @@
         {% endfor %}
         <div class="text-center">
         {% if page_num > 1 %}
-            <a href="{% url 'project' project.id sort page_num|add:'-1' %}"><button id="prev" class="btn bg-light text-secondary border">prev</button></a>
+            <a href="{% url 'project' project.id sort page_num|add:'-1' %}"><button id="prev" class="btn btn-theme">prev</button></a>
         {% endif %}
         {% if next %}
-            <a href="{% url 'project' project.id sort page_num|add:'1' %}"><button id="next" class="btn bg-light text-secondary border">next</button></a>
+            <a href="{% url 'project' project.id sort page_num|add:'1' %}"><button id="next" class="btn btn-theme">next</button></a>
         {% endif %}
         </div>
     </div>  

@@ -1,79 +1,79 @@
 <div id='project_list'>
-  <div>
+  <div class="text-theme">
     {% load cur_range %}
     {% with c=projects|length|add:'-1' cur=page_num|cur_range:total %}
     <p class="float-right">{{cur}}{% if cur != '0' %}-{{cur|add:c}}{% endif %} of {{total}}</p>
     {% endwith %}
   </div>
   <div class="dropdown">
-    <button class="nav-link btn bg-light text-secondary dropdown-toggle border" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">{{ sort }}</button>
-    <div class="dropdown-menu light-g" aria-labelledby="dropdownMenuButton">
+    <button class="nav-link btn alt-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">{{ sort }}</button>
+    <div class="dropdown-menu theme" aria-labelledby="dropdownMenuButton">
       {% if sort == 'title' %}
         {% with "-title" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button">-title</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-theme" type="button">-title</button></a>
         {% endwith %}
       {% else %} 
         {% with "title" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button">title</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-theme" type="button">title</button></a>
         {% endwith %}
       {% endif %}
       {% if sort == '-date_added' %}
         {% with "date_added" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button">-created</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-theme" type="button">-created</button></a>
         {% endwith %}
       {% else %}
         {% with "-date_added" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button">created</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-theme" type="button">created</button></a>
         {% endwith %}
       {% endif %}
       {% if sort == '-date_edited' %}
         {% with "date_edited" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button">-edited</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-theme" type="button">-edited</button></a>
         {% endwith %}
       {% else %}
         {% with "-date_edited" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button">edited</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-theme" type="button">edited</button></a>
         {% endwith %}
       {% endif %}
       {% if sort == "-post_num" %}
         {% with "post_num" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button">-# of posts</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-theme" type="button">-# of posts</button></a>
         {% endwith %}
       {% else %}
         {% with "-post_num" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button"># of posts</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-theme" type="button"># of posts</button></a>
         {% endwith %}
       {% endif %}
       {% if sort == "-public" %}
         {% with "public" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button">-public</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-theme" type="button">-public</button></a>
         {% endwith %}
       {% else %}
         {% with "-public" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button">public</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-theme" type="button">public</button></a>
         {% endwith %}
       {% endif %}
     </div>
     <div class="text-center">
     {% if page_num > 1 %}
-      <a href="{% url 'projects' public sort page_num|add:'-1' %}"><button id="prev" class="btn bg-light text-secondary border">prev</button></a>
+      <a href="{% url 'projects' public sort page_num|add:'-1' %}"><button id="prev" class="btn">prev</button></a>
     {% endif %}
     {% if next %}
-      <a href="{% url 'projects' public sort page_num|add:'1' %}"><button id="next" class="btn bg-light text-secondary border">next</button></a>
+      <a href="{% url 'projects' public sort page_num|add:'1' %}"><button id="next" class="btn alt-btn">next</button></a>
     {% endif %}
     </div>
   </div>
   {% load tz %}
   {% for project in projects %}
-  <div class="card my-3" style="border-color: #919090;">
-    <div class="card-header light-g p-1">
+  <div class="card my-3">
+    <div class="card-header p-1">
       <h5 class="card-title">
         <div class="d-inline">
           <div class="float-left project mt-3">
             {% if project.url %}
-            <a class="text-secondary mr-2" href="{{project.url}}">{{ project }}</a>
+            <a class="mr-2 b-link" href="{{ project.url }}">{{ project }}</a>
             {% else %}
-            <a class="text-secondary mr-2" href="{% url 'project' project.id %}">{{ project }}</a>
+            <a class="mr-2 b-link" href="{% url 'project' project.id %}">{{ project }}</a>
             {% endif %} 
           </div>
           <div class="float-right mt-1">
@@ -88,25 +88,34 @@
             {% else %}
             <p class="d-inline-block mt-2 text-secondary">Private</p>
             {% endif %}
-            <a class="btn bg-light text-secondary float-right ml-3" href="{% url 'edit_project' project.id %}">edit project</a>
-            <a class="btn bg-light text-secondary float-right ml-3" href="{% url 'new_post' project.id %}">new post</a>
-            {% endif %}
+            <a class="btn alt-btn float-right ml-3" href="{% url 'edit_project' project.id %}">edit project</a>
+            <a class="btn alt-btn float-right ml-3" href="{% url 'new_post' project.id %}">new post</a>
+          </div>
+          {% endif %}
         </div>
       </h5>
     </div>
     {% if project.banner or project.banner_path or project.text %}
       {% if project.banner %}
-      <div class="card-body px-1">
-        <a href="{% url 'project' project.id %}"><img class="mw-100 mx-auto d-block rounded" src="{{ project.banner.url }}" alt="My image"></a>
+      <div class="card-body px-1 theme">
+        {% if project.url %}
+        <a href="{{ project.url }}"><img class="mw-100 mx-auto d-block rounded" src="{{ project.banner_pp }}" alt="My image"></a>
+        {% else %}
+        <a href="{% url 'project' project.id %}"><img class="mw-100 mx-auto d-block rounded" src="{{ project.banner_pp }}" alt="My image"></a>
+        {% endif %}
       </div>
       {% elif project.banner_path %}
-      <div class="card-body px-1">
+      <div class="card-body px-1 theme">
+        {% if project.url %}
+        <a href="{{ project.url }}"><img class="mw-100 mx-auto d-block rounded" src="{{ project.banner_p }}" alt="My image"></a>
+        {% else %}
         <a href="{% url 'project' project.id %}"><img class="mw-100 mx-auto d-block rounded" src="{{ project.banner_p }}" alt="My image"></a>
+        {% endif %}
       </div>
       {% endif %}
       {% if project.text %}
-       <div class="card-body"> 
-        <p class="card-text">{{ project.text }}</p>
+       <div class="card-body theme"> 
+        <p class="card-text text-theme">{{ project.text }}</p>
       </div>
       {% endif %}
     {% endif %}
@@ -116,10 +125,10 @@
   {% endfor %}
   <div class="text-center">
   {% if page_num > 1 %}
-    <a href="{% url 'projects' public sort page_num|add:'-1' %}"><button id="prev" class="btn bg-light text-secondary border">prev</button></a>
+    <a href="{% url 'projects' public sort page_num|add:'-1' %}"><button id="prev" class="btn btn-theme">prev</button></a>
   {% endif %}
   {% if next %}
-    <a href="{% url 'projects' public sort page_num|add:'1' %}"><button id="next" class="btn bg-light text-secondary border">next</button></a>
+    <a href="{% url 'projects' public sort page_num|add:'1' %}"><button id="next" class="btn btn-theme">next</button></a>
   {% endif %}
   </div>
   <script>

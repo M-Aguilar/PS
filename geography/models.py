@@ -10,12 +10,12 @@ class Projector(models.Model):
 #WHAT IS GOING ON!!! I FOUND THE PROBLEM. This may need to be changed for the regular server
 def user_directory_path(instance, filename):
     try:
-        return '/user_{0}/{1}/{2}'.format(instance.project.owner.id, instance.project.id, filename)
+        return settings.MEDIA_ROOT + '/user_{0}/{1}/{2}'.format(instance.project.owner.id, instance.project.id, filename)
     except AttributeError:
         print("Attribute Error 1")
         pass
     try:
-        return '/user_{0}/{1}/{2}'.format(instance.owner.id, 'banner', filename)
+        return settings.MEDIA_ROOT + '/user_{0}/{1}/{2}'.format(instance.owner.id, 'banner', filename)
     except AttributeError:
         print("Attribute Error 2")
         pass
@@ -37,6 +37,8 @@ class Project(models.Model):
     def __str__(self):
         return self.title
 
+    def banner_pp(self):
+        return str(self.banner)[str(self.banner).index(settings.MEDIA_URL):]
     #this is the answer
     def banner_p(self):
         return self.banner_path[self.banner_path.index(settings.MEDIA_URL):]

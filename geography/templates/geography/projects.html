@@ -10,9 +10,9 @@
 {% endblock %}
 
 {% block content %}
-<div class="jumbotron pt-4 pb-4">
+<div class="jumbotron pt-4 pb-4 theme">
   <div class="d-inline-block w-100">
-    <h2 class="display-4 text-center d-block">
+    <h2 class="display-4 text-center text-theme d-block">
     {% if public == 'public' %}
     All Public
     {% elif request.user.is_authenticated and request.user == public %} 
@@ -21,7 +21,7 @@
     {{ public }}'s Public
     {% endif %} Projects
     {% if request.user.is_authenticated and user.projector.admin and request.user == public %}
-    <a class="btn btn-dark float-right my-3 text-secondary bg-light border-0" href="{% url 'new_project' %}">new project</a>
+    <a class="btn btn-theme float-right my-3 border-0" href="{% url 'new_project' %}">new project</a>
     {% endif %}  
     </h2>
   </div>

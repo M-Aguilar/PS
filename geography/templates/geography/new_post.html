@@ -4,15 +4,15 @@
 {% block title %}New Post{% endblock %}
 
 {% block content %}
-    <div class="container">
-    	<div class="jumbotron pt-4 pb-3">
-    		<h5 class='lead'><a class="mr-2 text-secondary" href="{% url 'project' project.id %}">{{ project }}</a>New Post</h5>
+    <div class="container text-theme">
+    	<div class="jumbotron blank pt-4 pb-3">
+    		<h5 class='lead'><a class="mr-2 theme-link" href="{% url 'project' project.id %}">{{ project }}</a>New Post</h5>
     	</div>
     	<form action="{% url 'new_post' project.id %}" method='post' enctype="multipart/form-data" oninput="char_count()">
         	{% csrf_token %}
        		{% bootstrap_form form %}
         	<div class="d-inline">
-                <button class="btn btn-dark mt-3" name='submit'>Submit</button>
+                <button class="btn btn-theme mt-3" name='submit'>Submit</button>
                 <div id="counter" class="float-right">
                 </div>
             </div>

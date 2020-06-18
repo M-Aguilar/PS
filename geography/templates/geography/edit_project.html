@@ -4,8 +4,8 @@
 {% block title %}Edit Project{% endblock %}
 
 {% block header %}
-	<div class="jumbotron pt-4 pb-3">
-		<h2>Edit Project <a class="text-secondary ml-2" href="{% url 'project' project.id %}">{{ project }}</a></h2>
+	<div class="jumbotron blank pt-4 pb-3">
+		<h2>Edit Project <a class="ml-2 theme-link" href="{% url 'project' project.id %}">{{ project }}</a></h2>
 		<hr>
 		{% load tz %}
 		<div>
@@ -15,28 +15,28 @@
 	</div>
 {% endblock %}
 {% block content %}
-    <div class="container">
+    <div class="container text-theme">
 	    <form action="{% url 'edit_project' project.id %}" enctype="multipart/form-data" method='post' oninput="char_count()">
     	    {% csrf_token %}
     	    {% bootstrap_form form %}
     		<div class="d-inline">
-                <button name="submit" class="btn bg-light text-dark border mr-auto mt-3">save changes</button>
-                <a href="" class="btn bg-light text-dark border mr-auto mt-3" data-toggle="modal" data-target="#centerconsole">delete project</a>
+                <button name="submit" class="btn btn-theme mr-auto mt-3">save changes</button>
+                <a href="" class="btn btn-theme mr-auto mt-3" data-toggle="modal" data-target="#centerconsole">delete project</a>
                 <div class="modal fade" id="centerconsole" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
+                        <div class="modal-content blank">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="modalDeleteProject">Confirm</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                                    <span class="text-theme" aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
                                 Please confirm that you would like to remove this project.    
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn light-g" data-dismiss="modal">Cancel</button>
-                                <a href="{% url 'delete_project' project.id %}"><button type="button" class="btn light-g">Confirm</button></a>
+                                <button type="button" class="btn btn-theme" data-dismiss="modal">Cancel</button>
+                                <a href="{% url 'delete_project' project.id %}"><button type="button" class="btn btn-theme">Confirm</button></a>
                             </div>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
         </div>
         {% elif project.banner %}
         <div class="card-body">
-            <img id="preview" src="{{ project.banner.url }}" class="mw-100 mx-auto d-block rounded" alt="No Image">
+            <img id="preview" src="{{ project.banner_pp }}" class="mw-100 mx-auto d-block rounded" alt="No Image">
         </div>
         {% else %}
             <img id="preview" src="" class="mw-100 mx-auto d-block rounded" alt="No Image">
