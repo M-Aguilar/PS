@@ -88,7 +88,7 @@ nav.navbar {
 		--highlight:#4d4dff;
 	}
 	body {
-		background-color:var(--blank)
+		background-color:var(--blank);
 		color:var(--text-color);
 	}
 
@@ -163,7 +163,7 @@ a.car-item:hover {
 	div.scope {
 		width:98vw;
 		margin: 2vh 1vw 0 1vw;
-		padding-bottom: 50px
+		padding-bottom: 50px;q
 	}
 	/*as related to games 
 	*/
@@ -177,7 +177,7 @@ a.car-item:hover {
 	nav.navbar {
 		padding:0;
 	}
-
+	
 	li.nav-item a.nav-link {
 		padding:10px;
 	}
