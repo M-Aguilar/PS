@@ -9,7 +9,7 @@
         $('[data-toggle="popover"]').popover();
     });
 </script>
-<div class="jumbotron pt-4 pb-4">
+<div class="jumbotron pt-4 pb-4 blank">
   <div class="d-inline-block w-100">
     <h2 class="display-4 text-center d-block">
     Search results for <p name='q'>{{ object_list.q }}</p>
@@ -17,7 +17,7 @@
   </div>
 </div>
 <div class="container">
-    <div>
+    <div class="text-theme">
         <p class="d-inline">{{ object_list.total }} results found.</p>
         {% load cur_range %}
         {% with c=object_list.object_list|length|add:'-1' cur=object_list.page_num|cur_range:object_list.total %}
@@ -30,21 +30,21 @@
         <form action="{% url 'search_results' %}" method='get' class='d-inline'>
             <input name="q" class="form-control d-none" type="search" value='{{ request.GET.q }}'>
             <input name="page_num" class="form-control d-none" type="search" value="{{ object_list.page_num|add:'-1' }}">
-            <button id="prev" class="btn bg-light text-secondary border" type="submit">prev</button>
+            <button id="prev" class="btn alt-btn" type="submit">prev</button>
         </form>
         {% endif %}
         {% if object_list.next %}
         <form action="{% url 'search_results' %}" method='get' class='d-inline'>
             <input name="q" class="form-control d-none" type="search" value='{{ request.GET.q }}'>
             <input name="page_num" class="form-control d-none" type="search" value="{{ object_list.page_num|add:'1' }}">
-            <button id="next" class="btn bg-light text-secondary border" type="submit">next</button>
+            <button id="next" class="btn alt-btn" type="submit">next</button>
         </form>
         {% endif %}
     </div>
     {% for post in object_list.object_list %}
     {% load tz %}
-        <div class="card my-4 border-left border-right border-top-0" style="border-color: #919090;">
-            <div class='card-body p-0 border-top border-dark rounded-top {% if user.is_authenticated and user.projector.admin %}{% if not post.public %} bg-warning {% endif %} bg-{% endif %}'>
+        <div class="card my-4">
+            <div class='card-body p-0 blank rounded-top {% if user.is_authenticated and user.projector.admin %}{% if not post.public %} bg-warning {% endif %} bg-{% endif %}'>
                 <h5 class="card-title my-auto mx-2 px-2">
                     <div class="pop-project float-right">
                         <div data-placement="left" data-toggle="popover" data-trigger="hover" data-content="Last edited {{ post.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ post.date_added|timezone:'America/Los_Angeles'}}<br>Created By: {{ post.project.owner.username }} {% if user.is_authenticated and user.projector.admin %}<br>{% if not post.public %}<p class='text-warning pb-0 mb-0'>Private</p>{% else %}<p class='text-success pb-0 mb-0'>Public</p>{% endif %}{% endif %}" data-html='true'>
@@ -53,9 +53,9 @@
                 </h5>
                 <div class="px-2">
                     {% load highlight %}
-                    <p class="mt-3 title">Project: <a href="{% url 'project' post.project.id %}">{{ post.project|highlight:object_list.q }}</a></p>
+                    <p class="mt-3 title">Project: <a class="text-theme" href="{% url 'project' post.project.id %}">{{ post.project|highlight:object_list.q }}</a></p>
                 {% if post.text %}
-                    <hr>
+                    <hr class="text-back">
                     <p > {{ post.text|highlight:object_list.q|linebreaks|urlize }} </p>
                 {% else %} 
                     <p>No text entry.</p>
@@ -85,8 +85,8 @@
             {% if user.is_authenticated and user.projector.admin %} 
             <div class="w-100">
                 {% url 'delete_post' post.id as p %}
-                <a class="btn btn-light text-dark w-50 border-top" href="{% url 'edit_post' post.id %}">edit post</a>
-                <button type="button" class="btn btn-light text-dark w-50 float-right border-top border-left" data-toggle="modal" data-target="#centerconsole2" onclick="document.getElementById('delete').href = '{{p}}'">delete</button>
+                <a class="btn btn-theme w-50" href="{% url 'edit_post' post.id %}">edit post</a>
+                <button type="button" class="btn btn-theme w-50 float-right" data-toggle="modal" data-target="#centerconsole2" onclick="document.getElementById('delete').href = '{{p}}'">delete</button>
             <!--
                 <a class="btn light-g text-secondary w-50 float-right" href="{% url 'delete_post' post.id %}">delete post</a>
                 <a class="btn light-g text-secondary w-50" href="{% url 'edit_post' post.id %}">edit post</a>
@@ -102,16 +102,16 @@
             <form action="{% url 'search_results' %}" method='get' class='d-inline'>
                 <input name="q" class="form-control d-none" type="search" value='{{ request.GET.q }}'>
                 <input name="page_num" class="form-control d-none" type="search" value="{{ object_list.page_num|add:'-1' }}">
-                <button id="prev" class="btn bg-light text-secondary border" type="submit">prev</button>
+                <button id="prev" class="btn btn-theme" type="submit">prev</button>
             </form>
             {% endif %}
             {% if object_list.next %}
             <form action="{% url 'search_results' %}" method='get' class='d-inline'>
                 <input name="q" class="form-control d-none" type="search" value='{{ request.GET.q }}'>
                 <input name="page_num" class="form-control d-none" type="search" value="{{ object_list.page_num|add:'1' }}">
-                <button id="next" class="btn bg-light text-secondary border" type="submit">next</button>
+                <button id="next" class="btn btn-theme" type="submit">next</button>
             </form>
-        {% endif %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

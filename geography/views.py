@@ -24,7 +24,6 @@ class SearchResultsView(ListView):
         page_num = self.request.GET.get('page_num')
         if not page_num:
             page_num=0
-
         #if not logged in.
         if self.request.user.is_authenticated:
             object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__owner__username__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query), Q(public=True) | Q(project__owner=self.request.user))

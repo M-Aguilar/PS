@@ -49,14 +49,14 @@ var canvas = {
 		this.n.setAttribute('class','d-block pb-5 w-100 d-md-flex justify-content-md-between');
 		document.getElementById('main-view').appendChild(this.n);
 		this.p.setAttribute('id', 'prompt');
-		this.p.setAttribute('class', 'jumbotron py-2');
+		this.p.setAttribute('class', 'jumbotron theme py-2');
 		this.s.setAttribute('class', 'float-right');
 		this.a.setAttribute('id', 'a');
 		this.a.setAttribute('style', 'font-family: Segoe UI Emoji');
 		var i;
 		for(i = 0; i < 4; i++) {
 			var button = document.createElement('BUTTON');
-			button.setAttribute('class','btn light-g btn-light my-2');
+			button.setAttribute('class','btn btn-theme my-2');
 			this.n.appendChild(button);
 			this.buttons.push(button);
 		}
@@ -113,7 +113,7 @@ var canvas = {
 		var i;
 		for(i = 0; i < this.buttons.length; i++) {
 			if (this.buttons[i].getAttribute('class').search('disabled') > -1) {
-				this.buttons[i].setAttribute("class", "btn light-g btn-light my-2");
+				this.buttons[i].setAttribute("class", "btn btn-theme my-2");
 				this.buttons[i].setAttribute('onclick','canvas.submit('.concat(i,')'));
 			} else {
 				if (answer == i) {

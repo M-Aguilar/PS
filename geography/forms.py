@@ -7,8 +7,10 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ['title', 'text', 'public','url','banner','banner_path']
-        labels = {'text': 'Description', 'banner_path':''}
+        labels = {'text': 'Description', 'banner_path':'', 'banner':''}
 
+
+        #currently unused
         def banner_choices():
             return [widgets['banner'], widget['banner_path']]
 

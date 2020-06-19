@@ -3,7 +3,7 @@
 {% block title %}Edit Game{% endblock %}
 
 {% block header %}
-	<div class="jumbotron bg-danger">
+	<div class="jumbotron blank">
 		<div class="display-4">
 			<p>Edit Game: {{ game }}</p>
 		</div>
@@ -11,11 +11,11 @@
 {% endblock %}
 
 {% block content%}
-	<form action="{% url 'edit_game' game.path %}" enctype="multipart/form-data" method='post' oninput="char_count()">
+	<form class="text-theme" action="{% url 'edit_game' game.path %}" enctype="multipart/form-data" method='post' oninput="char_count()">
     	    {% csrf_token %}
     	    {% bootstrap_form form %}
     	   	<div class="d-inline">
-				<button name="submit" class="btn btn-dark mr-auto mt-3">save changes</button>
+				<button name="submit" class="btn btn-theme mr-auto mt-3">save changes</button>
     			<div id="counter" class="float-right">
     			</div>
     		</div>

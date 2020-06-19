@@ -2,17 +2,17 @@
 {% load bootstrap4 %}
 
 {% block header %}
-	<div class="jumbotron pt-4 pb-3">
+	<div class="jumbotron pt-4 pb-3 theme">
 		<h2>Log in to your account.</h2>
 	</div>
 {% endblock %}
 
 {% block content %}
-    <form method="post" action="{% url 'login' %}" class="form">
+    <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
         {% bootstrap_form form %}
         {% buttons %}
-        <button name="submit" class="btn btn-dark">log in</buttons>
+        <button name="submit" class="btn btn-theme">log in</button>
         {% endbuttons %}
         <input type="hidden" name="next" value="{% url 'index' %}" />
     </form>

@@ -1,23 +1,18 @@
+:root {
+	--theme-color:#003b75;
+	--text-color:black;
+	--theme-color2: #fc0352;
+	--blank: #e6f2ff;
+	--highlight: yellow;
+	--secondary-th: #8c1aff;
+}
+
 html,body {
 	height:100%;
 	margin:0;
 	padding:0;
 	position:relative;
 }
- /*in the search place*/
-.title {
-	font-size: 20px;
-}
-
-/*--SEARCH------*/
-div.col input.form-control {
-	border-radius: 15px 0 0 15px;
-}
-
-div.search-b button {
-		border-radius: 0 15px 15px 0;
-}
-/*-----------------*/
 
 div.main-container {
 	position:absolute;
@@ -26,6 +21,46 @@ div.main-container {
 	width: 100%;
 	margin:0;
 	padding:0;
+	background-image: linear-gradient(var(--theme-color),rgba(255,255,255,1));
+}
+
+.t-white, a.navbar-brand {
+	color:white;
+}
+
+.text-back {
+	background-color: var(--text-color);
+}
+
+.theme-link {
+	color:var(--secondary-th);
+}
+
+.theme-color, a.text-theme:hover {
+	color:var(--theme-color);
+}
+
+.b-link, .text-theme, .theme-link:hover{
+	color:var(--text-color);
+}
+
+.b-link:hover {
+	color:#b3d9ff;
+}
+
+.blank, .theme, .bar-theme, .alt-btn {
+	background-color: var(--blank);
+	color: var(--text-color);
+}
+
+.alt-btn:hover, .btn-theme:hover{
+	background-color: var(--text-color);
+	color:var(--blank)
+}
+
+.btn-theme {
+	background-color:var(--theme-color);
+	color:white;
 }
 
 div.scope {
@@ -33,6 +68,60 @@ div.scope {
 	margin: 5vh 10vw 5vh 10vw;
 	padding-bottom: 50px;
 }
+
+a:hover {
+	text-decoration: none;
+}
+
+/*-------NAVBAR/DROPDOWN----------*/
+
+
+nav.navbar {
+	min-height:50px;
+}
+
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--text-color:#e6f2ff;
+		--blank:black;
+		--highlight:#4d4dff;
+	}
+	body {
+		background-color:var(--blank);
+		color:var(--text-color);
+	}
+
+	div.main-container {
+		background-image: linear-gradient(var(--theme-color),rgba(0,0,0,1));
+	}
+
+	.info {
+		border:none;
+		border-radius:50%;
+		font-size: 11px;
+		font-weight: bold;
+		text-align: center;
+		padding: 1px 5px;
+	}
+
+}
+
+/*--SEARCH------*/
+ /*in the search place*/
+.title {
+	font-size: 20px;
+}
+
+div.col input.form-control {
+	border-radius: 15px 0 0 15px;
+}
+
+div.search-b button {
+	border-radius: 0 15px 15px 0;
+}
+
+/*-------COUROSELITEM----------*/
 
 a.car-item:hover {
 	background-color:grey;
@@ -52,11 +141,6 @@ a.car-item:hover {
 
 /* As related to games specifically*/
 
-a.game-link:hover {
-	text-decoration: none;
-	background-color: #5a6268;
-}
-
 .game_d {
 	font-size: 30px;
 	font-family: "Courier New", Courier, monospace;
@@ -73,45 +157,13 @@ a.game-link:hover {
 }
 
 
-/*-------NAVBAR/DROPDOWN----------*/
-nav.navbar {
-	min-height:50px;
-}
-
-#p-link {
-	text-decoration: none;
-}
-
-a.nav-link.active {
-	background-color: #343a40;
-}
-
-div.dropdown-menu a.nav-link:hover {
-	background-color:#003b75;
-
-}
-
-li.nav-item a.nav-link {
-	background-color: #343a40;	
-	padding-left: 5px;
-}
-
-div.dropdown-menu a.nav-link {
-	padding-left: 5px;
-}
-
-.dropdown-menu a.nav-link:link {
-	background-color: #343a40;
-	color: #e6e6e6;	
-}
-
 /*--------SMALL SCREEN---------*/
 
 @media screen and (max-width: 768px) {
 	div.scope {
 		width:98vw;
 		margin: 2vh 1vw 0 1vw;
-		padding-bottom: 50px
+		padding-bottom: 50px;q
 	}
 	/*as related to games 
 	*/
@@ -121,12 +173,34 @@ div.dropdown-menu a.nav-link {
 }
 
 @media screen and (max-width: 992px) {
+
+	nav.navbar {
+		padding:0;
+	}
+	
+	li.nav-item a.nav-link {
+		padding:10px;
+	}
+
 	a.nav-link:hover {
-		background-color:#003b75;
+		background-color:var(--theme-color);
+		border-radius: 5px;
 	}
 
 	li.nav-item a.nav-link:hover {
-		background-color: #003b75;
+		background-color: var(--theme-color);
+	}
+
+	.navbar-brand {
+		padding:10px;
+	}
+
+	button.navbar-toggler {
+		margin-right:10px;
+	}
+
+	.search {
+		margin:10px;
 	}
 
 }
@@ -135,6 +209,11 @@ div.dropdown-menu a.nav-link {
 
 	.dropdown-menu a.nav-link {
 		margin-bottom: 7%;
+		background-color: var(--blank);
+		color:var(--text-color);
+	}
+	.dropdown-menu a.nav-link:hover {
+		background-color: var(--theme-color);
 	}
 }
 
@@ -142,18 +221,14 @@ div.dropdown-menu a.nav-link {
 /*--------FOOTER---------*/
 
 div.footer footer {
+	margin-bottom: 0;
 	position: absolute;
 	bottom:0;
-	height:35px;
+	height:36px;
 	width:100vw;
 	display:flex;
 	justify-content: space-between;
-	background-color: #696969;
 	border-top:2px black solid;
-}
-
-footer a:link {
-	color: white;
 }
 
 footer a:visited {
@@ -161,35 +236,29 @@ footer a:visited {
 }
 
 .highlight {
-	background-color: yellow;
+	background-color: var(--highlight);
 }
 
 footer a:hover {
-	background-color: black;
+	filter:blur(1px);
 }
-footer a:active {
-	color:yellow;
-}
+
 footer a {
+	background-color: black;
 	text-align: center;
 	height:100%;
 	width:25%;
 }
+/*--------PROJECTS AND POSTS ---------*/
 
-/*-----------------*/
-
-/*--------LIGHT GREY---------*/
-.light-g {
-	background-color:#e6e6e6;
+.card {
+	border-color:var(--theme-color);
+	background-color: transparent;
 }
 
-.light-g-text {
-	color:#e6e6e6;
-}
-
-/*-----------------*/
-.jumbotron {
-	border:black 1px solid;
+.card-header {
+	background-color: var(--theme-color);
+	border-style: none;
 }
 
 .project {
@@ -200,6 +269,17 @@ footer a {
 	margin-top:5px;
 }
 
+.popover-header {
+	background-color: var(--theme-color);
+	color:var(--text-color);
+}
+
+.popover-body {
+	background-color: var(--blank);
+	color:var(--text-color);
+}
+
+
 .pop-projects {
 	margin: auto 10px 0 4px;
 }
@@ -207,12 +287,11 @@ footer a {
 .info {
 	border:none;
 	border-radius:50%;
-	background-color: black;
-	font-size: 11px;
+	background-color: var(--text-color);
+	font-size: 12px;
 	font-weight: bold;
-	text-align: center;
-	color:white;
-	padding: 1px 5px;
+	color:var(--blank);
+	padding: 0px 5px;
 }
 
 .popover {

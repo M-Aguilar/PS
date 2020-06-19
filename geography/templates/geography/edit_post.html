@@ -4,9 +4,9 @@
 {% block title %}Edit Post{% endblock %}
 
 {% block header %}
-	<div class="jumbotron pt-4 pb-3">
+	<div class="jumbotron blank pt-4 pb-3">
        <div class='d-block'>
-            <h2 class="float-right">Project <a class="text-secondary ml-2" href="{% url 'project' project.id %}">{{ project }}</a></h2>
+            <h2 class="float-right">Project <a class="theme-link ml-2" href="{% url 'project' project.id %}">{{ project }}</a></h2>
             <h1>Edit Post</h1>
 		</div>
         <hr>
@@ -20,28 +20,28 @@
 	</div>
 {% endblock %}
 {% block content %}
-    <div class="container">
+    <div class="container text-theme">
 	    <form action="{% url 'edit_post' post.id %}" enctype="multipart/form-data" method='post' oninput="char_count()">
     	    {% csrf_token %}
     	    {% bootstrap_form form %}
             <div class="d-inline">
-                <button name="submit" class="btn btn-dark mr-auto my-3">save changes</button>
-                <a href="" class="btn btn-dark mr-auto my-3" data-toggle="modal" data-target="#centerconsole">delete post</a>
+                <button name="submit" class="btn btn-theme mr-auto my-3">save changes</button>
+                <a href="" class="btn btn-theme mr-auto my-3" data-toggle="modal" data-target="#centerconsole">delete post</a>
                 <div class="modal fade" id="centerconsole" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
+                        <div class="modal-content blank">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="modalDeleteProject">Confirm</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                                    <span class="text-theme" aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
                                 Please confirm that you would like to remove this post.    
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn light-g" data-dismiss="modal">Cancel</button>
-                                <a href="{% url 'delete_post' post.id %}"><button type="button" class="btn light-g">Confirm</button></a>
+                                <button type="button" class="btn btn-theme" data-dismiss="modal">Cancel</button>
+                                <a href="{% url 'delete_post' post.id %}"><button type="button" class="btn btn-theme">Confirm</button></a>
                             </div>
                         </div>
                     </div>
