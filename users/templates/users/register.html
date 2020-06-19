@@ -2,7 +2,7 @@
 {% load bootstrap4 %}
 
 {% block header %}
-	<div class="jumbotron pt-4 pb-3">
+	<div class="jumbotron pt-4 pb-3 blank">
 		<h2>Register an Account</h2>
 	</div>
 {% endblock %}
@@ -12,8 +12,8 @@
         {% csrf_token %}
         {% bootstrap_form form %}
         {% buttons %}
-        <button name="submit" class="btn btn-dark">register</button>
+        <button name="submit" class="btn btn-theme">register</button>
         {% endbuttons %}
-        <input type="hidden" name="next" value="{% url 'index' %}" />
+        <input type="hidden" name="next" value="{% url 'index' %}"/>
     </form>
 {% endblock %}
