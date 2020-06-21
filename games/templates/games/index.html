@@ -21,17 +21,13 @@
 		<h4>Here are a list of games!</h4>
 	</div>
 	{% for game in games %}
-	<div class="card lead">
- 		<a class="btn-theme" href="{% url 'game' game.path %}">
- 		 	<div class="card-body py-2">
-				{{ game }}
-    			<div class="float-right">High Score: Moi: 100%
-    			</div>
-    			<div class="float-right mr-4">Rating: 3.5/5 
-    			</div>
-	  		</div>
-	  	</a>	
-	</div>
+	<a class="lead" href="{% url 'game' game.path %}">
+		<div class='rounded alt-btn p-2'>
+			{{ game }}
+	    	<p class="float-right">High Score: Moi: 100%</p>
+    		<p class="float-right mr-4">Rating: 3.5/5</p>
+   		</div>
+   	</a>	
 	{% empty %}
 		There are no games
 	{% endfor %}

@@ -24,7 +24,7 @@ div.main-container {
 	background-image: linear-gradient(var(--theme-color),rgba(255,255,255,1));
 }
 
-.t-white, a.navbar-brand {
+.t-white, a.navbar-brand, .t-link {
 	color:white;
 }
 
@@ -32,23 +32,23 @@ div.main-container {
 	background-color: var(--text-color);
 }
 
-.theme-link {
-	color:var(--secondary-th);
-}
-
 .theme-color, a.text-theme:hover {
 	color:var(--theme-color);
+}
+
+.theme-link {
+	color:var(--secondary-th);
 }
 
 .b-link, .text-theme, .theme-link:hover{
 	color:var(--text-color);
 }
 
-.b-link:hover {
+.b-link:hover, .t-link:hover{
 	color:#b3d9ff;
 }
 
-.blank, .theme, .bar-theme, .alt-btn {
+.blank, .theme, .bar-theme, .alt-btn, .card-body{
 	background-color: var(--blank);
 	color: var(--text-color);
 }
