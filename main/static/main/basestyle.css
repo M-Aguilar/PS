@@ -152,8 +152,13 @@ a.car-item:hover {
 	font-size: 25vw;
 }
 
-#prompt p {
-	display:inline;
+div#prompt {
+	display:inline-block;
+	width:100%;
+}
+
+#prompt p{
+	display: inline;
 }
 
 
@@ -163,7 +168,7 @@ a.car-item:hover {
 	div.scope {
 		width:98vw;
 		margin: 2vh 1vw 0 1vw;
-		padding-bottom: 50px;q
+		padding-bottom: 50px;
 	}
 	/*as related to games 
 	*/
@@ -261,9 +266,6 @@ footer a {
 	border-style: none;
 }
 
-.project {
-	margin:1% 1%;
-}
 
 .pop-project {
 	margin-top:5px;

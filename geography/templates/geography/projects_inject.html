@@ -69,7 +69,7 @@
     <div class="card-header p-1">
       <h5 class="card-title">
         <div class="d-inline">
-          <div class="float-left project mt-3-lg">
+          <div class="float-left mt-3 ml-2">
             {% if project.url %}
             <a class="mr-2 t-link" href="{{project.url}}">{{ project }}</a>
             {% else %}
@@ -94,18 +94,14 @@
         </div>
       </h5>
     </div>
-    {% if project.banner %}
-    <div class="card-body">
-      <a href="{% url 'project' project.id %}"><img class="mw-100 mx-auto d-block rounded-bottom" src="{{ project.banner.url }}" alt="My image"></a>
-    </div>
-    {% elif project.banner_path %}
+    {% if project.banner or project.banner_path %}
     <div class="card-body p-0">
-      <a href="{% url 'project' project.id %}"><img class="mw-100 mx-auto d-block rounded-bottom" src="{{ project.banner_p }}" alt="My image"></a>
+      <a href="{% url 'project' project.id %}"><img class="mw-100 d-block rounded-bottom" src="{{ project.banner_p }}" alt="My image"></a>
     </div>
     {% endif %}
     {% if project.text %}
     <div class="card-body rounded-bottom"> 
-      <p class="card-text">{{ project.text }}</p>
+      <p>{{ project.text }}</p>
     </div>
     {% endif %}
   </div>

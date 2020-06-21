@@ -37,11 +37,12 @@ class Project(models.Model):
     def __str__(self):
         return self.title
 
-    def banner_pp(self):
-        return str(self.banner)[str(self.banner).index(settings.MEDIA_URL):]
     #this is the answer
     def banner_p(self):
-        return self.banner_path[self.banner_path.index(settings.MEDIA_URL):]
+        if self.banner:
+            return str(self.banner)[str(self.banner).index(settings.MEDIA_URL):]
+        elif self.banner_path:
+            return self.banner_path[self.banner_path.index(settings.MEDIA_URL):]
 '''
     def images_path(self):
         if settings.DEBUG:
@@ -69,10 +70,20 @@ class Post(models.Model):
         verbose_name_plural = 'posts'
 
     def image_p(self):
-        return self.image_path[self.image_path.index(settings.MEDIA_URL):]
+        print(self.image)
+        if self.image:
+            if settings.DEBUG:
+                return "/media/" + str(self.image) 
+            else:
+                return self.image
+        elif self.image_path:
+            return self.image_path[self.image_path.index(settings.MEDIA_URL):]
     
     def pdf_p(self):
-        return self.pdf_path[self.pdf_path.index(settings.MEDIA_URL):]
+        if self.pdf:
+            return self.pdf
+        elif self.pdf_path:
+            return self.pdf_path[self.pdf_path.index(settings.MEDIA_URL):]
 
     def __str__(self):
         return self.text[:50] + "..."

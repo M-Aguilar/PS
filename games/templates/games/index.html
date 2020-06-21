@@ -24,8 +24,9 @@
 	<a class="lead" href="{% url 'game' game.path %}">
 		<div class='rounded alt-btn p-2'>
 			{{ game }}
-	    	<p class="float-right">High Score: Moi: 100%</p>
-    		<p class="float-right mr-4">Rating: 3.5/5</p>
+			<div class="float-right">
+		    	<p>Rating: 3.5/5</p>
+    		</div>
    		</div>
    	</a>	
 	{% empty %}
