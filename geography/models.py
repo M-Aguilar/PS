@@ -43,7 +43,7 @@ class Project(models.Model):
             if settings.DEBUG:
                 return str(self.banner)[str(self.banner).index(settings.MEDIA_URL):]
             else:
-                return self.banner
+                return self.banner.url
         elif self.banner_path:
             return self.banner_path[self.banner_path.index(settings.MEDIA_URL):]
 '''
@@ -78,13 +78,15 @@ class Post(models.Model):
             if settings.DEBUG:
                 return "/media/" + str(self.image) 
             else:
-                return self.image
+                return self.image.url
         elif self.image_path:
             return self.image_path[self.image_path.index(settings.MEDIA_URL):]
     
     def pdf_p(self):
         if self.pdf:
-            return self.pdf
+            if settings.DEBUG:
+                return "/media/" + str(self.pdf)
+            return self.pdf.url
         elif self.pdf_path:
             return self.pdf_path[self.pdf_path.index(settings.MEDIA_URL):]
 
