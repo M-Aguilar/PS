@@ -73,12 +73,11 @@ class Post(models.Model):
         verbose_name_plural = 'posts'
 
     def image_p(self):
-        print(self.image)
         if self.image:
             if settings.DEBUG:
                 return "/media/" + str(self.image) 
             else:
-                return self.image.url
+                return str(self.image)[str(self.image).index(settings.MEDIA_URL):]
         elif self.image_path:
             return self.image_path[self.image_path.index(settings.MEDIA_URL):]
     
@@ -86,7 +85,7 @@ class Post(models.Model):
         if self.pdf:
             if settings.DEBUG:
                 return "/media/" + str(self.pdf)
-            return self.pdf.url
+            return str(self.pdf)[str(self.pdf).index(settings.MEDIA_URL):]
         elif self.pdf_path:
             return self.pdf_path[self.pdf_path.index(settings.MEDIA_URL):]
 

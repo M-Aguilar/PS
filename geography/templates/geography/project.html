@@ -156,8 +156,6 @@
                 <div class="my-4 mx-3 text-theme">
                 {% if post.text %}
                     <p > {{ post.text|linebreaks|urlize }} </p>
-                {% else %} 
-                    <p>No text entry.</p>
                 {% endif %}
                 </div>
                 {% if post.image or post.image_path %}
@@ -165,12 +163,7 @@
                     <img class="mw-100 mx-auto d-block" src="{{ post.image_p }}" alt="My image">
                 </div>
                 {% endif %}
-                {% if post.pdf %}
-                <div>
-                    <iframe src="https://docs.google.com/viewer?url={{ post.pdf.url }}&embedded=true" frameborder="0" height="500px" width="100%"></iframe>
-                </div>
-                {% endif %}
-                {% if post.pdf_path %}
+                {% if post.pdf or post.pdf_path %}
                 <div>
                     <iframe src="https://docs.google.com/viewer?url={{ post.pdf_p }}&embedded=true" frameborder="0" height="500px" width="100%"></iframe>
                 </div>

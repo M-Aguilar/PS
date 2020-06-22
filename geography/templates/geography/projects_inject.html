@@ -96,7 +96,11 @@
     </div>
     {% if project.banner or project.banner_path %}
     <div class="card-body p-0">
-      <a href="{% url 'project' project.id %}"><img class="mw-100 d-block rounded-bottom" src="{{ project.banner_p }}" alt="My image"></a>
+      {% if project.url %}
+        <a href="{{ project.url }}"><img class="mw-100 d-block rounded-bottom" src="{{ project.banner_p }}" alt="My image"></a>
+      {% else %} 
+        <a href="{% url 'project' project.id %}"><img class="mw-100 d-block rounded-bottom" src="{{ project.banner_p }}" alt="My image"></a>
+      {% endif %}
     </div>
     {% endif %}
     {% if project.text %}
