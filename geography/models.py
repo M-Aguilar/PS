@@ -40,7 +40,10 @@ class Project(models.Model):
     #this is the answer
     def banner_p(self):
         if self.banner:
-            return str(self.banner)[str(self.banner).index(settings.MEDIA_URL):]
+            if settings.DEBUG:
+                return str(self.banner)[str(self.banner).index(settings.MEDIA_URL):]
+            else:
+                return self.banner
         elif self.banner_path:
             return self.banner_path[self.banner_path.index(settings.MEDIA_URL):]
 '''
