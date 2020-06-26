@@ -176,7 +176,7 @@
                 {% endif %}
                 {% if post.pdf or post.pdf_path %}
                 <div>
-                    <iframe src="https://docs.google.com/viewer?url={{ post.pdf_p }}&embedded=true" frameborder="0" height="500px" width="100%"></iframe>
+                    <iframe src="https://docs.google.com/viewer?url={{request.scheme}}://{{request.get_host}}{{ post.pdf_p }}&embedded=true" frameborder="0" height="500px" width="100%"></iframe>
                 </div>
                 {% endif %}
             </div>
