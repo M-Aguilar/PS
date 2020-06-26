@@ -141,7 +141,7 @@ var canvas = {
 		while (!acceptable) {
 			var num = Math.floor(Math.random() * temp.length);
 			var r = temp[num];
-			if (!this.correct.includes(r) && !this.correct.includes(r)) {
+			if (!this.correct.includes(r) && !this.incorrect.includes(r)) {
 				acceptable = true;
 				this.cur = r;
 				//return r;

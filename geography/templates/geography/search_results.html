@@ -41,76 +41,85 @@
         </form>
         {% endif %}
     </div>
+    <div class="modal fade" id="centerconsole2" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content blank">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalDeletePost">Confirm</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="text-theme" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Please confirm that you would like to remove this post.    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-theme" data-dismiss="modal">Cancel</button>
+                    <a id='delete' class='btn btn-theme'href="">Confirm</a>
+                </div>
+            </div>
+        </div>
+    </div>
     {% for post in object_list.object_list %}
     {% load tz %}
-        <div class="card my-4">
-            <div class="card-header p-2">
-                <h5 class="card-title">
-                    <div class="d-inline">
-                        <div class="float-left mt-2">
-                            {% load highlight %}
-                            <p class="title text-theme">Project: 
-                                {% if post.project.url %}
-                                    <a class="t-link" href="{{ post.project.url }}">{{ post.project|highlight:object_list.q }}</a></p>
-                                {% else %}
-                                    <a class="t-link" href="{% url 'project' post.project.id %}">{{ post.project|highlight:object_list.q }}</a></p>
-                                {% endif %}
-                        </div>
-                        <div class="pop-project float-right">
-                            <div data-placement="left" data-toggle="popover" data-trigger="hover" data-content="Last edited {{ post.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ post.date_added|timezone:'America/Los_Angeles'}}<br>Created By: {{ post.project.owner.username }} {% if user.is_authenticated and user.projector.admin %}<br>{% if not post.public %}<p class='text-warning pb-0 mb-0'>Private</p>{% else %}<p class='text-success pb-0 mb-0'>Public</p>{% endif %}{% endif %}" data-html='true'>
-                            <button class="info" role="button">i</button></div>
-                        </div>
+    <div class="card my-4">
+        <div class="card-header p-1">
+            <h5 class="card-title mx-1">
+                <div class="d-inline">
+                    <div class="float-left my-1">
+                        {% load highlight %}
+                        <a class="t-link" href="{% if post.project.url %}{{ post.project.url }}{% else %}{% url 'project' post.project.id %}{% endif %}">{{ post.project|highlight:object_list.q }}</a>
                     </div>
-                </h5>
-            </div>
-            <div class='card-body p-0 blank rounded-top {% if user.is_authenticated and user.projector.admin %}{% if not post.public %} bg-warning {% endif %} bg-{% endif %}'>
-                <div class="px-2">
-                {% if post.text %}
-                    <hr class="text-back">
-                    <p > {{ post.text|highlight:object_list.q|linebreaks|urlize }} </p>
-                {% endif %}
+                    <div class="float-right">
+                        <div data-placement="left" data-toggle="popover" data-trigger="hover" data-content="Last edited {{ post.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ post.date_added|timezone:'America/Los_Angeles'}}<br>Created By: {{ post.project.owner.username }} {% if user.is_authenticated and user.projector.admin %}<br>{% if not post.public %}<p class='text-warning pb-0 mb-0'>Private</p>{% else %}<p class='text-success pb-0 mb-0'>Public</p>{% endif %}{% endif %}" data-html='true'>
+                        <button class="info" role="button">i</button></div>
+                    </div>
+                    <div class='float-right mx-2'>
+                    {% if user.is_authenticated and user.projector.admin %} 
+                        {% url 'delete_post' post.id as p %}
+                        <a class="btn alt-btn" href="{% url 'edit_post' post.id %}">edit post</a>
+                        <button type="button" class="btn alt-btn" data-toggle="modal" data-target="#centerconsole2" onclick="document.getElementById('delete').href = '{{p}}'">delete</button>
+                    {% endif %}
+                    </div>
                 </div>
-                {% if post.image or post.image_path %}
-                <div>
-                    <img class="mw-100 mx-auto d-block rounded" src="{{ post.image_p }}" alt="My image">
-                </div>
-                {% endif %}
-                {% if post.pdf or post.pdf_path %}
-                <div>
-                    <iframe src="https://docs.google.com/viewer?url={{ post.pdf_p }}&embedded=true" frameborder="0" height="500px" width="100%"></iframe>
-                </div>
-                {% endif %}
-            </div>
-            {% if user.is_authenticated and user.projector.admin %} 
-            <div class="w-100">
-                {% url 'delete_post' post.id as p %}
-                <a class="btn btn-theme w-50" href="{% url 'edit_post' post.id %}">edit post</a>
-                <button type="button" class="btn btn-theme w-50 float-right" data-toggle="modal" data-target="#centerconsole2" onclick="document.getElementById('delete').href = '{{p}}'">delete</button>
-            <!--
-                <a class="btn light-g text-secondary w-50 float-right" href="{% url 'delete_post' post.id %}">delete post</a>
-                <a class="btn light-g text-secondary w-50" href="{% url 'edit_post' post.id %}">edit post</a>
-            -->
-            </div>
-            {% endif %}
+            </h5>
         </div>
-        {% empty %}
-        <p>There are not posts.</p> 
-        {% endfor %}
-        <div class="text-center">
-            {% if object_list.page_num > 1 %}
-            <form action="{% url 'search_results' %}" method='get' class='d-inline'>
-                <input name="q" class="form-control d-none" type="search" value='{{ request.GET.q }}'>
-                <input name="page_num" class="form-control d-none" type="search" value="{{ object_list.page_num|add:'-1' }}">
-                <button id="prev" class="btn btn-theme" type="submit">prev</button>
-            </form>
+        <div class='card-body p-0 blank rounded-bottom {% if user.is_authenticated and user.projector.admin and not post.public %} bg-warning {% endif %}'>
+            {% if post.text %}
+            <div class="m-2">
+                <p class='p-0'> {{ post.text|highlight:object_list.q|linebreaks|urlize }} </p>
+            </div>
             {% endif %}
-            {% if object_list.next %}
-            <form action="{% url 'search_results' %}" method='get' class='d-inline'>
-                <input name="q" class="form-control d-none" type="search" value='{{ request.GET.q }}'>
-                <input name="page_num" class="form-control d-none" type="search" value="{{ object_list.page_num|add:'1' }}">
-                <button id="next" class="btn btn-theme" type="submit">next</button>
-            </form>
+            {% if post.image or post.image_path %}
+            <div>
+                <img class="mw-100 mx-auto d-block rounded" src="{{ post.image_p }}" alt="My image">
+            </div>
+            {% endif %}
+            {% if post.pdf or post.pdf_path %}
+            <div>
+                <iframe src="https://docs.google.com/viewer?url={{ post.pdf_p }}&embedded=true" frameborder="0" height="500px" width="100%"></iframe>
+            </div>
             {% endif %}
         </div>
     </div>
+    {% empty %}
+    <p>There are not posts.</p> 
+    {% endfor %}
+    <div class="text-center">
+        {% if object_list.page_num > 1 %}
+        <form action="{% url 'search_results' %}" method='get' class='d-inline'>
+            <input name="q" class="form-control d-none" type="search" value='{{ request.GET.q }}'>
+            <input name="page_num" class="form-control d-none" type="search" value="{{ object_list.page_num|add:'-1' }}">
+            <button id="prev" class="btn btn-theme" type="submit">prev</button>
+        </form>
+        {% endif %}
+        {% if object_list.next %}
+        <form action="{% url 'search_results' %}" method='get' class='d-inline'>
+            <input name="q" class="form-control d-none" type="search" value='{{ request.GET.q }}'>
+            <input name="page_num" class="form-control d-none" type="search" value="{{ object_list.page_num|add:'1' }}">
+            <button id="next" class="btn btn-theme" type="submit">next</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

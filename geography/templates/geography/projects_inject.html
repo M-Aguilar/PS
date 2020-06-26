@@ -7,50 +7,50 @@
   </div>
   <div class="dropdown">
     <button class="nav-link btn alt-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">{{ sort }}</button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <div class="dropdown-menu blank" aria-labelledby="dropdownMenuButton">
       {% if sort == 'title' %}
         {% with "-title" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item" type="button">-title</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item b-link" type="button">-title</button></a>
         {% endwith %}
       {% else %} 
         {% with "title" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button">title</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item b-link" type="button">title</button></a>
         {% endwith %}
       {% endif %}
       {% if sort == '-date_added' %}
         {% with "date_added" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button">-created</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item b-link" type="button">-created</button></a>
         {% endwith %}
       {% else %}
         {% with "-date_added" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button">created</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item b-link" type="button">created</button></a>
         {% endwith %}
       {% endif %}
       {% if sort == '-date_edited' %}
         {% with "date_edited" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button">-edited</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item b-link" type="button">-edited</button></a>
         {% endwith %}
       {% else %}
         {% with "-date_edited" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button">edited</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item b-link" type="button">edited</button></a>
         {% endwith %}
       {% endif %}
       {% if sort == "-post_num" %}
         {% with "post_num" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button">-# of posts</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item b-link" type="button">-# of posts</button></a>
         {% endwith %}
       {% else %}
         {% with "-post_num" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button"># of posts</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item b-link" type="button"># of posts</button></a>
         {% endwith %}
       {% endif %}
       {% if sort == "-public" %}
         {% with "public" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button">-public</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item b-link" type="button">-public</button></a>
         {% endwith %}
       {% else %}
         {% with "-public" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item text-dark" type="button">public</button></a>
+        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item b-link" type="button">public</button></a>
         {% endwith %}
       {% endif %}
     </div>
@@ -65,47 +65,44 @@
   </div>
   {% load tz %}
   {% for project in projects %}
-  <div class="card my-3">
+  <div class="card my-4">
     <div class="card-header p-1">
       <h5 class="card-title">
         <div class="d-inline">
-          <div class="float-left mt-3 ml-2">
+          <div class="float-left m-1">
             {% if project.url %}
-            <a class="mr-2 t-link" href="{{project.url}}">{{ project }}</a>
+            <a class="t-link" href="{{ project.url }}">{{ project }}</a>
             {% else %}
-            <a class="mr-2 t-link" href="{% url 'project' project.id %}">{{ project }}</a>
+            <a class="t-link" href="{% url 'project' project.id %}">{{ project }}</a>
             {% endif %} 
           </div>
-          <div class="float-right mt-1-lg">
-            <div class="pop-projects" data-placement="left" title="<div class='t-link'>Posts: {{ project.post_set.count }}</div>" data-toggle="popover" data-trigger="hover" data-content="Last edited {{ project.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ project.date_added|timezone:'America/Los_Angeles'}}<br>Created by {{ project.owner }}" data-html='true'>
-              <button class="info mt-3-lg" role="button">i</button>
+          <div class="float-right mx-1">
+            <div data-placement="left" title="<div class='t-link'>Posts: {{ project.post_set.count }}</div>" data-toggle="popover" data-trigger="hover" data-content="Last edited {{ project.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ project.date_added|timezone:'America/Los_Angeles'}}<br>Created by {{ project.owner }}" data-html='true'>
+              <button class="info mt-1" role="button">i</button>
             </div>
           </div>
           {% if user.is_authenticated and user.projector.admin and request.user == project.owner %}
-          <div class="d-inline float-right mr-3 mt-2">
+          <div class="d-inline float-right mr-1">
             {% if project.public %}
-            <p class="d-inline-block mt-2 text-success">Public</p>
+            <p class="text-success d-inline mr-2">Public</p>
             {% else %}
-            <p class="d-inline-block mt-2 text-secondary">Private</p>
+            <p class="text-secondary d-inline mr-2">Private</p>
             {% endif %}
-            <a class="btn alt-btn float-right ml-3" href="{% url 'edit_project' project.id %}">edit project</a>
-            <a class="btn alt-btn float-right ml-3" href="{% url 'new_post' project.id %}">new post</a>
-            {% endif %}
+            <a class="btn alt-btn" href="{% url 'edit_project' project.id %}">edit project</a>
+            <a class="btn alt-btn" href="{% url 'new_post' project.id %}">new post</a>
+          </div>
+          {% endif %}
         </div>
       </h5>
     </div>
     {% if project.banner or project.banner_path %}
-    <div class="card-body p-0">
-      {% if project.url %}
-        <a href="{{ project.url }}"><img class="mw-100 d-block rounded-bottom" src="{{ project.banner_p }}" alt="My image"></a>
-      {% else %} 
-        <a href="{% url 'project' project.id %}"><img class="mw-100 d-block rounded-bottom" src="{{ project.banner_p }}" alt="My image"></a>
+    <div class="card-body p-0 rounded-bottom">
+      <a href="{% if project.url %} {{project.url}} {% else %}{% url 'project' project.id %}{% endif %}"><img class="mw-100 d-block mx-auto {% if not project.text %}rounded-bottom{% endif %}" src="{{ project.banner_p }}" alt="My image"></a>
+      {% if project.text %}
+      <div> 
+        <p class="m-2 p-1">{{ project.text }}</p>
+      </div>
       {% endif %}
-    </div>
-    {% endif %}
-    {% if project.text %}
-    <div class="card-body rounded-bottom"> 
-      <p>{{ project.text }}</p>
     </div>
     {% endif %}
   </div>

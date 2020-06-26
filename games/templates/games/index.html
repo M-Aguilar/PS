@@ -21,16 +21,18 @@
 		<h4>Here are a list of games!</h4>
 	</div>
 	{% for game in games %}
-	<a class="lead" href="{% url 'game' game.path %}">
-		<div class='rounded alt-btn p-2'>
-			{{ game }}
-			<div class="float-right">
-		    	<p>Rating: 3.5/5</p>
-    		</div>
-   		</div>
-   	</a>	
+	<div class="my-3">
+		<a class="lead" href="{% url 'game' game.path %}">
+			<div class='rounded alt-btn p-2'>
+				{{ game }}
+				<div class="float-right">
+		    		<p>Rating: 3.5/5</p>
+    			</div>
+   			</div>
+   		</a>	
+	</div>
 	{% empty %}
-		There are no games
+	<p>There are no games</p>
 	{% endfor %}
 {% endblock%}
 

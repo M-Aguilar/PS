@@ -22,13 +22,15 @@ class SearchResultsView(ListView):
     def get_queryset(self):
         query = self.request.GET.get('q')
         page_num = self.request.GET.get('page_num')
+        nbar='public'
         if not page_num:
             page_num=0
         #if not logged in.
         if self.request.user.is_authenticated:
-            object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__owner__username__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query), Q(public=True) | Q(project__owner=self.request.user))
+            nbar='private'
+            object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__owner__username__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query), Q(public=True) | Q(project__owner=self.request.user)).order_by('-date_edited')
         else:
-            object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query) | Q(project__owner__username__icontains=query), Q(public=True))
+            object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query) | Q(project__owner__username__icontains=query), Q(public=True)).order_by('-date_edited')
         total = len(object_list)
         next_p = False
         if total > 10:
@@ -50,24 +52,16 @@ class SearchResultsView(ListView):
             else:
                 object_list = object_list[(page_num-1)*10:10 * page_num]
                 next_p = True
-        return {'object_list': object_list, 'q': query, 'total': total, 'page_num': page_num, 'next':next_p}
+        object_list = {'object_list': object_list, 'q': query, 'total': total, 'page_num': page_num, 'next':next_p, 'nbar':nbar}
+        return object_list
 
-
-
-'''def search(request):
-    posts = Post.objects.filter(public=True)
-    context = {'posts': posts}
-    return render(request, 'geography/search_results.html', context)
-'''
-#from django.conf import settings
-# Create your views here.
-def projects(request, user_id='public', sort='', page_num=0, search=None):
+def projects(request, user_id='public', sort='', page_num=0):
+    nbar='public'
     if sort is '':
         p_sort = '-date_edited'
     else:
         p_sort = sort
     if user_id != 'public':
-        nbar='private'
         try:
             user_id = int(user_id)
         except ValueError:
@@ -85,6 +79,7 @@ def projects(request, user_id='public', sort='', page_num=0, search=None):
                 print(2)
                 raise Http404
         if request.user.is_authenticated:
+            nbar='private'
             projects = Project.objects.filter(owner=public.id)
             if sort == 'post_num':
                 projects = projects.annotate(count=Count('post')).order_by('count')
@@ -124,7 +119,6 @@ def projects(request, user_id='public', sort='', page_num=0, search=None):
                 print(6)
                 raise Http404
         public = 'public'
-        nbar='public'
     next_p = False
     total = len(projects)
     if len(projects) > 10:
@@ -259,7 +253,7 @@ def edit_project(request, project_id):
         form = ProjectForm(instance=project, files=request.FILES, data=request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('projects'))
+            return HttpResponseRedirect(reverse('projects', args=[project.owner]))
     context = {'project':project, 'form':form, 'nbar': 'project'}
     return render(request, 'geography/edit_project.html', context)
 

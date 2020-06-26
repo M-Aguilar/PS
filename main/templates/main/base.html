@@ -15,7 +15,6 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
 	<body>
-		<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -28,10 +27,10 @@
  		  		<div class="collapse navbar-collapse" id="navbarSupportedContent">
  		  			<ul class="navbar-nav mt-0 w-100">
     					<li class="nav-item {% if nbar == 'project' %} active {% endif %}">
-	    					{% if request.user.is_authenticated %}
+	    					{% if request.user.is_authenticated and request.user.projector.admin %}
 	    					<hr class="d-lg-none py-0 my-0 light-g">
 	    					<div class="dropdown">
-		    					<a class="btn text-left nav-link mx-auto dropdown-toggle{% if nbar == 'project' %} active {% endif %} rounded" role="button" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Projects</a>
+		    					<a class="btn text-left nav-link mx-auto dropdown-toggle{% if nbar == 'project' or nbar == 'public' or nbar == 'private' or nbar == 'new_project' %} active {% endif %} rounded" role="button" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Projects</a>
 	    						<div class="dropdown-menu text-center bg-transparent border-0 py-0 my-0">
 	    							<hr class="d-lg-none py-0 my-0 light-g">
 	    							<br class="d-none d-lg-inline my-0 py-0">
@@ -48,7 +47,7 @@
 	    					<hr class="d-lg-none py-0 my-0">
 	    				</li>
     					<li class="nav-item">
-	    					<a class="nav-link text-left mx-auto {% if nbar == 'games' %}active{% endif %}" href="{% url 'games' %}">Games</a>
+	    					<a class="nav-link text-left mx-auto {% if nbar == 'games' %} active {% endif %}" href="{% url 'games' %}">Games</a>
 	    					<hr class="d-lg-none py-0 my-0">
 	    				</li>
     					<li class="nav-item">

@@ -7,21 +7,25 @@
 {% if game.js %}
 <head>
 	<script type="text/javascript" src="{{game.js_p}}"></script>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+  	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
 </head>
 {% endif %}
-	<div class="start jumbotron blank py-4">
-		<div class="display-4 text-center">
-			<p>{{ game }}</p>
-			{% if user.is_authenticated and user.projector.admin %}
-				<a class="btn btn-theme" href="{% url 'edit_game' game.path %}">edit game</a>
-			{% endif %}
+<div class="start jumbotron blank py-4">
+	<div class="display-4 text-center">
+		<p>{{ game }}</p>
+		{% if user.is_authenticated and user.projector.admin %}
+		<a class="btn btn-theme" href="{% url 'edit_game' game.path %}">edit game</a>
+		{% endif %}
 		<button class="btn btn-theme" id="play" onclick="new_game({{gps}});" type="btn">play game</button>
-		</div>
 	</div>
+</div>
 {% endblock %}
 
 {% block content%}
+<div id='game'>
 	<div class="start text-theme">
 		<p class="start game_d">{{ game.text|urlize }}</p>
 	</div>
+</div>
 {% endblock%}

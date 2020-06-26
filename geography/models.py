@@ -7,22 +7,21 @@ class Projector(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	admin = models.BooleanField(default=False)
 
-#WHAT IS GOING ON!!! I FOUND THE PROBLEM. This may need to be changed for the regular server
 def user_directory_path(instance, filename):
     try:
-        return settings.MEDIA_ROOT + '/user_{0}/{1}/{2}'.format(instance.project.owner.id, instance.project.id, filename)
+        return 'user_{0}/{1}/{2}'.format(instance.project.owner.id, instance.project.id, filename)
     except AttributeError:
-        print("Attribute Error 1")
+        print("Attribute Error: user_directory_path 1")
         pass
     try:
-        return settings.MEDIA_ROOT + '/user_{0}/{1}/{2}'.format(instance.owner.id, 'banner', filename)
+        return 'user_{0}/{1}/{2}'.format(instance.owner.id, 'banner', filename)
     except AttributeError:
-        print("Attribute Error 2")
+        print("Attribute Error: user_directory_path 2")
         pass
 
 def images_path():
     return settings.MEDIA_ROOT
-# Create your models here.
+
 class Project(models.Model):
     title = models.CharField(max_length=30)
     text = models.CharField(max_length=100, blank=True)
@@ -37,22 +36,11 @@ class Project(models.Model):
     def __str__(self):
         return self.title
 
-    #this is the answer
     def banner_p(self):
         if self.banner:
-            if settings.DEBUG:
-                return str(self.banner)[str(self.banner).index(settings.MEDIA_URL):]
-            else:
-                return self.banner.url
+            return self.banner.url
         elif self.banner_path:
             return self.banner_path[self.banner_path.index(settings.MEDIA_URL):]
-'''
-    def images_path(self):
-        if settings.DEBUG:
-            return os.path.join(settings.MEDIA_ROOT,settings.MEDIA_URL,'user_',self.owner.id)
-        else:
-            return os.path.join(settings.MEDIA_ROOT,'user_',self.owner.id)
-'''
 
 class Post(models.Model):
     text = models.CharField(max_length=250, blank=True)
@@ -61,8 +49,6 @@ class Post(models.Model):
     date_edited = models.DateTimeField(auto_now=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
-    #TODO I want upload and filepathfields. It looks like the only way I can do it is to 
-    #manage it at the views level
     image = models.ImageField(upload_to=user_directory_path, blank=True)
     image_path = models.FilePathField(path=images_path, match=".*\.*jpg$|.*\.*jpeg$|.*\.*png$|.*\.*gif$", recursive=True, blank=True)
 
@@ -74,27 +60,16 @@ class Post(models.Model):
 
     def image_p(self):
         if self.image:
-            if settings.DEBUG:
-                return "/media/" + str(self.image) 
-            else:
-                return str(self.image)[str(self.image).index(settings.MEDIA_URL):]
+            return self.image.url
         elif self.image_path:
             return self.image_path[self.image_path.index(settings.MEDIA_URL):]
-    
+
     def pdf_p(self):
         if self.pdf:
-            if settings.DEBUG:
-                return "/media/" + str(self.pdf)
-            return str(self.pdf)[str(self.pdf).index(settings.MEDIA_URL):]
+            return self.pdf.url
         elif self.pdf_path:
             return self.pdf_path[self.pdf_path.index(settings.MEDIA_URL):]
 
     def __str__(self):
         return self.text[:50] + "..."
-'''
-    def images_path(self):
-        if settings.DEBUG:
-            return os.path.join(settings.MEDIA_ROOT,settings.MEDIA_URL,'user_',self.project.owner.id)
-        else:
-            return os.path.join(settings.MEDIA_ROOT,'user_',self.project.owner.id)
-'''
+

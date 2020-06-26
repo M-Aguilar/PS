@@ -5,7 +5,7 @@
 
 {% block header %}
 	<div class="jumbotron blank pt-4 pb-3">
-		<h2>Edit Project <a class="ml-2 theme-link" href="{% url 'project' project.id %}">{{ project }}</a></h2>
+		<h2>Edit Project <a class="ml-2 theme-link float-right" href="{% url 'project' project.id %}">{{ project }}</a></h2>
 		<hr>
 		{% load tz %}
 		<div>
@@ -48,11 +48,11 @@
         {% load static %}
         {% if project.banner_path or project.banner %}
         <div>
-            <img id="preview" src="{{ project.banner_p }}" class="mw-100 d-block rounded mt-3" alt="No Image">
+            <img id="preview" src="{{ project.banner_p }}" class="mw-100 d-block rounded mt-3 mx-auto" alt="No Image">
         </div>
         {% else %}
         <div>
-            <img id="preview" src="" class="mw-100 mx-auto d-block rounded" alt="No Image">
+            <img id="preview" src="" class="mw-100 d-block rounded mx-auto" alt="No Image">
         </div>
         {% endif %}
     	<script type="text/javascript" src="/static/main/base.js"></script>
