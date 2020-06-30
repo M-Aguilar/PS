@@ -28,7 +28,7 @@ div.main-container {
 	color:white;
 }
 
-.text-back {
+.text-back{
 	background-color: var(--text-color);
 }
 
@@ -48,7 +48,7 @@ div.main-container {
 	color:var(--blank);
 }
 
-.t-link:hover{
+.t-link:hover {
 	color:#b3d9ff;
 }
 
@@ -291,13 +291,20 @@ footer a {
 }
 
 .popover-header {
+	border-radius: 3px 3px 0 0;
 	background-color: var(--theme-color);
 	color:var(--text-color);
 }
 
 .popover-body {
+	font-size: 11px;
 	background-color: var(--blank);
 	color:var(--text-color);
+	border-radius: 0 0 3px 3px;
+}
+
+.popover-header:empty + div.popover-body { 
+	border-radius: 3px;
 }
 
 .pop-projects {
@@ -305,6 +312,7 @@ footer a {
 }
 
 .info {
+	line-height: 15.433px;
 	border:none;
 	border-radius:50%;
 	background-color: var(--text-color);
@@ -312,8 +320,4 @@ footer a {
 	font-weight: bold;
 	color:var(--blank);
 	padding: 0px 6px;
-}
-
-.popover {
-	font-size: 11px;
 }

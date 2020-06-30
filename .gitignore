@@ -1,1 +1,16 @@
 __pycache__/
+.DS_Store
+._*
+static/
+media/
+__init__.py
+tests.py
+.old/
+migrations/
+apps.py
+settings.py
+wsgi.py
+manage.py
+asgi.py
+admin.py
+ps_env/

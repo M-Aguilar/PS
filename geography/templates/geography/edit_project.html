@@ -48,6 +48,9 @@
         {% load static %}
         {% if project.banner_path or project.banner %}
         <div>
+            {% if project.banner %}
+            <p>Banner size: {{project.banner.width}} x {{project.banner.height}}</p>
+            {% endif %}
             <img id="preview" src="{{ project.banner_p }}" class="mw-100 d-block rounded mt-3 mx-auto" alt="No Image">
         </div>
         {% else %}

@@ -28,9 +28,9 @@ class SearchResultsView(ListView):
         #if not logged in.
         if self.request.user.is_authenticated:
             nbar='private'
-            object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__owner__username__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query), Q(public=True) | Q(project__owner=self.request.user)).order_by('-date_edited')
+            object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__owner__username__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query), Q(public=True) & Q(project__public=True) | Q(project__owner=self.request.user)).order_by('-date_edited')
         else:
-            object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query) | Q(project__owner__username__icontains=query), Q(public=True)).order_by('-date_edited')
+            object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query) | Q(project__owner__username__icontains=query), Q(public=True) & Q(project__public=True)).order_by('-date_edited')
         total = len(object_list)
         next_p = False
         if total > 10:
@@ -56,6 +56,9 @@ class SearchResultsView(ListView):
         return object_list
 
 def projects(request, user_id='public', sort='', page_num=0):
+    sort_options = ['public','title','post_num', 'date_edited','date_added']
+    if sort.replace('-','') not in sort_options and sort != '':
+        raise Http404
     nbar='public'
     if sort is '':
         p_sort = '-date_edited'
@@ -78,7 +81,7 @@ def projects(request, user_id='public', sort='', page_num=0):
             except (ObjectDoesNotExist, ValueError) as e:
                 print(2)
                 raise Http404
-        if request.user.is_authenticated:
+        if request.user.is_authenticated and public == request.user:
             nbar='private'
             projects = Project.objects.filter(owner=public.id)
             if sort == 'post_num':
@@ -148,6 +151,9 @@ def projects(request, user_id='public', sort='', page_num=0):
     return render(request, 'geography/projects.html', context)
 
 def project(request, project_id, sort='', page_num=0):
+    sort_options = ['public','image','pdf', 'date_edited','date_added']
+    if sort.replace('-','') not in sort_options and sort != '':
+        raise Http404
     if sort is '':
         p_sort = '-date_edited'
     else:

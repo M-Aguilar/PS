@@ -53,6 +53,9 @@
         {% load static %}
         {% if post.image or post.image_path %}
         <div>
+            {% if post.image %}
+            <p>Image size: {{ post.image.width }} x {{ post.image.height }}</p>
+            {% endif %}
             <img id="#preview" class="mw-100 mx-auto d-block rounded" src="{{ post.image_p }}" alt="No Image">
         </div>
         {% else %}

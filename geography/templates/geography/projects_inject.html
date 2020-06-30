@@ -77,7 +77,7 @@
             {% endif %} 
           </div>
           <div class="float-right mx-1">
-            <div data-placement="left" title="<div class='t-link'>Posts: {{ project.post_set.count }}</div>" data-toggle="popover" data-trigger="hover" data-content="Last edited {{ project.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ project.date_added|timezone:'America/Los_Angeles'}}<br>Created by {{ project.owner }}" data-html='true'>
+            <div data-placement="left" title="<span class='t-link'>Posts: {{ project.post_set.count }}</span>" data-toggle="popover" data-trigger="hover" data-content="Last edited {{ project.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ project.date_added|timezone:'America/Los_Angeles'}}<br>Created by {{ project.owner }}" data-html='true'>
               <button class="info mt-1" role="button">i</button>
             </div>
           </div>
@@ -98,11 +98,11 @@
     {% if project.banner or project.banner_path %}
     <div class="card-body p-0 rounded-bottom">
       <a href="{% if project.url %} {{project.url}} {% else %}{% url 'project' project.id %}{% endif %}"><img class="mw-100 d-block mx-auto {% if not project.text %}rounded-bottom{% endif %}" src="{{ project.banner_p }}" alt="My image"></a>
-      {% if project.text %}
-      <div> 
-        <p class="m-2 p-1">{{ project.text }}</p>
-      </div>
-      {% endif %}
+    </div>
+    {% endif %}
+    {% if project.text %}
+    <div> 
+      <p class="m-2 p-1">{{ project.text }}</p>
     </div>
     {% endif %}
   </div>
