@@ -14,3 +14,4 @@ manage.py
 asgi.py
 admin.py
 ps_env/
+favicon_io/

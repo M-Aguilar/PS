@@ -17,7 +17,7 @@ html,body {
 div.main-container {
 	position:absolute;
 	min-height: 100%;
-	top:0px;
+	top:0;
 	width: 100%;
 	margin:0;
 	padding:0;
@@ -26,6 +26,10 @@ div.main-container {
 
 .t-white, a.navbar-brand, .t-link {
 	color:white;
+}
+
+.b-white {
+	background-color: var(--text-color);
 }
 
 .text-back{
@@ -68,7 +72,6 @@ div.main-container {
 }
 
 div.scope {
-	width:80vw;
 	margin: 5vh 10vw 5vh 10vw;
 	padding-bottom: 50px;
 }
@@ -84,6 +87,7 @@ a:hover {
 /*-------NAVBAR/DROPDOWN----------*/
 
 nav.navbar {
+	background-color: var(--theme-color);	
 	min-height:50px;
 }
 

@@ -1,0 +1,28 @@
+{% extends "main/base.html" %}
+{% load bootstrap4 %}
+
+{% block title %}
+Account
+{% endblock %}
+
+{% block header %}
+<h1>{{ username }}</h1>
+{% load tz %}
+{% timezone "US/Pacific" %}
+<h5>Date Joined: {{ date_joined }}</h5>
+{% endtimezone %}
+{% if message %}
+<div class="alert alert-success" role="alert">
+  This is a success alert—check it out!
+</div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<p>Projects: {{ project_tot }}</p>
+<p>Posts: {{ post_tot }}</p>
+{% if request.user.is_authenticated and request.user.username == username %}
+<a class="btn alt-btn" href="{% url 'edit_account' request.user.username %}">change username</a>
+<a class="btn alt-btn" href="{% url 'password_change' %}">change password</a>
+{% endif %}
+{% endblock %}

@@ -12,7 +12,7 @@
         {% with "-title" as s %}
         <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item b-link" type="button">-title</button></a>
         {% endwith %}
-      {% else %} 
+      {% else %}
         {% with "title" as s %}
         <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item b-link" type="button">title</button></a>
         {% endwith %}
@@ -95,16 +95,14 @@
         </div>
       </h5>
     </div>
-    {% if project.banner or project.banner_path %}
     <div class="card-body p-0 rounded-bottom">
+    {% if project.banner or project.banner_path %}
       <a href="{% if project.url %} {{project.url}} {% else %}{% url 'project' project.id %}{% endif %}"><img class="mw-100 d-block mx-auto {% if not project.text %}rounded-bottom{% endif %}" src="{{ project.banner_p }}" alt="My image"></a>
-    </div>
     {% endif %}
     {% if project.text %}
-    <div> 
       <p class="m-2 p-1">{{ project.text }}</p>
-    </div>
     {% endif %}
+    </div>
   </div>
   {% empty %}
   <div>There is nothing here.</div>

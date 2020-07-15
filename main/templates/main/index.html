@@ -3,12 +3,13 @@
 {% block title %}M.Aguilar{% endblock %}
 {% block header %}
 <div class='jumbotron blank pt-5 pb-3'>
-	<div class="display-4 text-center text-theme">Hello! 
+	<div class="display-4 text-center text-theme">
     {% load tz %}
 		{% if user.is_authenticated %}
-			{{ user }}
+			Hello {{user}}!
+    {% else %}
+      Hello!
 		{% endif %}
-		Welcome to Agullar.com
 	</div>
   {% timezone "US/Pacific" %}
   <div class="text-center mb-2"><br>{% now "jS \o\f F Y h:iA" %}</div>
@@ -19,7 +20,7 @@
 
 {% block content %}
 <div class="intro">
-	<p class="lead">This is an ever expanding site meant to explore and display different ideas and projects.</p>
+	<p>This is an ever expanding site meant to explore and display different ideas and projects.</p>
 </div>
 <div id="carouselExampleControls" class="carousel slide mb-5" data-ride="carousel">
   <div class="carousel-inner">

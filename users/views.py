@@ -1,29 +1,52 @@
 from django.shortcuts import render
 from django.urls import reverse
-from django.http import HttpResponseRedirect
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponseRedirect, Http404
+from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 
-from geography.models import Projector
+from geography.models import Projector, Project, Post
 from django.db.models import Count
 from .models import User
 from .forms import NameForm
 
 @login_required
-def edit_account(request):
+def edit_account(request, username):
+	message=''
 	if request.method == 'POST':
-		form = NameForm(request.POST)
+		form = NameForm(data=request.POST)
 		if form.is_valid():
-			return HttpResponseRedirect(reverse('account'))
+			user = User.objects.get(username=username)
+			user.username = form.cleaned_data['your_name']
+			user.save()
+		else:
+			return HttpResponseRedirect(reverse('account', args=[user.username]))
 	else:
-		form = NameForm()
+		form = NameForm({'username':username})
 	return render(request, 'users/edit_account.html', {'form' : form })
 
-@login_required
 def account(request, username):
-	context = {"username" :username}
+	p_tot = len(Project.objects.filter(owner__username=username))
+	po_tot = len(Post.objects.filter(project__owner__username=username))
+	date_joined = User.objects.get(username=username).date_joined
+	context = {"project_tot": p_tot, "post_tot": po_tot, 'date_joined': date_joined, 'username':username}
 	return render(request, 'users/account.html', context)
+
+@login_required
+def password_change(request):
+	if request.method == 'POST':
+		form = PasswordChangeForm(user=request.user, data=request.POST)
+		if form.is_valid():
+			form.save()
+			update_session_auth_hash(request, form.user)
+			message = "Your password has been updated."
+		else:
+			message = "Something went wrong."
+		return HttpResponseRedirect(reverse('account', args=[request.user.username]))
+	else:
+		form = PasswordChangeForm()
+	return render(request, 'users/password_change.html', {'form': form})
+
 
 @login_required
 def logout_view(request):

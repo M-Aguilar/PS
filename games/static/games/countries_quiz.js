@@ -1,49 +1,121 @@
-var	country_list = {};
+var country_list,
+	names = [],
+	p;
 
 function new_game(gps) {
+	//REMOVE START COMPONENTS
 	var docs = document.getElementsByClassName('start');
-	var p = document.createElement('p');
-	var g = document.createElement('div');
-	g.setAttribute('id','mapid');
-	document.getElementById('game').appendChild(g);
-	p.setAttribute('class', 'text-theme');
-	document.getElementById('main-view').appendChild(p);
 	for(var doc = docs.length-1; doc >= 0; doc--) {
 		var e = docs[doc];
 		e.parentNode.removeChild(e);
 	}
-	var mymap = L.map('mapid').setView([21, 0],2);
-	L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain-background/{z}/{x}/{y}{r}.{ext}', {
-		attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-		subdomains: 'abcd',
-		minZoom: 0,
-		maxZoom: 18,
-		ext: 'png'
-	}).addTo(mymap);
-	L.geoJSON(countries,{style: function(feature) {return {color: '#F0F8FF'};}, onEachFeature:onEachFeature}).addTo(mymap);
-	p.innerHTML = country_list.length;
-	for (var i = 0; i < country_list.length; i++) {
-		p.innerHTML = p.innerHTML.concat(country_list[i]);
 
+	for (var i = 0; i < country_list.getLayers().length; i++) {
+		mymap.removeLayer(country_list.getLayers()[i]);
 	}
+	var game = GameManager;
+	game.start();
 };
 
 var GameManager = {
 	init: function() {
-		this.countries = [];
-		this.layers = {};
-		this.correct = [];
-		this.incorrect = [];
-	}
+		this.correct;
+		this.cur_layer;
+		this.incorrect;
+		this.current;
+	},
 
+	start: function(self) {
+		this.correct= [];
+		this.incorrect = [];
+		var notnew = true;
+		while (notnew) {
+			var s = names[Math.floor(Math.random() * names.length)];
+//				if (this.correct.length == 0 || !this.correct.includes(s) && this.incorrect.length == 0 || !this.incorrect.includes(s)) {
+			if (!this.current || !this.incorrect.includes(s) && !this.correct.includes(s)) {
+				notnew = false;
+				this.current = s;
+				this.cur_layer = country_list.getLayers()[names.indexOf(this.current)].setStyle({color:'#000000'}).addTo(mymap);
+				mymap.flyTo(cur_layer.getBounds());
+			}
+		}
+		p.innerHTML = this.current;
+	},
+
+	select: function(self, layer) {
+		layer.setStyle({color:'#000000'});
+	}
+}
+
+function setup() { 	//ADD MAP
+	//ADD CLEAN GAME SLATE
+	var g = document.createElement('div');
+	g.setAttribute('id','mapid');
+	//g.setAttribute('class','start');
+	document.getElementById('game').appendChild(g);
 	
+	var southWest = L.latLng(-85.03, -180.45),
+    northEast = L.latLng(84.55, 193.71),
+    bounds = L.latLngBounds(southWest, northEast);
+
+	//ADD BASE MAP
+	mymap = L.map('mapid').setView([21, 0],2).setMaxBounds(bounds);
+	L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain-background/{z}/{x}/{y}{r}.{ext}', {
+		attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+		subdomains: 'abcd',
+		ext: 'png',
+		minZoom: 1
+	}).addTo(mymap);
+
+	//LATLONG POPUP WHEN CLICKING ON MAP OUTSIDE OF COUNTRY BOUNDS
+	mymap.on('click',function(e) {
+		var popuploc = e.latlng;
+		var mes = e.latlng.lat.toFixed(2).toString() + ', ' + e.latlng.lng.toFixed(2).toString();
+		var popup = L.popup()
+		.setLatLng(popuploc)
+		.setContent(mes)
+		.openOn(mymap);
+	});
+
+	//COUNTRY NAME POPUP
+	country_list = L.geoJSON(countries,{
+		style: function(feature) {
+			return {color: '#F0F8FF'};
+		},
+		onEachFeature:onEachFeature}).addTo(mymap);
+
+	//BOTTOM P TAG DEBUG	
+	p = document.createElement('p');
+	p.setAttribute('class', 'text-theme');
+	document.getElementById('main-view').appendChild(p);
+
+	/*for (var i = 0; i < country_list.getLayers().length; i++) {
+		//mymap.removeLayer(country_list.getLayers()[i]);
+		p.innerHTML = p.innerHTML.concat(country_list.getLayers()[i]);
+	}*/
 }
 
 function onEachFeature(feature, layer) {
-	country_list[feature.properties.name] = layer;
 	if (feature.properties && feature.properties.name) {
 		layer.bindPopup(feature.properties.name);
+		names.push(feature.properties.name);
 	}
+	layer.on('mouseover', 
+		function (e) {
+			this.setStyle({color:'#DC143C'});
+			this.togglePopup();
+			this.on('mouseout', function(e) {this.setStyle({color:'#F0F8FF'});this.togglePopup();});
+		}
+	);
+	layer.on('click', 
+		function (e) {
+			this.setStyle({color:'#DC143C'});
+			this.togglePopup();
+			this.on('mouseout', function(e) {this.setStyle({color:'#F0F8FF'});this.togglePopup();});
+		}
+	);
+	//layer.on('mouseout', function (e) {this.setStyle({color:'#F0F8FF'});this.togglePopup();});
+	//layer.on('click', function (e) {this.setStyle({color:'#DC143C'})});
 
 }
 

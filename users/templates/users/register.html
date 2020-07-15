@@ -1,6 +1,8 @@
 {% extends "main/base.html" %}
 {% load bootstrap4 %}
 
+{% block title %}Register{% endblock %}
+
 {% block header %}
 	<div class="jumbotron pt-4 pb-3 blank">
 		<h2>Register an Account</h2>
@@ -8,6 +10,8 @@
 {% endblock %}
 
 {% block content %}
+    <strong>You are able to create an account. Currently, there is no additional functionality unless granted proper permissions.</strong>
+    <hr class="b-white">
     <form method="post" action="{% url 'register' %}">
         {% csrf_token %}
         {% bootstrap_form form %}
