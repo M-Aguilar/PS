@@ -65,7 +65,8 @@
         <p class="float-right t-white">{{cur}}{% if cur != '0' %}-{{cur|add:c}}{% endif %} of {{total}}</p>
         {% endwith %}
         <div class="dropdown">
-            <button class="nav-link btn alt-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">{{ sort }}</button>
+            {% load deslug %}
+            <button class="nav-link btn alt-btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">{{ sort|deslug }}</button>
             <div class="dropdown-menu theme" aria-labelledby="dropdownMenuButton">
             {% if sort == '-date_added' %}
                 {% with "date_added" as s %}

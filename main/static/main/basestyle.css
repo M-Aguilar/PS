@@ -36,18 +36,22 @@ div.main-container {
 	background-color: var(--text-color);
 }
 
-.theme-color, a.text-theme:hover {
-	color:var(--theme-color);
-}
-
 .theme-link {
 	color:var(--secondary-th);
+}
+
+.btn-theme {
+	background-color:var(--theme-color);
+	color:white;
 }
 
 .b-link, .text-theme, .theme-link:hover{
 	color:var(--text-color);
 }
 
+.theme-color, a.text-theme:hover {
+	color:var(--theme-color);
+}
 .b-link:hover {
 	color:var(--blank);
 }
@@ -55,6 +59,7 @@ div.main-container {
 .t-link:hover {
 	color:#b3d9ff;
 }
+
 
 .blank, .theme, .bar-theme, .alt-btn, .card-body{
 	background-color: var(--blank);
@@ -66,9 +71,8 @@ div.main-container {
 	color:var(--blank)
 }
 
-.btn-theme {
-	background-color:var(--theme-color);
-	color:white;
+.btn-theme:active {
+	background-color: var(--theme-color);
 }
 
 div.scope {
@@ -77,7 +81,7 @@ div.scope {
 }
 
 #mapid {
-	height:80vh;
+	min-height:70vh;
 }
 
 a:hover {
@@ -171,13 +175,16 @@ div#prompt {
 	display: inline;
 }
 
-/*--------SMALL SCREEN---------*/
+/*--------SMALL SCREEN HORIZONTAL---------*/
 
 @media screen and (max-width: 768px) {
 	div.scope {
 		width:98vw;
 		margin: 2vh 1vw 0 1vw;
 		padding-bottom: 50px;
+	}
+	#mapid {
+		min-height:50vh;
 	}
 	/*as related to games 
 	*/
