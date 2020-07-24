@@ -12,6 +12,10 @@ def deslug(term):
 		t = '# of posts'
 	elif t == '-post_num':
 		t = '-# of posts'
+	elif 'date_edited' in t:
+		t = t.replace('date_','')	
+	elif 'date_added' in t:
+		t = t.replace('date_added', 'created')
 	if '_' in t:
 		t = t.replace('_', ' ')
 	return t
