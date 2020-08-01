@@ -6,8 +6,6 @@
 {% block header %}
 {% if game.js %}
 <head>
-	<script scr="countries.geo.json"></script>
-	<script type="text/javascript" src="{{game.js_p}}"></script>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
   	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
 </head>
@@ -18,7 +16,7 @@
 		{% if user.is_authenticated and user.projector.admin %}
 		<a class="btn btn-theme" href="{% url 'edit_game' game.path %}">edit game</a>
 		{% endif %}
-		<button class="btn btn-theme" id="play" onclick="new_game({{gps}});" type="btn">play game</button>
+		<button class="btn btn-theme" id="play" onclick="new_game({{gps}}); timer();" type="btn">play game</button>
 	</div>
 </div>
 {% endblock %}
@@ -28,6 +26,15 @@
 	<div class="start text-theme">
 		<p class="start game_d">{{ game.text|safe }}</p>
 	</div>
-	<script>setup();</script>
+	{% if gps %}
+	<ul class='start'>
+		{% for k,v in gps.items %}
+			<li class='start'>{{k}}: {{ v|first }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
 </div>
+{% load static %}
+<script type="text/javascript" src="{{game.js_p}}"></script>
+<script src="{% static 'games/timer.js' %}"></script>
 {% endblock%}

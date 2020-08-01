@@ -11,11 +11,11 @@
       Hello!
 		{% endif %}
 	</div>
-  {% timezone "US/Pacific" %}
-  <div class="text-center mb-2"><br>{% now "jS \o\f F Y h:iA" %}</div>
-  {% endtimezone %}
+  <div id="time" class="text-center mb-2"></div> 
+  {% load static %}
+  <br>
+  <script type="text/javascript" src="{% static 'main/time.js' %}" onload="curTime()"></script>
 </div>
-
 {% endblock %}
 
 {% block content %}

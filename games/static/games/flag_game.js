@@ -16,7 +16,7 @@ var canvas = {
 		this.ref = csv_input;
 		this.correct = [];
 		this.incorrect = [];
-		this.c = document.getElementById('main-view');
+		this.m = document.getElementById('main-view');
 		
 		this.buttons = [];
 		this.cur = [];
@@ -49,8 +49,7 @@ var canvas = {
 		this.n.setAttribute('class','d-block pb-5 w-100 d-md-flex justify-content-md-between');
 		document.getElementById('main-view').appendChild(this.n);
 		this.p.setAttribute('id', 'prompt');
-		this.p.setAttribute('class', 'jumbotron theme py-2');
-		this.s.setAttribute('class', 'float-right');
+		this.p.setAttribute('class', 'jumbotron theme d-flex justify-content-between');
 		this.a.setAttribute('id', 'a');
 		this.a.setAttribute('style', 'font-family: Segoe UI Emoji');
 		var i;
@@ -60,7 +59,7 @@ var canvas = {
 			this.n.appendChild(button);
 			this.buttons.push(button);
 		}
-		this.c.appendChild(this.p);
+		this.m.insertBefore(this.p, this.c);
 		this.p.appendChild(this.pp);
 		this.p.appendChild(this.s);
 		this.c.appendChild(this.a);
@@ -164,7 +163,8 @@ var canvas = {
 	},
 
 	endgame :function () {
-		this.p.innerHTML = "Congratulations on completing the quiz!"
+		stop=true;
+		this.pp.innerHTML = "Congratulations on completing the quiz!"
 		this.a.style = "font-size:15vw;";
 		this.a.innerHTML = (((this.correct.length/(this.correct.length+this.incorrect.length))*100).toString() + "% ").concat("Your score is ", this.score(), "!");
 		var i;

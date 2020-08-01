@@ -11,12 +11,14 @@ var country_list,
 	//used for tracking selected country layer in pregame map
 	cur;
 
+setup();
+
 function print(message) {
 	format = ''
 	for (var i = 0; i < message.length; i++) {
 		format = format .concat(message[i],': [',i.toString(),']\n');
 	}
-	return format
+	return format;
 }
 
 function new_game(gps) {
@@ -26,7 +28,6 @@ function new_game(gps) {
 		var e = docs[doc];
 		e.parentNode.removeChild(e);
 	}
-
 	for (var i = 0; i < country_list.getLayers().length; i++) {
 		mymap.removeLayer(country_list.getLayers()[i]);
 	}
@@ -63,7 +64,7 @@ var GameManager = {
 		this.cur_layer = country_list.getLayers()[names.indexOf(this.current)].setStyle({color:'#000000'}).addTo(mymap);
 		this.cur_layer.off('click', popu);
 		this.cur_layer.unbindPopup();
-		mymap.flyToBounds(this.cur_layer.getBounds(), {padding:[10,10]});
+		this.reset();
 		this.button_populate();
 		if (this.toggle==null) {
 			this.toggle = true;
@@ -98,6 +99,7 @@ var GameManager = {
 			this.q.innerHTML = "INCORRECT! The correct answer is ".concat(this.current);
 			this.cur_layer.setStyle({color:'red'});
 		}
+		this.sc.innerHTML = this.score();
 		if (this.name_pool.length > 1) {
 			var timer = setTimeout(() => {
 				GameManager.select();
@@ -120,7 +122,7 @@ var GameManager = {
 			} else {
 				while(!acceptable) {
 					index += 1;
-					console.log('Attempt # ' + index.toString());
+					//console.log('Attempt # ' + index.toString());
 					r = Math.floor(Math.random() * names.length);	
 					temp = names[r];
 					if (!this.buttons.slice(0,i+1).includes(temp) && (this.current != temp)) {
@@ -136,11 +138,19 @@ var GameManager = {
 	prompt: function(self) {
 		//CREATE TOP PROMPT
 		var prompt = document.createElement('div');
-		prompt.setAttribute('class', 'blank text-color jumbotron p-1 m-auto text-center');
+		prompt.setAttribute('class', 'blank text-color jumbotron p-1 m-auto text-center d-md-flex justify-content-md-between');
 		prompt.setAttribute('id','prompt')
 		this.q = document.createElement('p');
 		this.q.innerHTML = "Which country is this?";
 		prompt.appendChild(this.q);
+		this.sc = document.createElement('p');
+		this.sc.innerHTML = this.score();
+		prompt.appendChild(this.sc);
+		var reset = document.createElement('button');
+		reset.setAttribute('class', 'btn btn-theme');
+		reset.innerHTML = 'Reset';
+		reset.setAttribute('onclick', 'GameManager.reset()');
+		prompt.appendChild(reset);
 		document.getElementById('main-view').insertBefore(prompt, document.getElementById('game'));
 		this.buttons = [];
 		var buttons = document.createElement('DIV');
@@ -156,7 +166,10 @@ var GameManager = {
 	},
 
 	score: function(self) {
-		var score = ((this.correct.length/(this.correct.length+this.incorrect.length)) * 100).toFixed(1).toString() + '%';
+		var score = "";
+		if (this.correct.length > 0 || this.incorrect.length > 0){
+			score = ((this.correct.length/(this.correct.length+this.incorrect.length)) * 100).toFixed(1).toString() + '%';
+		}
 		score = score.concat('\n', this.correct.length.toString(), ' out of ', (this.correct.length+this.incorrect.length).toString());
 		return score;
 	},
@@ -164,6 +177,10 @@ var GameManager = {
 	endgame: function(self) {
 		message = 'Congratulations on completing the country map quiz.\nYour score is ';
 		this.q.innerHTML = message+this.score();
+	},
+	
+	reset: function(self) {
+		mymap.flyToBounds(this.cur_layer.getBounds(), {maxZoom:5,padding:[10,10]});
 	}
 }
 
