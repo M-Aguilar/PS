@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 import os
+from django.core.validators import MaxValueValidator, MinValueValidator
+
 # Create your models here.
 
 #wondering if it would be wise to allow for uploading a js file
@@ -24,3 +26,23 @@ class Score(models.Model):
 	game = models.ForeignKey(Game, on_delete=models.CASCADE)
 	score = models.IntegerField()
 	total = models.IntegerField()
+
+class Rating(models.Model):
+	ZERO = 0
+	ONE = 1
+	TWO = 2
+	THREE = 3
+	FOUR = 4
+	FIVE = 5
+	choices = [
+		(ZERO,'0'),
+		(ONE,'1'),
+		(TWO,'2'),
+		(THREE,'3'),
+		(FOUR,'4'),
+		(FIVE,'5'),
+	]
+
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	game = models.ForeignKey(Game, on_delete=models.CASCADE)
+	rating = models.IntegerField(choices=choices, blank=True, validators=[MaxValueValidator(5),MinValueValidator(0)])

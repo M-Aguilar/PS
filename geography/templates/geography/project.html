@@ -58,7 +58,7 @@
         {% endif %}
     </h5>
 </div>
-<div class="container">
+<div class='m-3'>
     {% load cur_range %}
     {% with c=posts|length|add:'-1' cur=page_num|cur_range:total %}
     <p class="float-right t-white">{{cur}}{% if cur != '0' %}-{{cur|add:c}}{% endif %} of {{total}}</p>

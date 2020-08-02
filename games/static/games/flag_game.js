@@ -100,10 +100,10 @@ var canvas = {
 		this.toggle_buttons(this.ch.indexOf(this.cur));
 		if (this.cur == user_answer) {
 			this.pp.innerHTML = "CORRECT!!";
-			this.correct.push(user_answer);
+			this.correct.push(this.cur);
 		} else {
 			this.pp.innerHTML = "WRONG! The correct answer was ".concat(this.cur);
-			this.incorrect.push(answer);
+			this.incorrect.push(this.cur);
 		}
 		setTimeout(function() {canvas.toggle_buttons(-1);canvas.update();}, 2000);
 	},
@@ -136,11 +136,13 @@ var canvas = {
 	next_question : function() {
 		//This may be an area for study as some appraches may reduce cpu cycles not that theyr're expensive
 		var acceptable = false;
-		var temp = Object.keys(this.ref); 
+		var temp = Object.keys(this.ref);
 		while (!acceptable) {
 			var num = Math.floor(Math.random() * temp.length);
 			var r = temp[num];
 			if (!this.correct.includes(r) && !this.incorrect.includes(r)) {
+				console.log(this.correct);
+				console.log(this.incorrect);
 				acceptable = true;
 				this.cur = r;
 				//return r;
@@ -164,6 +166,7 @@ var canvas = {
 
 	endgame :function () {
 		stop=true;
+		this.s.innerHTML = this.score();
 		this.pp.innerHTML = "Congratulations on completing the quiz!"
 		this.a.style = "font-size:15vw;";
 		this.a.innerHTML = (((this.correct.length/(this.correct.length+this.incorrect.length))*100).toString() + "% ").concat("Your score is ", this.score(), "!");

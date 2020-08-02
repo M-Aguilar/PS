@@ -10,4 +10,5 @@ urlpatterns = [
 	path('play/<path>', views.game, name='game'),
 	path('edit/<path>', views.edit_game, name='edit_game'),
 	path('new_game', views.new_game, name='new_game'),
+	path('<path>/rating', views.rating, name='rating'),
 ]

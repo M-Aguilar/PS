@@ -26,7 +26,12 @@
 			<div class='rounded alt-btn p-2'>
 				{{ game }}
 				<div class="float-right">
-		    		<p>Rating: 3.5/5</p>
+		    	{% if game.rating %}
+				{% load divide %}
+				<div>Rating: {{game.rating.total|divide:game.rating.rate_count}}/5</div>
+				{% else %}
+				<div>No Current Rating</div>
+				{% endif %}
     			</div>
    			</div>
    		</a>	

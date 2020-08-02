@@ -138,7 +138,7 @@ var GameManager = {
 	prompt: function(self) {
 		//CREATE TOP PROMPT
 		var prompt = document.createElement('div');
-		prompt.setAttribute('class', 'blank text-color jumbotron p-1 m-auto text-center d-md-flex justify-content-md-between');
+		prompt.setAttribute('class', 'blank text-color jumbotron p-1 m-auto text-center d-flex justify-content-between');
 		prompt.setAttribute('id','prompt')
 		this.q = document.createElement('p');
 		this.q.innerHTML = "Which country is this?";

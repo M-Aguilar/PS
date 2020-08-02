@@ -1,0 +1,34 @@
+{% extends "main/base.html" %}
+{% load bootstrap4 %}
+
+{% block title %}Rate {{game}}{% endblock %}
+
+{% block header %}
+<div class="start jumbotron blank py-4">
+	<div class="display-4 text-center">
+		<p>Rate {{ game }}</p>
+	</div>
+	<div class="text-center">
+		<br>
+		{% if rating %}
+		{% load divide %}
+		<div>Rating: {{rating.total|divide:rating.rate_count}}/5</div>
+		<div>Total Ratings: {{rating.rate_count}}</div>
+		{% else %}
+		<div>No Current Rating</div>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
+
+{% block content%}
+<div>
+	<form action="{% url 'rating' game.path %}" method='post'>
+    {% csrf_token %}
+    {% bootstrap_form form %}
+        <div class="d-inline">
+            <button class="btn btn-theme mt-3" name="submit">submit</button>
+        </div>
+    </form>
+</div>
+{% endblock%}

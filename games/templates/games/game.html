@@ -16,7 +16,19 @@
 		{% if user.is_authenticated and user.projector.admin %}
 		<a class="btn btn-theme" href="{% url 'edit_game' game.path %}">edit game</a>
 		{% endif %}
+		{% if user.is_authenticated %}
+		<a class="btn btn-theme" href="{% url 'rating' game.path %}">rate game</a>
+		{% endif %}
 		<button class="btn btn-theme" id="play" onclick="new_game({{gps}}); timer();" type="btn">play game</button>
+	</div>
+	<div class="text-center">
+		<br>
+		{% if rating %}
+		{% load divide %}
+		<div>Rating: {{rating.total|divide:rating.rate_count}}/5</div>
+		{% else %}
+		<div>No Current Rating</div>
+		{% endif %}
 	</div>
 </div>
 {% endblock %}
