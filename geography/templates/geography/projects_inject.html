@@ -101,7 +101,7 @@
       <a href="{% if project.url %} {{project.url}} {% else %}{% url 'project' project.id %}{% endif %}"><img class="mw-100 d-block mx-auto {% if not project.text %}rounded-bottom{% endif %}" src="{{ project.banner_p }}" alt="My image"></a>
     {% endif %}
     {% if project.text %}
-      <p class="m-2 p-1">{{ project.text }}</p>
+      <p class="m-2 p-1">{{ project.text|safe }}</p>
     {% endif %}
     </div>
   </div>

@@ -9,8 +9,8 @@ function new_game(gps) {
 	var c = canvas;
 	c.start(gps);
 };
-//Starts a game for new visitor
 
+//Starts a game for new visitor
 var canvas = {
 	start : function (csv_input) {
 		this.ref = csv_input;
@@ -42,6 +42,8 @@ var canvas = {
 	},
 
 	setup : function() {
+		t = document.createElement('p');
+		t.innerHTML = 'Total: '.concat(Object.keys(this.ref).length);
 		this.c.setAttribute('id','canvas');
 		this.c.setAttribute('class','w-100 text-center');
 		document.getElementById('main-view').appendChild(this.c);
@@ -62,6 +64,7 @@ var canvas = {
 		this.m.insertBefore(this.p, this.c);
 		this.p.appendChild(this.pp);
 		this.p.appendChild(this.s);
+		this.p.appendChild(t);
 		this.c.appendChild(this.a);
 	},
 
@@ -128,7 +131,7 @@ var canvas = {
 
 	//returns formated score
 	score : function() {
-		var score = ''.concat(this.correct.length, ' out of ' ,''.concat((this.correct.length + this.incorrect.length)));
+		var score = ''.concat(this.correct.length,' out of ',''.concat(this.incorrect.length));
 		return score;
 	},
 

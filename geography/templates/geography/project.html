@@ -54,7 +54,7 @@
         </div>
         {% if project.text %}
         <hr class="mt-4 text-back">
-        <div><p class="text-theme">{{ project.text }}</p></div>
+        <div><p class="text-theme">{{ project.text|safe }}</p></div>
         {% endif %}
     </h5>
 </div>
@@ -167,7 +167,7 @@
     <div class='card-body p-0 rounded-bottom {% if user.is_authenticated and user.projector.admin %}{% if not post.public %} bg-warning {% endif %}{% endif %}'>
     {% if post.text %}
         <div class="mx-3 text-theme">
-            <p > {{ post.text|linebreaks|urlize }} </p>
+            <p > {{ post.text|safe|linebreaks }} </p>
         </div>
     {% endif %}
     {% if post.image or post.image_path %}

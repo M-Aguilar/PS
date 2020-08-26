@@ -6,7 +6,6 @@ register = template.Library()
 @stringfilter
 @register.filter
 def deslug(term):
-	print(term)
 	t = term
 	if t == 'post_num':
 		t = '# of posts'
