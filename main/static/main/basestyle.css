@@ -1,10 +1,12 @@
 :root {
-	--theme-color:#003b75;
-	--text-color:black;
-	--theme-color2: #fc0352;
+	--theme-color:#0073e6;
+	--theme-color2: #00e673;
+	--theme-color3: #e60000;
+	--theme-color4: #e6ac00;
 	--blank: #e6f2ff;
 	--highlight: yellow;
-	--secondary-th: #8c1aff;
+	--text-color: black;
+	--off:#cfd9e5;
 }
 
 html,body {
@@ -22,33 +24,72 @@ div.main-container {
 	margin:0;
 	padding:0;
 	background-color: var(--blank);
+
+}
+
+div.scope {
+	margin: 5vh 10vw 5vh 10vw;
+	padding-bottom: 50px;
+}
+
+a {
+	color:var(--theme-color4);
+}
+
+a:hover, .btn-off:hover {
+	color:var(--theme-color2);
+	text-decoration: none;
+}
+
+/*
 	background-image: linear-gradient(165deg, var(--theme-color) 0%, transparent 71%, var(--blank) 85%);
 
-	/*linear-gradient(to bottom right, var(--theme-color),rgba(255,255,255,1));*/
+	linear-gradient(to bottom right, var(--theme-color),rgba(255,255,255,1));*/
 
+.bg-off {
+	background-color: var(--off);
 }
 
-.t-white, a.navbar-brand, .t-link {
-	color:white;
+.btn-off:hover {
+	background-color: var(--blank);
+	color:var(--text-color);
 }
 
-.b-white {
-	background-color: var(--text-color);
-}
-
-.text-back {
-	background-color: var(--text-color);
-}
-
-.theme-link, .abt-link {
-	color:var(--secondary-th);
-}
-
-.btn-theme {
+/* BUTTON THEME 1*/
+.btn-1 {
 	background-color:var(--theme-color);
 	color:white;
 }
 
+.btn-1:hover {
+	background-color: var(--off);
+	color:var(--text-color);
+}
+
+/* THEME COLOR 2 */
+.theme-color2 {
+	background-color: var(--theme-color2);
+}
+
+/* WHITE COLOR*/
+.t-white, a.navbar-brand, .t-link, .ab-f {
+	color:white;
+}
+.t-link:hover {
+	color:#b3d9ff;
+}
+
+/*TEXT COLOR BG*/
+.b-white, .text-back {
+	background-color: var(--text-color);
+}
+
+/* SECONDARY THEME COLOR*/
+.theme-link, .abt-link {
+	color:var(--theme-color4);
+}
+
+/* TEXT COLOR */
 .b-link, .text-theme, .theme-link:hover, .abt-link:hover {
 	color:var(--text-color);
 }
@@ -56,12 +97,10 @@ div.main-container {
 .theme-color, a.text-theme:hover {
 	color:var(--theme-color);
 }
+
+/* B-LINK HOVER -> BLANK */
 .b-link:hover {
 	color:var(--blank);
-}
-
-.t-link:hover {
-	color:#b3d9ff;
 }
 
 .blank, .theme, .bar-theme, .alt-btn, .card-body{
@@ -70,28 +109,18 @@ div.main-container {
 }
 
 .alt-btn:hover, .btn-theme:hover{
-	background-color: grey;
-	border: solid white 1px;
-	color:var(--blank)
+	background-color: var(--off);
+	color:var(--text-color);
 }
 
 .btn-theme:active {
 	background-color: var(--theme-color);
 }
 
-div.scope {
-	margin: 5vh 10vw 5vh 10vw;
-	padding-bottom: 50px;
-}
-
+/* MAP HEIGH*/
 #mapid {
 	min-height:70vh;
 }
-
-a:hover {
-	text-decoration: none;
-}
-
 /*-------NAVBAR/DROPDOWN----------*/
 
 nav.navbar {
@@ -99,11 +128,14 @@ nav.navbar {
 	min-height:50px;
 }
 
+/*-------------------DARK MODE------------------*/
+
 @media (prefers-color-scheme: dark) {
 	:root {
 		--text-color:#e6f2ff;
 		--blank:black;
 		--highlight:#4d4dff;
+		--off:#323232;
 	}
 	body {
 		color:var(--text-color);
@@ -120,8 +152,7 @@ nav.navbar {
 
 }
 
-/*--SEARCH------*/
- /*in the search place*/
+/*--------------SEARCH------*/
 .title {
 	font-size: 20px;
 }
@@ -140,17 +171,6 @@ a.car-item:hover {
 	background-color:grey;
 	opacity:.2;
 }
-
-/*------ABOUT------*/
-
-.ab-f {
-	font-size: 30px;
-	padding: 0;
-	margin:0 auto;
-
-}
-
-/*-----------------*/
 
 /* As related to games specifically*/
 
@@ -237,13 +257,11 @@ div#prompt {
 
 	.dropdown-menu a.nav-link {
 		margin-bottom: 7%;
-		background-color: var(--blank);
-		color:var(--text-color);
+		background-color: var(--theme-color);
 	}
 
 	.dropdown-menu a.nav-link.active {
-		background-color: var(--theme-color);
-		filter: hue-rotate(15deg) brightness(110%);
+		color: var(--theme-color2);
 	}
 
 	.dropdown-menu a.nav-link.active:hover {
@@ -251,7 +269,7 @@ div#prompt {
 	}
 
 	.dropdown-menu a.nav-link:hover {
-		background-color: var(--theme-color);
+		background-color: var(--off);
 	}
 }
 
@@ -274,6 +292,7 @@ footer a:visited {
 
 .highlight {
 	background-color: var(--highlight);
+	color:var(--text-color);
 }
 
 footer a:hover {
@@ -296,8 +315,13 @@ footer a {
 .card-header {
 	background-color: var(--theme-color);
 	border-style: none;
+	color:white;
 }
 
+.card-body {
+	background-color: var(--off);
+	border-radius: 5px;
+}
 .pop-project {
 	margin-top:5px;
 }
@@ -333,3 +357,39 @@ footer a {
 	color:var(--blank);
 	padding: 0px 6px;
 }
+/*------ABOUT------*/
+.ab-f {
+	font-size: 30px;
+	padding: 0;
+	margin:0 auto;
+}
+/*-----------------*/
+
+/*--------------------ABOUT COLOR SQUARES -----------------*/
+.colors {
+	display: flex;
+	width:100%;
+	justify-content: space-around;
+	padding-bottom: 5%;
+}
+.square-1, .square-2, .square-3, .square-4 {
+	display:inline-block;
+	height: 10vw;
+	width: 10vw;
+}
+
+.square-1, .c-1, .ab-f, .btn-off {
+	background-color: var(--theme-color);
+	color:white;
+}
+
+.square-2, .c-2 {
+	background-color: var(--theme-color4);
+}
+.square-3, .c-3 {
+	background-color: var(--theme-color2);	
+}
+.square-4, .c-4 {
+	background-color: var(--theme-color3)
+}
+/*-----------------------------------------------------------*/

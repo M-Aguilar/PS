@@ -3,23 +3,27 @@
 {% block title %}Edit Game{% endblock %}
 
 {% block header %}
-	<div class="jumbotron blank">
-		<div class="display-4">
+	<div class="jumbotron c-1 pt-3 pb-2">
+		<h2>
 			<p>Edit Game: {{ game }}</p>
-		</div>
+		</h2>
 	</div>
 {% endblock %}
 
 {% block content%}
-	<form class="text-theme" action="{% url 'edit_game' game.path %}" enctype="multipart/form-data" method='post' oninput="char_count()">
-    	    {% csrf_token %}
-    	    {% bootstrap_form form %}
-    	   	<div class="d-inline">
-				<button name="submit" class="btn btn-theme mr-auto mt-3">save changes</button>
-    			<div id="counter" class="float-right">
-    			</div>
-    		</div>
-    </form>
-    <script type="text/javascript" src="/static/main/base.js"></script>
+<div class="card">
+    <div class="card-body">
+    	<form action="{% url 'edit_game' game.path %}" enctype="multipart/form-data" method='post' oninput="char_count()">
+        	    {% csrf_token %}
+    	       {% bootstrap_form form %}
+    	       	<div class="d-inline">
+				    <button name="submit" class="btn btn-off mr-auto mt-3">save changes</button>
+    			 <div id="counter" class="float-right">
+    			 </div>
+    		  </div>
+        </form>
+        <script type="text/javascript" src="/static/main/base.js"></script>
+    </div>
+</div>
 {% endblock%}
 

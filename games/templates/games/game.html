@@ -10,16 +10,16 @@
   	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
 </head>
 {% endif %}
-<div class="start jumbotron blank py-4">
+<div class="start jumbotron c-1 py-3">
 	<div class="display-4 text-center">
 		<p>{{ game }}</p>
 		{% if user.is_authenticated and user.projector.admin %}
-		<a class="btn btn-theme" href="{% url 'edit_game' game.path %}">edit game</a>
+		<a class="btn alt-btn" href="{% url 'edit_game' game.path %}">edit game</a>
 		{% endif %}
 		{% if user.is_authenticated %}
-		<a class="btn btn-theme" href="{% url 'rating' game.path %}">rate game</a>
+		<a class="btn alt-btn" href="{% url 'rating' game.path %}">rate game</a>
 		{% endif %}
-		<button class="btn btn-theme" id="play" onclick="new_game({{gps}}); timer();" type="btn">play game</button>
+		<button class="btn alt-btn" id="play" onclick="new_game({{gps}}); timer();" type="btn">play game</button>
 	</div>
 	<div class="text-center">
 		<br>
@@ -35,8 +35,10 @@
 
 {% block content%}
 <div id='game'>
-	<div class="start text-theme">
-		<p class="start game_d">{{ game.text|safe }}</p>
+	<div class="start card mb-3">
+		<div class="start card-body">
+			<p class="start game_d">{{ game.text|safe }}</p>
+		</div>
 	</div>
 	{% if gps %}
 	<ul class='start'>

@@ -9,10 +9,10 @@
         $('[data-toggle="popover"]').popover();
     });
 </script>
-<div class="jumbotron pt-4 pb-4 blank">
+<div class="jumbotron pt-4 pb-4 c-1">
   <div class="d-inline-block w-100">
     <h2 class="display-4 text-center d-block">
-    Search results for <p name='q'>{{ object_list.q }}</p>
+    Search results for <p name='q'>"{{ object_list.q }}"</p>
     </h2>
   </div>
 </div>
@@ -30,14 +30,14 @@
         <form action="{% url 'search_results' %}" method='get' class='d-inline'>
             <input name="q" class="form-control d-none" type="search" value='{{ request.GET.q }}'>
             <input name="page_num" class="form-control d-none" type="search" value="{{ object_list.page_num|add:'-1' }}">
-            <button id="prev" class="btn alt-btn" type="submit">prev</button>
+            <button id="prev" class="btn btn-1" type="submit">prev</button>
         </form>
         {% endif %}
         {% if object_list.next %}
         <form action="{% url 'search_results' %}" method='get' class='d-inline'>
             <input name="q" class="form-control d-none" type="search" value='{{ request.GET.q }}'>
             <input name="page_num" class="form-control d-none" type="search" value="{{ object_list.page_num|add:'1' }}">
-            <button id="next" class="btn alt-btn" type="submit">next</button>
+            <button id="next" class="btn btn-1" type="submit">next</button>
         </form>
         {% endif %}
     </div>
@@ -110,14 +110,14 @@
         <form action="{% url 'search_results' %}" method='get' class='d-inline'>
             <input name="q" class="form-control d-none" type="search" value='{{ request.GET.q }}'>
             <input name="page_num" class="form-control d-none" type="search" value="{{ object_list.page_num|add:'-1' }}">
-            <button id="prev" class="btn btn-theme" type="submit">prev</button>
+            <button id="prev" class="btn btn-1" type="submit">prev</button>
         </form>
         {% endif %}
         {% if object_list.next %}
         <form action="{% url 'search_results' %}" method='get' class='d-inline'>
             <input name="q" class="form-control d-none" type="search" value='{{ request.GET.q }}'>
             <input name="page_num" class="form-control d-none" type="search" value="{{ object_list.page_num|add:'1' }}">
-            <button id="next" class="btn btn-theme" type="submit">next</button>
+            <button id="next" class="btn btn-1" type="submit">next</button>
         </form>
         {% endif %}
     </div>

@@ -4,20 +4,25 @@
 {% block title %}Register{% endblock %}
 
 {% block header %}
-	<div class="jumbotron pt-4 pb-3 blank">
+	<div class="jumbotron pt-4 pb-3 c-1">
 		<h2>Register an Account</h2>
 	</div>
 {% endblock %}
 
 {% block content %}
-    <strong>You are able to create an account. Currently, there is no additional functionality unless granted proper permissions.</strong>
-    <hr class="b-white">
-    <form method="post" action="{% url 'register' %}">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        {% buttons %}
-        <button name="submit" class="btn btn-theme">register</button>
-        {% endbuttons %}
-        <input type="hidden" name="next" value="{% url 'index' %}"/>
-    </form>
+    <div class="card">
+        <div class="card-header">
+            <strong>You are able to create an account. Currently, there is no additional functionality unless granted proper permissions.</strong>
+        </div>
+        <div class="card-body">
+            <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+            <button name="submit" class="btn btn-off">register</button>
+            {% endbuttons %}
+            <input type="hidden" name="next" value="{% url 'index' %}"/>
+            </form>
+        </div>
+    </div>
 {% endblock %}

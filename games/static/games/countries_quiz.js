@@ -138,7 +138,7 @@ var GameManager = {
 	prompt: function(self) {
 		//CREATE TOP PROMPT
 		var prompt = document.createElement('div');
-		prompt.setAttribute('class', 'blank text-color jumbotron p-1 m-auto text-center d-flex justify-content-between');
+		prompt.setAttribute('class', 'c-1 text-color jumbotron p-1 m-auto text-center d-flex justify-content-between');
 		prompt.setAttribute('id','prompt')
 		this.q = document.createElement('p');
 		this.q.innerHTML = "Which country is this?";
@@ -147,7 +147,7 @@ var GameManager = {
 		this.sc.innerHTML = this.score();
 		prompt.appendChild(this.sc);
 		var reset = document.createElement('button');
-		reset.setAttribute('class', 'btn btn-theme');
+		reset.setAttribute('class', 'btn alt-btn');
 		reset.innerHTML = 'Reset';
 		reset.setAttribute('onclick', 'GameManager.reset()');
 		prompt.appendChild(reset);
@@ -158,7 +158,7 @@ var GameManager = {
 		buttons.setAttribute('id','choices');
 		for (var i = 0; i < option_num; i++) {
 			var q = document.createElement('button');
-			q.setAttribute('class', 'btn btn-theme my-1');
+			q.setAttribute('class', 'btn btn-1 my-1');
 			this.buttons[i]=q;
 			buttons.appendChild(q);
 		}

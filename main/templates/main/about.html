@@ -3,12 +3,18 @@
 {% block title %}About{% endblock %}
 
 {% block header %}
-	<div class='jumbotron pt-3 pb-3 blank'>
+	<div class='jumbotron pt-3 pb-3 c-1'>
 		<div class="display-4 text-center">About</div>
 	</div>
 {% endblock %}
 
 {% block content %}
+	<div class='colors'>
+		<div class="square-1"></div>
+		<div class="square-2"></div>
+		<div class="square-3"></div>
+		<div class="square-4"></div>
+	</div>
 	<div class="card">
 		<div class="card-body rounded">
 			<p>This page contains information about the site including software, hardware, and other relevant materials used in setting up and executing this site. Feel free to contact me for any information regarding any project or the site itself via <a class="theme-link" href="mailto:support@agullar.com">email.</a></p>
@@ -16,51 +22,79 @@
 		</div>
 	</div>
 	<div class="card my-4">
-		<div class="card-header blank">
-			<p class="card-title ab-f t-white">Software</p>
+		<div class="card-header">
+			<p class="card-title ab-f">Software</p>
 		</div>
-		<div class="card-body blank rounded-bottom">
-			<h5><a href="https://www.raspberrypi.org/downloads/" class="abt-link">Raspbian</a></h5>
-			<hr class='text-back'>
+		<div class="card-body rounded-bottom">
+			<h5>
+				<div class="pt-1">
+					<a href="https://www.raspberrypi.org/downloads/" class="abt-link float-left">Raspbian</a>
+					<hr class='ml-2 text-back'>
+				</div>
+			</h5>
 			<p class="card-text">
 				Raspbian is the recommended operating system for the raspberry pi.
 				It can be used as a personal computer by connecting various peripherals including mouse, keyboard, and display.
 				For my purposes I remote log in with a different computer or phone.
 			</p>
-			<h5><a href="https://www.python.org/" class="abt-link">Python</a></h5>
-			<hr class='text-back'>
+			<h5>
+				<div class="pt-1">
+					<a href="https://www.python.org/" class="abt-link float-left">Python</a>
+					<hr class='ml-2 text-back'>
+				</div>				
+			</h5>
 			<p class="card-text">
 				Python is included in Raspbian and is used for various purposes such as create virtual environments and running simple scripts as well as designing the functionality of this site.
 			</p>
-			<h5><a href="https://www.djangoproject.com/" class="abt-link">Django</a></h5>
-			<hr class='text-back'>
+			<h5>
+				<div class="pt-1">
+					<a href="https://www.djangoproject.com/" class="abt-link float-left">Django</a>
+					<hr class='ml-2 text-back'>
+				</div>
+			</h5>
 			<p class="card-text">
 				Django is a python based framework that provides a complete option for developing a functional website. A different  python based alternaitve to Django is Flask.
 			</p>
-			<h5><a href="https://getbootstrap.com/" class="abt-link">Bootstrap</a></h5>
-			<hr class='text-back'>
+			<h5>
+				<div class="pt-1">
+					<a href="https://getbootstrap.com/" class="abt-link float-left">Bootstrap</a>
+					<hr class='ml-2 text-back'>
+				</div>
+			</h5>
 			<p class="card-text">
 				Bootstrap is a styling solution. Using jQuery to provide clean functional website elements.
 			</p>
-			<h5><a href="https://www.sublimetext.com/" class="abt-link">Sublime Text Editor</a></h5>
-			<hr class='text-back'>
+			<h5>
+				<div class="pt-1">
+					<a href="https://www.sublimetext.com/" class="abt-link float-left">Sublime Text Editor</a>
+					<hr class='ml-2 text-back'>
+				</div>
+			</h5>
 			<p class="card-text">
 				Sublime is my preferred text editor. it is simple and small in size. It supports most languages and can be customized extensively as desired.
 			</p>
-			<h5><a href="https://httpd.apache.org/" class="abt-link">Apache</a></h5>
-			<hr class='text-back'>
+			<h5>
+				<div class="pt-1">
+					<a href="https://httpd.apache.org/" class="abt-link float-left">Apache</a>
+					<hr class='ml-2 text-back'>
+				</div>
+			</h5>
 			<p class="card-text">
 				Apache is the most popular web serving framework or so I here and is a key piece in hosting a website.
 			</p>
 		</div>
 	</div>
 	<div class="card my-4">
-		<div class="card-header blank">
-			<p class="card-title ab-f t-white">Hardware</p>
+		<div class="card-header">
+			<p class="card-title ab-f">Hardware</p>
 		</div>
-		<div class="card-body blank rounded-bottom">
-			<h5><a href="https://www.raspberrypi.org/" class="abt-link">Raspberry pi</a></h5>
-			<hr class='text-back'>
+		<div class="card-body rounded-bottom">
+			<h5>
+				<div class="pt-1">
+					<a href="https://www.raspberrypi.org/" class="abt-link float-left">Raspberry pi</a>
+					<hr class='ml-2 text-back'>
+				</div>
+			</h5>
 			<p class="card-text">
 				My main file sites are stored on my raspberry pi 2 model B+.
 				This is a great tool for learning basic computer functionality as well as an introduction to more technical skills such as programming, command line usage, and useful computer practices.
@@ -70,42 +104,70 @@
 		</div>
 	</div>
 	<div class="card my-4">
-		<div class="card-header blank">
-			<p class="card-title ab-f t-white">Resources</p>
+		<div class="card-header">
+			<p class="card-title ab-f">Resources</p>
 		</div>
-		<div class="card-body blank rounded-bottom">
-			<h5><a href="https://automatetheboringstuff.com/" class="abt-link">Automate the Boring Stuff</h5></a>
-			<hr class='text-back'>
+		<div class="card-body rounded-bottom">
+			<h5>
+				<div class="pt-1">
+					<a href="https://automatetheboringstuff.com/" class="abt-link float-left">Automate the Boring Stuff</a>
+					<hr class='ml-2 text-back'>
+				</div>
+			</h5>
 			<p class="card-text">
 				This books pairs well with Python Crash Course and has a load of information about Python and how to get started using it in every day life for every day tasks.
 			</p>
-			<h5><a href="https://nostarch.com/pythoncrashcourse2e" class="abt-link">Python Crash Course</h5></a>
-			<hr class='text-back'>
+			<h5>
+				<div class="pt-1">
+					<a href="https://nostarch.com/pythoncrashcourse2e" class="abt-link float-left">Python Crash Course</a>
+					<hr class='ml-2 text-back'>
+				</div>
+			</h5>
 			<p class="card-text">
 				This book contains the project which this website is based on. Highly recommended. 
 			</p>
-			<h5><a href="https://docs.python.org/3/" class="abt-link">Python Documentation</h5></a>
-			<hr>
+			<h5>
+				<div class="pt-1">
+					<a href="https://docs.python.org/3/" class="abt-link float-left">Python Documentation</a>
+					<hr class='ml-2 text-back'>
+				</div>
+			</h5>
 			<p class="card-text">
 				While the books mentioned were the guide for the development of many projects, the Python doc pages were key in filling in the gaps created by release date of the books vs. current Python version.
 			</p>
-			<h5><a href="https://docs.djangoproject.com/en/3.0/" class="abt-link">Django Documentation</h5></a>
-			<hr class='text-back'>
+			<h5>
+				<div class="pt-1">
+					<a href="https://docs.djangoproject.com/en/3.0/" class="abt-link float-left">Django Documentation</a>
+					<hr class='ml-2 text-back'>
+				</div>
+			</h5>
 			<p class="card-text">
 				Just like Python releases newer version, so does Django. The Django Documentation is essential when troubleshooting. Do note that the version in guides, such as the ones in the Python Crash Course, may be a different. 
 			</p>
-			<h5><a href="https://www.w3schools.com/" class="abt-link">W3 Schools</h5></a>
-			<hr class='text-back'>
+			<h5>
+				<div class="pt-1">
+					<a href="https://www.w3schools.com/" class="abt-link float-left">W3 Schools</a>
+					<hr class='ml-2 text-back'>
+				</div>
+			</h5>
 			<p class="card-text">
 				If you're interested in web design W3 schools area great resorse for learning about feateures related to almost any programming language and other popular frameworks. 
 			</p>
-			<h5><a href="https://getbootstrap.com/" class="abt-link">Bootstrap Documenation</h5></a>
-			<hr class='text-back'>
+			<h5>
+				<div class="pt-1">
+					<a href="https://getbootstrap.com/" class="abt-link float-left">Bootstrap Documenation</a>
+					<hr class='ml-2 text-back'>
+				</div>
+			</h5>
 			<p class="card-text">
 				Bootstrap is a styling framework that is used in the Python Crash Course Web Project. I utilize bootstrap along with plain old CSS to style this site. 
 			</p>
-			<h5><a href="https://leafletjs.com/" class="abt-link">Leaflet</h5></a>
-			<hr class='text-back'>
+			<h5>
+				<div class="pt-1">
+					<a href="https://leafletjs.com/" class="abt-link float-left">Leaflet</a>
+					<hr class='ml-2 text-back'>
+				</div>
+			</h5>
 			<p class="card-text">
 				Leaflet is a lightweight JavaScript library that allows for map integration.
 			</p>

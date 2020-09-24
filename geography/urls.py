@@ -7,7 +7,7 @@ urlpatterns = [
     path('<user_id>/projects/<page_num>', views.projects, name='projects'),
    	path('<user_id>/projects/<sort>', views.projects, name='projects'),
     path('<user_id>/projects', views.projects, name='projects'),
-
+    
     #path('search/<page_num>/',views.SearchResultsView.as_view(), name='search_page'),
     path('search/', views.SearchResultsView.as_view(), name='search_results'),
 

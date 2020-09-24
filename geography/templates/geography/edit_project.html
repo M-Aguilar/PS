@@ -4,9 +4,9 @@
 {% block title %}Edit Project{% endblock %}
 
 {% block header %}
-	<div class="jumbotron blank pt-4 pb-3">
+	<div class="jumbotron c-1 pt-4 pb-3">
 		<h2>Edit Project <a class="ml-2 theme-link float-right" href="{% url 'project' project.id %}">{{ project }}</a></h2>
-		<hr>
+		<hr class='text-back'>
 		{% load tz %}
 		<div>
 			<p class="my-1">Created {{ project.date_added|timezone:"America/Los_Angeles"}}</p> 
@@ -15,50 +15,51 @@
 	</div>
 {% endblock %}
 {% block content %}
-    <div class="container text-theme">
-	    <form action="{% url 'edit_project' project.id %}" enctype="multipart/form-data" method='post' oninput="char_count()">
-    	    {% csrf_token %}
-    	    {% bootstrap_form form %}
-    		<div class="d-inline">
-                <button name="submit" class="btn btn-theme mr-auto mt-3">save changes</button>
-                <a href="" class="btn btn-theme mr-auto mt-3" data-toggle="modal" data-target="#centerconsole">delete project</a>
-                <div class="modal fade" id="centerconsole" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content blank">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modalDeleteProject">Confirm</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span class="text-theme" aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                Please confirm that you would like to remove this project.    
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-theme" data-dismiss="modal">Cancel</button>
-                                <a href="{% url 'delete_project' project.id %}"><button type="button" class="btn btn-theme">Confirm</button></a>
+    <div class="container card text-theme p-0">
+        <div class="card-body">
+    	    <form action="{% url 'edit_project' project.id %}" enctype="multipart/form-data" method='post' oninput="char_count()">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <div class="d-inline">
+                    <button name="submit" class="btn btn-off mr-auto mt-3">save changes</button>
+                    <a href="" class="btn btn-off mr-auto mt-3" data-toggle="modal" data-target="#centerconsole">delete project</a>
+                    <div class="modal fade" id="centerconsole" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header c-1">
+                                    <h5 class="modal-title" id="modalDeleteProject">Confirm</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span class="text-theme" aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body bg-off">
+                                    Please confirm that you would like to remove this project.    
+                                </div>
+                                <div class="modal-footer blank">
+                                    <button type="button" class="btn btn-1" data-dismiss="modal">Cancel</button>
+                                    <a href="{% url 'delete_project' project.id %}"><button type="button" class="btn btn-1">Confirm</button></a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div id="counter" class="float-right">
+                    </div>
                 </div>
-                <div id="counter" class="float-right">
-                </div>
+    	   </form>
+            {% load static %}
+            {% if project.banner_path or project.banner %}
+            <div>
+                {% if project.banner %}
+                <p>Banner size: {{project.banner.width}} x {{project.banner.height}}</p>
+                {% endif %}
+                <img id="preview" src="{{ project.banner_p }}" class="mw-100 d-block rounded mt-3 mx-auto" alt="No Image">
             </div>
-    	</form>
-        {% load static %}
-        {% if project.banner_path or project.banner %}
-        <div>
-            {% if project.banner %}
-            <p>Banner size: {{project.banner.width}} x {{project.banner.height}}</p>
+            {% else %}
+            <div>
+                <img id="preview" src="" class="mw-100 d-block rounded mx-auto" alt="No Image">
+            </div>
             {% endif %}
-            <img id="preview" src="{{ project.banner_p }}" class="mw-100 d-block rounded mt-3 mx-auto" alt="No Image">
+    	   <script type="text/javascript" src="/static/main/base.js"></script>
         </div>
-        {% else %}
-        <div>
-            <img id="preview" src="" class="mw-100 d-block rounded mx-auto" alt="No Image">
-        </div>
-        {% endif %}
-    	<script type="text/javascript" src="/static/main/base.js"></script>
     </div>
-
 {% endblock %}

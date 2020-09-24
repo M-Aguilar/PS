@@ -6,15 +6,21 @@ Edit Account
 {% endblock %}
 
 {% block header %}
+<div class='jumbotron c-1 py-3'>
 	<h1>Edit Account</h1>
+</div>
 {% endblock %}
 
 {% block content %}
- <form method="post" action="{% url 'edit_account' request.user.username %}">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% buttons %}
-    <button name="submit" class="btn btn-theme">save changes</button>
-    {% endbuttons %}
-</form>
+<div class="card">
+	<div class="card-body">
+		<form method="post" action="{% url 'edit_account' request.user.username %}">
+	    {% csrf_token %}
+    	{% bootstrap_form form %}
+    	{% buttons %}
+    		<button name="submit" class="btn btn-off">save changes</button>
+    	{% endbuttons %}
+		</form>
+	</div>
+</div>
 {% endblock %}

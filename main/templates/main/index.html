@@ -2,13 +2,15 @@
 
 {% block title %}M.Aguilar{% endblock %}
 {% block header %}
-<div class='jumbotron blank pt-5 pb-3'>
-	<div class="display-4 text-center text-theme">
+<div class='jumbotron pb-0 pt-4 c-1'>
+	<div class="display-4 text-center">
     {% load tz %}
 		{% if user.is_authenticated %}
 			Hello {{user}}!
     {% else %}
-      Hello!
+    <div>WHATS UP</div>
+    <a class='btn alt-btn' href="{% url 'login' %}">Log in</a>
+    <a class='btn alt-btn' href="{% url 'register' %}">Register</a>
 		{% endif %}
 	</div>
   <div id="time" class="text-center mb-2"></div> 
@@ -22,7 +24,7 @@
 <div class="intro">
 	<div class="card mb-4 border-0">
     <div class="card-body rounded">
-      <p class="mb-0">This is an ever expanding site meant to explore and display different ideas and projects.</p>
+      <p class="mb-0">This is an ever expanding site meant to explore and display different ideas and <a href="{% url 'projects' %}">projects.</a></p>
     </div>
   </div>
 </div>
@@ -59,7 +61,7 @@
 </div>
 <div>
   <p></p>
-  <hr class='bg-dark'>
+  <hr class='text-back'>
   <p></p>
 </div>
 {% endblock %}

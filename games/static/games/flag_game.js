@@ -45,19 +45,19 @@ var canvas = {
 		t = document.createElement('p');
 		t.innerHTML = 'Total: '.concat(Object.keys(this.ref).length);
 		this.c.setAttribute('id','canvas');
-		this.c.setAttribute('class','w-100 text-center');
+		this.c.setAttribute('class','w-100 text-center card card-body mt-2');
 		document.getElementById('main-view').appendChild(this.c);
 		this.n.setAttribute('id','choices');
 		this.n.setAttribute('class','d-block pb-5 w-100 d-md-flex justify-content-md-between');
 		document.getElementById('main-view').appendChild(this.n);
 		this.p.setAttribute('id', 'prompt');
-		this.p.setAttribute('class', 'jumbotron theme d-flex justify-content-between');
+		this.p.setAttribute('class', 'jumbotron c-1 d-flex justify-content-between');
 		this.a.setAttribute('id', 'a');
 		this.a.setAttribute('style', 'font-family: Segoe UI Emoji');
 		var i;
 		for(i = 0; i < 4; i++) {
 			var button = document.createElement('BUTTON');
-			button.setAttribute('class','btn btn-theme my-2');
+			button.setAttribute('class','btn btn-1 my-2');
 			this.n.appendChild(button);
 			this.buttons.push(button);
 		}
@@ -115,7 +115,7 @@ var canvas = {
 		var i;
 		for(i = 0; i < this.buttons.length; i++) {
 			if (this.buttons[i].getAttribute('class').search('disabled') > -1) {
-				this.buttons[i].setAttribute("class", "btn btn-theme my-2");
+				this.buttons[i].setAttribute("class", "btn btn-1 my-2");
 				this.buttons[i].setAttribute('onclick','canvas.submit('.concat(i,')'));
 			} else {
 				if (answer == i) {

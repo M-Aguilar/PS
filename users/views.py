@@ -12,18 +12,19 @@ from .forms import NameForm
 
 @login_required
 def edit_account(request, username):
+	if request.user == username:
+		user = User.objects.get(username=username)
 	message=''
 	if request.method == 'POST':
 		form = NameForm(data=request.POST)
 		if form.is_valid():
-			user = User.objects.get(username=username)
 			user.username = form.cleaned_data['your_name']
 			user.save()
 		else:
 			return HttpResponseRedirect(reverse('account', args=[user.username]))
 	else:
-		form = NameForm({'username':username})
-	return render(request, 'users/edit_account.html', {'form' : form })
+		form = NameForm(initial={'your_name':username})
+	return render(request, 'users/edit_account.html', {'form' : form})
 
 def account(request, username):
 	p_tot = len(Project.objects.filter(owner__username=username))
