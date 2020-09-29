@@ -30,7 +30,7 @@ def account(request, username):
 	p_tot = len(Project.objects.filter(owner__username=username))
 	po_tot = len(Post.objects.filter(project__owner__username=username))
 	date_joined = User.objects.get(username=username).date_joined
-	context = {"project_tot": p_tot, "post_tot": po_tot, 'date_joined': date_joined, 'username':username}
+	context = {"project_tot": p_tot, "post_tot": po_tot, 'date_joined': date_joined, 'username':username,'nbar':'account'}
 	return render(request, 'users/account.html', context)
 
 @login_required

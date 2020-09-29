@@ -56,7 +56,7 @@
 	    				</li>
 	    				{% if user.is_authenticated %}
 	    				<li class="nav-item">
-    						<a class="nav-link text-left mx-auto " href="{% url 'account' request.user.username %}">Account</a>
+    						<a class="nav-link text-left mx-auto {% if nbar == 'account' %} active {% endif %}" href="{% url 'account' request.user.username %}">Account</a>
     					</li>
     					<li class="nav-item">
     						<a class="nav-link text-left mx-auto " href="{% url 'logout' %}">Log out</a>
@@ -75,10 +75,10 @@
     						<form action="{% url 'search_results' %}" method='get'>
 		    					<div class="form-row">
 		    						<div class='col pr-0'>
-			    						<input name="q" class="form-control" type="search" placeholder="Search" aria-label="Search">
+			    						<input name="q" class="form-control blank" type="search" placeholder="Search" aria-label="Search">
 									</div>
 		    						<div class='mr-1 search-b'>
-		    							<button class="btn btn-light" type="submit"><i class="fa fa-search"></i></button>
+		    							<button class="btn btn-blank" type="submit"><i class="fa fa-search"></i></button>
 									</div>
 								</div>
     						</form>

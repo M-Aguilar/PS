@@ -7,6 +7,7 @@
 	--highlight: yellow;
 	--text-color: black;
 	--off:#cfd9e5;
+	--off2:#323232;
 }
 
 html,body {
@@ -50,13 +51,17 @@ a:hover, .btn-off:hover {
 	background-color: var(--off);
 }
 
-.btn-off:hover {
-	background-color: var(--blank);
+button.dropdown-item {
 	color:var(--text-color);
 }
 
+button.dropdown-item:hover {
+	background-color: var(--off2);
+	color:var(--blank);
+}
+
 /* BUTTON THEME 1*/
-.btn-1 {
+.btn-1,.btn-blank:hover{
 	background-color:var(--theme-color);
 	color:white;
 }
@@ -72,7 +77,7 @@ a:hover, .btn-off:hover {
 }
 
 /* WHITE COLOR*/
-.t-white, a.navbar-brand, .t-link, .ab-f {
+.t-white, a.navbar-brand, .t-link, .ab-f,.navbar-dark .navbar-nav .show > .nav-link.active {
 	color:white;
 }
 .t-link:hover {
@@ -80,7 +85,7 @@ a:hover, .btn-off:hover {
 }
 
 /*TEXT COLOR BG*/
-.b-white, .text-back {
+.b-white, .text-back, .bg-off a:link {
 	background-color: var(--text-color);
 }
 
@@ -98,12 +103,15 @@ a:hover, .btn-off:hover {
 	color:var(--theme-color);
 }
 
+.navbar-dark .navbar-nav .nav-link, .navbar-dark .navbar-nav .show > .nav-link {
+	color:rgba(255,255,255,.7);
+}
 /* B-LINK HOVER -> BLANK */
 .b-link:hover {
 	color:var(--blank);
 }
 
-.blank, .theme, .bar-theme, .alt-btn, .card-body{
+.blank, .theme, .bar-theme, .alt-btn, .card-body, .btn-off:hover, .btn-blank, .blank:focus {
 	background-color: var(--blank);
 	color: var(--text-color);
 }
@@ -136,7 +144,9 @@ nav.navbar {
 		--blank:black;
 		--highlight:#4d4dff;
 		--off:#323232;
+		--off2:#cfd9e5;
 	}
+
 	body {
 		color:var(--text-color);
 	}
@@ -159,10 +169,12 @@ nav.navbar {
 
 div.col input.form-control {
 	border-radius: 15px 0 0 15px;
+	border-color: var(--blank);
 }
 
 div.search-b button {
 	border-radius: 0 15px 15px 0;
+	border-color:var(--blank);
 }
 
 /*-------COUROSELITEM----------*/
@@ -222,8 +234,7 @@ div#prompt {
 	
 	.dropdown-menu a.active {
 		background-color: var(--theme-color);
-		filter: hue-rotate(15deg) brightness(110%);
-
+		color:white;
 	}
 
 	li.nav-item a.nav-link {
@@ -263,11 +274,11 @@ div#prompt {
 	.dropdown-menu a.nav-link.active {
 		color: var(--theme-color2);
 	}
-
+/*
 	.dropdown-menu a.nav-link.active:hover {
 		filter:hue-rotate(0deg) brightness(100%);
 	}
-
+*/
 	.dropdown-menu a.nav-link:hover {
 		background-color: var(--off);
 	}
