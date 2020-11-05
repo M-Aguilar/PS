@@ -4,12 +4,12 @@
 {% block title %}Edit Post{% endblock %}
 
 {% block header %}
-	<div class="jumbotron blank pt-4 pb-3">
+	<div class="jumbotron c-1 pt-4 pb-3">
        <div class='d-block'>
             <h2 class="float-right">Project -<a class="theme-link ml-2" href="{% url 'project' project.id %}">{{ project }}</a></h2>
             <h2>Edit Post</h2>
 		</div>
-        <hr>
+        <hr class='text-back'>
 		{% load tz %}
 		<div>
 			<div class="my-1">
@@ -20,54 +20,56 @@
 	</div>
 {% endblock %}
 {% block content %}
-    <div class="container text-theme">
-	    <form action="{% url 'edit_post' post.id %}" enctype="multipart/form-data" method='post' oninput="char_count()">
-    	    {% csrf_token %}
-    	    {% bootstrap_form form %}
-            <div class="d-inline">
-                <button name="submit" class="btn btn-theme mr-auto my-3">save changes</button>
-                <a href="" class="btn btn-theme mr-auto my-3" data-toggle="modal" data-target="#centerconsole">delete post</a>
-                <div class="modal fade" id="centerconsole" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content blank">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modalDeleteProject">Confirm</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span class="text-theme" aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                Please confirm that you would like to remove this post.    
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-theme" data-dismiss="modal">Cancel</button>
-                                <a href="{% url 'delete_post' post.id %}"><button type="button" class="btn btn-theme">Confirm</button></a>
+    <div class="container card text-theme p-0">
+        <div class="card-body">
+    	    <form action="{% url 'edit_post' post.id %}" enctype="multipart/form-data" method='post' oninput="char_count()">
+        	    {% csrf_token %}
+    	       {% bootstrap_form form %}
+                <div class="d-inline">
+                    <button name="submit" class="btn btn-off mr-auto my-3">save changes</button>
+                    <a href="" class="btn btn-off mr-auto my-3" data-toggle="modal" data-target="#centerconsole">delete post</a>
+                    <div class="modal fade" id="centerconsole" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content blank">
+                                <div class="modal-header c-1">
+                                    <h5 class="modal-title" id="modalDeleteProject">Confirm</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span class="text-theme" aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body bg-off">
+                                    Please confirm that you would like to remove this post.    
+                                </div>
+                                <div class="modal-footer blank">
+                                    <button type="button" class="btn btn-1" data-dismiss="modal">Cancel</button>
+                                    <a href="{% url 'delete_post' post.id %}"><button type="button" class="btn btn-1">Confirm</button></a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div id="counter" class="float-right">
+                    </div>
                 </div>
-                <div id="counter" class="float-right">
-                </div>
+    	   </form>
+            {% load static %}
+            {% if post.image or post.image_path %}
+            <div>
+                {% if post.image %}
+                <p>Image size: {{ post.image.width }} x {{ post.image.height }}</p>
+                {% endif %}
+                <img id="#preview" class="mw-100 mx-auto d-block rounded" src="{{ post.image_p }}" alt="No Image">
             </div>
-    	</form>
-        {% load static %}
-        {% if post.image or post.image_path %}
-        <div>
-            {% if post.image %}
-            <p>Image size: {{ post.image.width }} x {{ post.image.height }}</p>
+            {% else %}
+            <div>
+                <img id="#preview" class="mw-100 mx-auto d-block rounded" src="" alt="No Image">
+            </div>
             {% endif %}
-            <img id="#preview" class="mw-100 mx-auto d-block rounded" src="{{ post.image_p }}" alt="No Image">
+            {% if post.pdf or post.pdf_path %}
+            <div>
+                <iframe src="https://docs.google.com/viewer?url={{request.scheme}}://{{request.get_host}}{{ post.pdf_p }}&embedded=true" frameborder="0" height="500px" width="100%"></iframe>
+            </div>
+            {% endif %}
+    	   <script type="text/javascript" src="/static/main/base.js"></script>
         </div>
-        {% else %}
-        <div>
-            <img id="#preview" class="mw-100 mx-auto d-block rounded" src="" alt="No Image">
-        </div>
-        {% endif %}
-        {% if post.pdf or post.pdf_path %}
-        <div>
-            <iframe src="https://docs.google.com/viewer?url={{request.scheme}}://{{request.get_host}}{{ post.pdf_p }}&embedded=true" frameborder="0" height="500px" width="100%"></iframe>
-        </div>
-        {% endif %}
-    	<script type="text/javascript" src="/static/main/base.js"></script>
     </div>
 {% endblock %}

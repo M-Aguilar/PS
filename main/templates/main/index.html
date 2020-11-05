@@ -4,19 +4,17 @@
 {% block header %}
 <div class='jumbotron pb-0 pt-4 c-1'>
 	<div class="display-4 text-center">
+    <div id="time" class="text-center mb-2"></div> 
+    {% load static %}
+    <script type="text/javascript" src="{% static 'main/time.js' %}" onload="curTime()"></script>
     {% load tz %}
 		{% if user.is_authenticated %}
 			Hello {{user}}!
     {% else %}
-    <div>WHATS UP</div>
     <a class='btn alt-btn' href="{% url 'login' %}">Log in</a>
     <a class='btn alt-btn' href="{% url 'register' %}">Register</a>
 		{% endif %}
 	</div>
-  <div id="time" class="text-center mb-2"></div> 
-  {% load static %}
-  <br>
-  <script type="text/javascript" src="{% static 'main/time.js' %}" onload="curTime()"></script>
 </div>
 {% endblock %}
 

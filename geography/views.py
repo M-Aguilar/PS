@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Project, Post
 from .forms import ProjectForm, PostForm
 from django.contrib.auth.decorators import login_required
@@ -21,6 +21,14 @@ class SearchResultsView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('q')
+        if query in ['', None, ' ']:
+            raise Http404
+            '''try:
+                if self.request.META.HTTP_REFERER:
+                    return HttpResponseRedirect(self.request.META.HTTP_REFERER)
+            except AttributeError:
+                pass
+            return HttpResponseRedirect(reverse('index'))'''
         page_num = self.request.GET.get('page_num')
         nbar='public'
         if not page_num:

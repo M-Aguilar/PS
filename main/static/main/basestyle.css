@@ -160,6 +160,11 @@ nav.navbar {
 		padding: 1px 5px;
 	}
 
+	.form-control, .form-control:focus {
+		color:#dbd7d7;
+		background-color: #222;
+	}
+
 }
 
 /*--------------SEARCH------*/
