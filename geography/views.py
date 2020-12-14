@@ -15,30 +15,40 @@ import os
 from django.db.models import Q
 from django.views.generic import ListView
 
+
+def search(request):
+    context = {}
+    return request(request, 'geography/search.html',context)
+
+'''
+TODO: This could definitely be fleshed out more. It could allow for arguments
+for example user=username and listing the publuc posts of that user. Could also provide user
+page.
+-keyword to exclude word in serach
+There needs to be priorty in the search results. I want the most relevant searches at the top.
+For example posts that contain multiple keywords should be higher up the search result list
+
+'''
 class SearchResultsView(ListView):
     model = Post
     template_name = 'geography/search_results.html'
 
     def get_queryset(self):
         query = self.request.GET.get('q')
-        if query in ['', None, ' ']:
-            raise Http404
-            '''try:
-                if self.request.META.HTTP_REFERER:
-                    return HttpResponseRedirect(self.request.META.HTTP_REFERER)
-            except AttributeError:
-                pass
-            return HttpResponseRedirect(reverse('index'))'''
-        page_num = self.request.GET.get('page_num')
         nbar='public'
+        #print('query: ' + query + ' -  Type: ' + str(type(query)))
+        page_num = self.request.GET.get('page_num')
         if not page_num:
-            page_num=0
+            page_num = 0
         #if not logged in.
-        if self.request.user.is_authenticated:
-            nbar='private'
+        if self.request.user.is_authenticated and query !='':
+            nbar = 'private'
             object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__owner__username__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query), Q(public=True) & Q(project__public=True) | Q(project__owner=self.request.user)).order_by('-date_edited')
-        else:
+        elif query != '':
             object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query) | Q(project__owner__username__icontains=query), Q(public=True) & Q(project__public=True)).order_by('-date_edited')
+        else:
+            object_list={}
+        #assumes an object list
         total = len(object_list)
         next_p = False
         if total > 10:

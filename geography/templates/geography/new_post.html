@@ -10,16 +10,63 @@
     	</div>
     	<div class='card'>
             <div class="card-body">
-                <form action="{% url 'new_post' project.id %}" method='post' enctype="multipart/form-data" oninput="char_count()">
-                {% csrf_token %}
-                {% bootstrap_form form %}
-                    <div class="d-inline">
-                    <button class="btn btn-off mt-3" name='submit'>Submit</button>
-                        <div id="counter" class="float-right"></div>
+                <form action="{% url 'new_post' project.id %}" method='post' enctype="multipart/form-data" oninput="char_count()"> 
+                    {% csrf_token %}
+                    <div class="d-inline mx-auto"><!--{% bootstrap_form form layout='inline' %}-->
+                        {{ form.non_field_errors }}
+                        <div class="form-group">
+                            {{ form.text.errors }}
+                            <label for="{{ form.text.id_for_label }}"></label>
+                            {{ form.text }}
+                            <div id="counter" class="d-inline mb-0"></div>
+                        </div>
+                        <div class="form-group form-row">
+                            <div class="col">
+                                {{ form.public.errors }}
+                                <label for="{{ form.public.id_for_label }}">Public</label>
+                                <div class="mx-auto">{{ form.public }}</div>
+                            </div>
+                            <div class="col">
+                                {{ form.project.errors }}
+                                <label for="{{ form.project.id_for_label }}">Project</label>
+                                {{ form.project }}
+                            </div>
+                        </div>
+                        <div class="form-group form-row">
+                            <div class="custom-file col" style="margin-right:5px;">
+                                {{ form.image.errors }}
+                                <label class="custom-file-label" for="{{ form.image.id_for_label }}">Image</label>
+                                {{ form.image }}
+                            </div>
+                            <div class="custom-file col" style="margin-left:5px;">
+                                {{ form.pdf.errors }}
+                                <label class="custom-file-label" for="{{ form.pdf.id_for_label }}">PDF</label>
+                                {{ form.pdf }}
+                            </div>
+                        <div>
+                        <div class="form-group form-row mt-2">
+                            <div class="col">
+                                {{ form.image_path.errors }}
+                                {{ form.image_path }}
+                            </div>
+                            <div class="col">
+                                {{ form.pdf_path.errors }}
+                                {{ form.pdf_path }}
+                            </div>
+                        </div>
+                        <div class="d-inline">
+                            <button class="btn btn-off mt-3" name='submit'>Submit</button>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
 	</div>
-    <script type="text/javascript" src="/static/main/base.js"></script>	
+    <script type="text/javascript" src="/static/main/base.js"></script>
+    <script>
+        $(".custom-file-input").on("change", function() {
+            var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
 {% endblock %}

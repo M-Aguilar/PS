@@ -15,6 +15,7 @@ html,body {
 	margin:0;
 	padding:0;
 	position:relative;
+	background-color: var(--blank);
 }
 
 div.main-container {
@@ -24,8 +25,6 @@ div.main-container {
 	width: 100%;
 	margin:0;
 	padding:0;
-	background-color: var(--blank);
-
 }
 
 div.scope {
@@ -164,7 +163,6 @@ nav.navbar {
 		color:#dbd7d7;
 		background-color: #222;
 	}
-
 }
 
 /*--------------SEARCH------*/
@@ -294,6 +292,7 @@ div#prompt {
 div.footer footer {
 	margin-bottom: 0;
 	position: absolute;
+	left:0;
 	bottom:0;
 	height:36px;
 	width:100vw;
@@ -373,6 +372,7 @@ footer a {
 	color:var(--blank);
 	padding: 0px 6px;
 }
+
 /*------ABOUT------*/
 .ab-f {
 	font-size: 30px;

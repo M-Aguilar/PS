@@ -15,5 +15,13 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['text', 'public','project', 'image', 'pdf', 'image_path', 'pdf_path']
-        labels = {'text':'', 'image_path':'Image','pdf_path':'pdf'}
-        widgets = {'text': forms.Textarea(attrs={'cols':80,'autofocus':'autofocus'})}
+        labels = {'text':'', 'image_path':'', 'image':'','pdf_path':'pdf'}
+        widgets = {
+            'text': forms.Textarea(attrs={'cols':80,'autofocus':'autofocus','class':'form-control'}),
+            'public': forms.CheckboxInput(attrs={'class': 'form-check'}),
+            'project': forms.Select(attrs={'class': 'form-control custom-select'}),
+            'image': forms.ClearableFileInput(attrs={'class':'custom-file-input'}),
+            'pdf': forms.FileInput(attrs={'class':'custom-file-input'}),
+            'image_path': forms.Select(attrs={'class': 'form-control custom-select'}),
+            'pdf_path': forms.Select(attrs={'class': 'form-control custom-select'}),
+        }
