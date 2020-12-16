@@ -46,6 +46,12 @@ a:hover, .btn-off:hover {
 
 	linear-gradient(to bottom right, var(--theme-color),rgba(255,255,255,1));*/
 
+/*Experimental*/
+input.form-control.blank.jumbotron, button.btn.btn-1.jumbotron {
+	font-size: 200%;
+}
+
+
 .bg-off {
 	background-color: var(--off);
 }

@@ -12,7 +12,40 @@
             <div class="card-body">
             	<form action="{% url 'new_project' %}" method='post' enctype="multipart/form-data" oninput="char_count()">
             	{% csrf_token %}
-            	{% bootstrap_form form %}
+                    <div class="d-inline mx-auto">
+                        {{ form.non_field_errors }}
+                        <div class="form-group">
+                            {{ form.title.errors }}
+                            {{ form.title }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.text.errors }}
+                            {{ form.text }}
+                        </div>
+                        <div class="form-group form-row mb-0">
+                            <div class="col">
+                               {{ form.public.errors }}
+                                <label for="{{ form.public.id_for_label }}">Public</label>
+                                {{ form.public }}
+                            </div>
+                            <div class="col">
+                                <div id="counter"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ form.url.errors }}
+                            {{ form.url }}
+                        </div>
+                        <div class="form-group custom-file">
+                            {{ form.banner.errors }}
+                            <label class="custom-file-label" for="{{ form.banner.id_for_label }}">Banner</label>
+                            {{ form.banner }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.banner_path.errors }}
+                            {{ form.banner_path }}
+                        </div>
+                    </div>
                     <div class="d-inline">
                         <button class="btn btn-off mt-3" name="submit">add project</button>
                         <div id="counter" class="float-right">

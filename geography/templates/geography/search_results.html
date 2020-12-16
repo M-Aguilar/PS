@@ -1,6 +1,9 @@
 {% extends "main/base.html" %}
 {% block title %}
-    Search {{ object_list.q }}
+    Search
+    {% if q and object_list%}
+        {{ object_list.q }}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -9,10 +12,11 @@
         $('[data-toggle="popover"]').popover();
     });
 </script>
+{% if q and object_list%}
 <div class="jumbotron pt-4 pb-4 c-1">
   <div class="d-inline-block w-100">
     <h2 class="display-4 text-center d-block">
-    Search results for <p name='q'>"{{ object_list.q }}"</p>
+        Search results for <p name='q'>"{{ object_list.q }}"</p>
     </h2>
   </div>
 </div>
@@ -122,4 +126,25 @@
         {% endif %}
     </div>
 </div>
+{% else %}
+<div class="jumbotron pt-4 pb-4 c-1">
+  <div class="d-inline-block w-100">
+    <h2 class="display-4 text-center d-block">
+        Searching for something?
+    </h2>
+  </div>
+</div>
+<div class="container">
+    <form action="{% url 'search_results' %}" method='get'>
+        <div class="form-row">
+            <div class='col pr-0'>
+                <input name="q" class="form-control blank jumbotron" type="search" placeholder="Search" aria-label="Search">
+            </div>
+            <div class='mr-1 search-b'>
+                <button class="btn btn-1 jumbotron" type="submit"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endif %}
 {% endblock %}

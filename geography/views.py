@@ -15,11 +15,6 @@ import os
 from django.db.models import Q
 from django.views.generic import ListView
 
-
-def search(request):
-    context = {}
-    return request(request, 'geography/search.html',context)
-
 '''
 TODO: This could definitely be fleshed out more. It could allow for arguments
 for example user=username and listing the publuc posts of that user. Could also provide user
@@ -41,10 +36,10 @@ class SearchResultsView(ListView):
         if not page_num:
             page_num = 0
         #if not logged in.
-        if self.request.user.is_authenticated and query !='':
+        if self.request.user.is_authenticated and query not in ['',None]:
             nbar = 'private'
             object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__owner__username__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query), Q(public=True) & Q(project__public=True) | Q(project__owner=self.request.user)).order_by('-date_edited')
-        elif query != '':
+        elif query not in ['',None]:
             object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query) | Q(project__owner__username__icontains=query), Q(public=True) & Q(project__public=True)).order_by('-date_edited')
         else:
             object_list={}

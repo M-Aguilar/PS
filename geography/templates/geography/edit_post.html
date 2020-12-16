@@ -24,8 +24,47 @@
         <div class="card-body">
     	    <form action="{% url 'edit_post' post.id %}" enctype="multipart/form-data" method='post' oninput="char_count()">
         	    {% csrf_token %}
-    	       {% bootstrap_form form %}
                 <div class="d-inline">
+                    {{ form.non_field_errors }}
+                    <div class="form-group">
+                        {{ form.text.errors }}
+                        {{ form.text }}
+                    </div>
+                   <div class="form-group form-row mb-0">
+                        <div class="col col-2">
+                            {{ form.public.errors }}
+                            <label for="{{ form.public.id_for_label }}">Public</label>
+                            <div class="mx-auto">{{ form.public }}</div>
+                        </div>
+                        <div class="col">
+                            {{ form.project.errors }}
+                            <label for="{{ form.project.id_for_label }}">Project</label>
+                            {{ form.project }}
+                        </div>
+                        <div id="counter" class="col"></div>
+                    </div>
+                    <div class="form-group form-row">
+                        <div class="custom-file col" style="margin-right:5px;">
+                            {{ form.image.errors }}
+                            <label class="custom-file-label" for="{{ form.image.id_for_label }}">Image</label>
+                            {{ form.image }}
+                        </div>
+                        <div class="custom-file col" style="margin-left:5px;">
+                            {{ form.pdf.errors }}
+                            <label class="custom-file-label" for="{{ form.pdf.id_for_label }}">PDF</label>
+                            {{ form.pdf }}
+                        </div>
+                    <div>
+                    <div class="form-group form-row mt-2">
+                        <div class="col">
+                            {{ form.image_path.errors }}
+                            {{ form.image_path }}
+                        </div>
+                        <div class="col">
+                            {{ form.pdf_path.errors }}
+                            {{ form.pdf_path }}
+                        </div>
+                    </div>
                     <button name="submit" class="btn btn-off mr-auto my-3">save changes</button>
                     <a href="" class="btn btn-off mr-auto my-3" data-toggle="modal" data-target="#centerconsole">delete post</a>
                     <div class="modal fade" id="centerconsole" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
@@ -46,8 +85,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="counter" class="float-right">
                     </div>
                 </div>
     	   </form>

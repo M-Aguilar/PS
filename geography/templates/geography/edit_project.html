@@ -19,8 +19,39 @@
         <div class="card-body">
     	    <form action="{% url 'edit_project' project.id %}" enctype="multipart/form-data" method='post' oninput="char_count()">
                 {% csrf_token %}
-                {% bootstrap_form form %}
-                <div class="d-inline">
+                <div class="d-inline mx-auto">
+                    {{ form.non_field_errors }}
+                    <div class="form-group">
+                        {{ form.title.errors }}
+                        {{ form.title }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.text.errors }}
+                        {{ form.text }}
+                    </div>
+                    <div class="form-group form-row mb-0">
+                        <div class="col">
+                           {{ form.public.errors }}
+                            <label for="{{ form.public.id_for_label }}">Public</label>
+                            {{ form.public }}
+                        </div>
+                        <div class="col">
+                            <div id="counter" class="d-inline mb-0"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ form.url.errors }}
+                        {{ form.url }}
+                    </div>
+                    <div class="form-group custom-file">
+                        {{ form.banner.errors }}
+                        <label class="custom-file-label" for="{{ form.banner.id_for_label }}">Banner</label>
+                        {{ form.banner }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.banner_path.errors }}
+                        {{ form.banner_path }}
+                    </div>
                     <button name="submit" class="btn btn-off mr-auto mt-3">save changes</button>
                     <a href="" class="btn btn-off mr-auto mt-3" data-toggle="modal" data-target="#centerconsole">delete project</a>
                     <div class="modal fade" id="centerconsole" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">

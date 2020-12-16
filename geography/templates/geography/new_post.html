@@ -12,16 +12,14 @@
             <div class="card-body">
                 <form action="{% url 'new_post' project.id %}" method='post' enctype="multipart/form-data" oninput="char_count()"> 
                     {% csrf_token %}
-                    <div class="d-inline mx-auto"><!--{% bootstrap_form form layout='inline' %}-->
+                    <div class="mx-auto">
                         {{ form.non_field_errors }}
                         <div class="form-group">
                             {{ form.text.errors }}
-                            <label for="{{ form.text.id_for_label }}"></label>
                             {{ form.text }}
-                            <div id="counter" class="d-inline mb-0"></div>
                         </div>
-                        <div class="form-group form-row">
-                            <div class="col">
+                        <div class="form-group form-row mb-0">
+                            <div class="col col-2">
                                 {{ form.public.errors }}
                                 <label for="{{ form.public.id_for_label }}">Public</label>
                                 <div class="mx-auto">{{ form.public }}</div>
@@ -31,6 +29,7 @@
                                 <label for="{{ form.project.id_for_label }}">Project</label>
                                 {{ form.project }}
                             </div>
+                            <div id="counter" class="col"></div>
                         </div>
                         <div class="form-group form-row">
                             <div class="custom-file col" style="margin-right:5px;">

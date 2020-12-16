@@ -28,8 +28,10 @@ Account
 			<p class="d-inline float-right">Posts: {{ post_tot }}</p>
 		</div>
 		{% if request.user.is_authenticated and request.user.username == username %}
-		<a class="btn btn-off" href="{% url 'edit_account' request.user.username %}">change username</a>
-		<a class="btn btn-off" href="{% url 'password_change' %}">change password</a>
+		<div>
+			<a class="btn btn-off mb-2" href="{% url 'edit_account' request.user.username %}">change username</a>
+			<a class="btn btn-off mb-2" href="{% url 'password_change' %}">change password</a>
+		</div>
 		{% endif %}
 	</div>
 </div>
