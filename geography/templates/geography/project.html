@@ -191,10 +191,10 @@
 {% endfor %}
 <div class="text-center">
 {% if page_num > 1 %}
-    <a href="{% url 'project' project.id sort page_num|add:'-1' %}"><button id="prev" class="btn btn-theme">prev</button></a>
+    <a href="{% url 'project' project.id sort page_num|add:'-1' %}"><button id="prev" class="btn btn-1">prev</button></a>
 {% endif %}
 {% if next %}
-    <a href="{% url 'project' project.id sort page_num|add:'1' %}"><button id="next" class="btn btn-theme">next</button></a>
+    <a href="{% url 'project' project.id sort page_num|add:'1' %}"><button id="next" class="btn btn-1">next</button></a>
 {% endif %}
 </div>
 {% endblock %}

@@ -47,10 +47,9 @@ a:hover, .btn-off:hover {
 	linear-gradient(to bottom right, var(--theme-color),rgba(255,255,255,1));*/
 
 /*Experimental*/
-input.form-control.blank.jumbotron, button.btn.btn-1.jumbotron {
-	font-size: 200%;
+input.form-control.blank.jumbotron::-moz-placeholder {/* Firefox 19+ */
+	font-size: 300%;
 }
-
 
 .bg-off {
 	background-color: var(--off);
@@ -327,6 +326,12 @@ footer a {
 	width:25%;
 }
 /*--------PROJECTS AND POSTS ---------*/
+
+div.project-border {
+	padding:1%;
+	border: 5px solid var(--theme-color2);
+	border-radius: 5px;
+}
 
 .card {
 	border-color:var(--theme-color);

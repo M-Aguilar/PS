@@ -1,18 +1,18 @@
 {% extends "main/base.html" %}
 {% block title %}
     Search
-    {% if q and object_list%}
-        {{ object_list.q }}
+    {% if object_list.q != '' %}
+        "{{ object_list.q }}"
     {% endif %}
 {% endblock %}
 
 {% block content %}
-    <script>  
+<script>  
     $(document).ready(function(){
         $('[data-toggle="popover"]').popover();
     });
 </script>
-{% if q and object_list%}
+{% if object_list.q %}
 <div class="jumbotron pt-4 pb-4 c-1">
   <div class="d-inline-block w-100">
     <h2 class="display-4 text-center d-block">
@@ -48,24 +48,86 @@
     <div class="modal fade" id="centerconsole2" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content blank">
-                <div class="modal-header">
+                <div class="modal-header c-1">
                     <h5 class="modal-title" id="modalDeletePost">Confirm</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span class="text-theme" aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body bg-off">
                     Please confirm that you would like to remove this post.    
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-theme" data-dismiss="modal">Cancel</button>
-                    <a id='delete' class='btn btn-theme'href="">Confirm</a>
+                    <button type="button" class="btn btn-1" data-dismiss="modal">Cancel</button>
+                    <a id='delete' class='btn btn-1 bg-danger'href="">Confirm</a>
                 </div>
             </div>
         </div>
     </div>
-    {% for post in object_list.object_list %}
+    <div class="modal fade" id="centerconsole" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content blank">
+                <div class="modal-header c-1">
+                    <h5 class="modal-title" id="modalDeleteProject">Confirm</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="text-theme" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body bg-off">
+                    Please confirm that you would like to remove this project.    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-1" data-dismiss="modal">Cancel</button>
+                    <a id='delete' class='btn btn-1 bg-danger'href="">Confirm</a>
+                </div>
+            </div>
+        </div>
+    </div>
     {% load tz %}
+    {% if object_list.page_num == 1 %}
+    <div class="c-3 project-border py-0 mt-2">
+        <p class='mt-2 mb-0'>Projects: {{ object_list.projects|length}}</p>
+        {% for project in object_list.projects %}
+        <div class="card mt-2 mb-4">
+            <div class="card-header p-1">
+                <h5 class="card-title mx-1">
+                    <div class="d-inline">
+                        <div class="float-left m-1">
+                            {% load highlight %}
+                            <a class="t-link" href="{% if project.url %}{{ project.url }}{% else %}{% url 'project' project.id %}{% endif %}">{{ project|highlight:object_list.q }}</a>
+                        </div>
+                        <div class="float-right">
+                            <div data-placement="left" title="<span class='t-link'>Posts: {{ project.post_set.count }}</span>" data-toggle="popover" data-trigger="hover" data-content="Last edited {{ project.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ project.date_added|timezone:'America/Los_Angeles'}}<br>Created By: {{ project.owner.username }} {% if user.is_authenticated and user.projector.admin %}<br>{% if not project.public %}<p class='text-warning pb-0 mb-0'>Private</p>{% else %}<p class='text-success pb-0 mb-0'>Public</p>{% endif %}{% endif %}" data-html='true'>
+                            <button class="info" role="button">i</button></div>
+                        </div>
+                        <div class='float-right mx-2'>
+                        {% if user.is_authenticated and user.projector.admin %} 
+                            {% url 'delete_project' project.id as p %}
+                            <a class="btn alt-btn" href="{% url 'edit_project' project.id %}">edit project</a>
+                            <button type="button" class="btn alt-btn" data-toggle="modal" data-target="#centerconsole" onclick="document.getElementById('delete').href = '{{p}}'">delete</button>
+                        {% endif %}
+                        </div>
+                    </div>
+                </h5>
+            </div>
+            <div class='card-body p-0 blank rounded-bottom {% if user.is_authenticated and user.projector.admin and not project.public %} bg-warning {% endif %}'>
+                {% if project.text %}
+                <div class="m-2">
+                    <p class='p-0'> {{ project.text|highlight:object_list.q|linebreaks|urlize }} </p>
+                </div>
+                {% endif %}
+                {% if project.banner or project.banner_path %}
+                <div>
+                    <img class="mw-100 mx-auto d-block rounded" src="{{ project.banner_p }}" alt="My image">
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% for post in object_list.object_list %}
     <div class="card my-4">
         <div class="card-header p-1">
             <h5 class="card-title mx-1">
@@ -107,7 +169,7 @@
         </div>
     </div>
     {% empty %}
-    <p>There are not posts.</p> 
+    <p>No posts found.</p> 
     {% endfor %}
     <div class="text-center">
         {% if object_list.page_num > 1 %}
@@ -137,10 +199,10 @@
 <div class="container">
     <form action="{% url 'search_results' %}" method='get'>
         <div class="form-row">
-            <div class='col pr-0'>
-                <input name="q" class="form-control blank jumbotron" type="search" placeholder="Search" aria-label="Search">
+            <div class='col p-0'>
+                <input name="q" class="form-control blank jumbotron" type="search" placeholder="Search" aria-label="Search" autofocus>
             </div>
-            <div class='mr-1 search-b'>
+            <div class='search-b'>
                 <button class="btn btn-1 jumbotron" type="submit"><i class="fa fa-search"></i></button>
             </div>
         </div>

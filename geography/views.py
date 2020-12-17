@@ -8,6 +8,8 @@ from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist, FieldDoesNotExist
 
+from itertools import chain
+
 from django.db.models import Count
 import math
 import os
@@ -29,24 +31,51 @@ class SearchResultsView(ListView):
     template_name = 'geography/search_results.html'
 
     def get_queryset(self):
+        #searches for query
         query = self.request.GET.get('q')
+
+        #navbar styling. default public.
         nbar='public'
+
+        #future implementation of sorting
+        sort='-date_edited'
+
+        #Debug printer
         #print('query: ' + query + ' -  Type: ' + str(type(query)))
+
+        #Checks for page num otherwise sets it
         page_num = self.request.GET.get('page_num')
         if not page_num:
             page_num = 0
-        #if not logged in.
-        if self.request.user.is_authenticated and query not in ['',None]:
+
+        #if not logged in. and not an empty query.
+        if self.request.user.is_authenticated and query not in ['', None]:
+            #navbar styling
             nbar = 'private'
-            object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__owner__username__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query), Q(public=True) & Q(project__public=True) | Q(project__owner=self.request.user)).order_by('-date_edited')
+
+            #Post filter: query in test,username, project title, project text, public and public project or owned
+            object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__owner__username__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query), Q(public=True) & Q(project__public=True) | Q(project__owner=self.request.user)).order_by(sort)
+            
+            #project filter
+            projects = Project.objects.filter(Q(title__icontains=query) | Q(owner__username__icontains=query) | Q(text__icontains=query), Q(public=True) | Q(owner=self.request.user)).order_by(sort)
         elif query not in ['',None]:
-            object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query) | Q(project__owner__username__icontains=query), Q(public=True) & Q(project__public=True)).order_by('-date_edited')
+            #see above minus owned
+            object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query) | Q(project__owner__username__icontains=query), Q(public=True) & Q(project__public=True)).order_by(sort)
+            projects = Project.objects.filter(Q(title__icontains=query) | Q(owner__username__icontains=query) | Q(text__icontains=query), Q(public=True)).order_by(sort)
         else:
+            #if query is '' or none
             object_list={}
-        #assumes an object list
-        total = len(object_list)
+            projects={}
+        '''
+        Now that I have potentially two lists I need to adjust the function below to account for projects as a product of results ideally at the top
+        I want the total to still be 10.
+        '''
+        #to be or not to be. Concatinate total length.
+        total = len(object_list) #+ len(projects)
+        #assumes a single page to be changed if tested otherwise
         next_p = False
         if total > 10:
+            #sets page to 1 if 0 or sets to passed page_num or raises 404 if out of bounds
             if page_num == 0 or page_num == '0':
                 page_num = 1
             else:
@@ -54,19 +83,26 @@ class SearchResultsView(ListView):
                     page_num = int(page_num)
                 except ValueError:
                     raise Http404
-                if page_num < 0 or page_num > math.ceil(len(object_list)/10):
+                if page_num < 0 or page_num > math.ceil((len(object_list)/10)):
                     print(7)
                     raise Http404
-            if page_num == math.ceil(len(object_list)/10):
-                if (math.floor(len(object_list)/10)) == page_num:
+
+            #pagination checks if page_num is last page
+            if page_num == math.ceil(total/10):
+                #what am i doing here??? I dont know but it works
+                if (math.floor(total/10)) == page_num:
                     object_list = object_list[(page_num-1)*10:]
                 else:
                     object_list = object_list[(math.floor(len(object_list)/10))*10:]
             else:
                 object_list = object_list[(page_num-1)*10:10 * page_num]
                 next_p = True
-        object_list = {'object_list': object_list, 'q': query, 'total': total, 'page_num': page_num, 'next':next_p, 'nbar':nbar}
+        object_list = {'object_list': object_list, 'projects' :projects, 'q': query, 'total': total, 'page_num': page_num, 'next':next_p, 'nbar':nbar}
         return object_list
+
+def pagination(q_list, page_num):
+    total=len(q_list)
+    return object_list
 
 def projects(request, user_id='public', sort='', page_num=0):
     sort_options = ['public','title','post_num', 'date_edited','date_added']
