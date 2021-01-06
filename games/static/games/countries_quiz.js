@@ -11,6 +11,7 @@ var country_list,
 	//used for tracking selected country layer in pregame map
 	cur;
 
+//start game
 setup();
 
 function print(message) {
@@ -221,12 +222,11 @@ function pregame() {
 		style: function(feature) {
 			return {color: '#F0F8FF'};
 		},
-		onEachFeature:onEachFeature
+		onEachFeature:onEachFeature,
 	}).addTo(mymap);
 	};
 	xhr.send();
 	//COUNTRY NAME POPUP
-
 
 	//BOTTOM P TAG DEBUG	
 	p = document.createElement('p');
@@ -255,9 +255,13 @@ function latlng_marker(e) {
 
 function popu(e) {
 	if (cur != null) {
-		cur.setStyle({color: '#F0F8FF'});
+		reset()
 	}
 	this.setStyle({color:'#DC143C'});
 	this.openPopup(e.latlng);
 	cur = this;
+}
+
+function reset() {
+	cur.setStyle({color: '#F0F8FF'});
 }

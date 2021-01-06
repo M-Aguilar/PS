@@ -18,7 +18,7 @@
                             {{ form.text.errors }}
                             {{ form.text }}
                         </div>
-                        <div class="form-group form-row mb-0">
+                        <div class="form-group form-row">
                             <div class="col col-2">
                                 {{ form.public.errors }}
                                 <label for="{{ form.public.id_for_label }}">Public</label>
@@ -32,31 +32,20 @@
                             <div id="counter" class="col"></div>
                         </div>
                         <div class="form-group form-row">
-                            <div class="custom-file col" style="margin-right:5px;">
+                            <div class="col">
                                 {{ form.image.errors }}
-                                <label class="custom-file-label" for="{{ form.image.id_for_label }}">Image</label>
+                                <label for="{{ form.image.id_for_label }}">Image</label><br>
                                 {{ form.image }}
                             </div>
-                            <div class="custom-file col" style="margin-left:5px;">
+                            <div class="col">
                                 {{ form.pdf.errors }}
-                                <label class="custom-file-label" for="{{ form.pdf.id_for_label }}">PDF</label>
+                                <label for="{{ form.pdf.id_for_label }}">PDF</label><br>
                                 {{ form.pdf }}
                             </div>
-                        <div>
-                        <div class="form-group form-row mt-2">
-                            <div class="col">
-                                {{ form.image_path.errors }}
-                                {{ form.image_path }}
-                            </div>
-                            <div class="col">
-                                {{ form.pdf_path.errors }}
-                                {{ form.pdf_path }}
-                            </div>
-                        </div>
-                        <div class="d-inline">
-                            <button class="btn btn-off mt-3" name='submit'>Submit</button>
                         </div>
                     </div>
+                    <hr class='text-back'>
+                    <button class="btn btn-off" name='submit'>Submit</button>
                 </form>
             </div>
         </div>

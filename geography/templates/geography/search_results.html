@@ -85,7 +85,7 @@
     </div>
     {% load tz %}
     {% if object_list.page_num == 1 %}
-    <div class="c-3 project-border py-0 mt-2">
+    <div class="project-border py-0 mt-2">
         <p class='mt-2 mb-0'>Projects: {{ object_list.projects|length}}</p>
         {% for project in object_list.projects %}
         <div class="card mt-2 mb-4">

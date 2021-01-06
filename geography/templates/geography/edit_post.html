@@ -20,17 +20,36 @@
 	</div>
 {% endblock %}
 {% block content %}
+    <div class="modal fade" id="centerconsole" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content blank">
+                <div class="modal-header c-1">
+                    <h5 class="modal-title" id="modalDeleteProject">Confirm</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="text-theme" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body bg-off">
+                    Please confirm that you would like to remove this post.    
+                </div>
+                <div class="modal-footer blank">
+                    <button type="button" class="btn btn-1" data-dismiss="modal">Cancel</button>
+                    <a href="{% url 'delete_post' post.id %}" type="button" class="btn btn-1 bg-danger">Confirm</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container card text-theme p-0">
         <div class="card-body">
     	    <form action="{% url 'edit_post' post.id %}" enctype="multipart/form-data" method='post' oninput="char_count()">
-        	    {% csrf_token %}
                 <div class="d-inline">
+                    {% csrf_token %}
                     {{ form.non_field_errors }}
                     <div class="form-group">
                         {{ form.text.errors }}
                         {{ form.text }}
                     </div>
-                   <div class="form-group form-row mb-0">
+                    <div class="form-group form-row mb-0">
                         <div class="col col-2">
                             {{ form.public.errors }}
                             <label for="{{ form.public.id_for_label }}">Public</label>
@@ -43,70 +62,46 @@
                         </div>
                         <div id="counter" class="col"></div>
                     </div>
+                    <hr class='text-back'>
                     <div class="form-group form-row">
-                        <div class="custom-file col" style="margin-right:5px;">
-                            {{ form.image.errors }}
-                            <label class="custom-file-label" for="{{ form.image.id_for_label }}">Image</label>
+                        <div class="col">
+                            <div>
+                                {{ form.image.errors }}
+                                <label for="{{ form.image.id_for_label }}">Image:</label>
+                            </div>
                             {{ form.image }}
                         </div>
-                        <div class="custom-file col" style="margin-left:5px;">
-                            {{ form.pdf.errors }}
-                            <label class="custom-file-label" for="{{ form.pdf.id_for_label }}">PDF</label>
+                        <div class='col'>
+                            <div>
+                                {{ form.pdf.errors }}
+                                <label for="{{ form.pdf.id_for_label }}">PDF:</label>
+                            </div>
                             {{ form.pdf }}
                         </div>
-                    <div>
-                    <div class="form-group form-row mt-2">
-                        <div class="col">
-                            {{ form.image_path.errors }}
-                            {{ form.image_path }}
-                        </div>
-                        <div class="col">
-                            {{ form.pdf_path.errors }}
-                            {{ form.pdf_path }}
-                        </div>
                     </div>
+                    <hr class='text-back'>
                     <button name="submit" class="btn btn-off mr-auto my-3">save changes</button>
                     <a href="" class="btn btn-off mr-auto my-3" data-toggle="modal" data-target="#centerconsole">delete post</a>
-                    <div class="modal fade" id="centerconsole" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content blank">
-                                <div class="modal-header c-1">
-                                    <h5 class="modal-title" id="modalDeleteProject">Confirm</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span class="text-theme" aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body bg-off">
-                                    Please confirm that you would like to remove this post.    
-                                </div>
-                                <div class="modal-footer blank">
-                                    <button type="button" class="btn btn-1" data-dismiss="modal">Cancel</button>
-                                    <a href="{% url 'delete_post' post.id %}"><button type="button" class="btn btn-1 bg-danger">Confirm</button></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-    	   </form>
+            </form>
             {% load static %}
-            {% if post.image or post.image_path %}
+            {% if post.image %}
             <div>
-                {% if post.image %}
                 <p>Image size: {{ post.image.width }} x {{ post.image.height }}</p>
-                {% endif %}
-                <img id="#preview" class="mw-100 mx-auto d-block rounded" src="{{ post.image_p }}" alt="No Image">
+                <p>Size: {{ post.image.size }} bytes</p>
+                <img id="#preview" class="mw-100 mx-auto d-block rounded" src="{{ post.image.url }}" alt="No Image">
             </div>
             {% else %}
             <div>
                 <img id="#preview" class="mw-100 mx-auto d-block rounded" src="" alt="No Image">
             </div>
             {% endif %}
-            {% if post.pdf or post.pdf_path %}
+            {% if post.pdf %}
             <div>
-                <iframe src="https://docs.google.com/viewer?url={{request.scheme}}://{{request.get_host}}{{ post.pdf_p }}&embedded=true" frameborder="0" height="500px" width="100%"></iframe>
+                <iframe src="https://docs.google.com/viewer?url={{request.scheme}}://{{request.get_host}}{{ post.pdf.url }}&embedded=true" frameborder="0" height="500px" width="100%"></iframe>
             </div>
             {% endif %}
-    	   <script type="text/javascript" src="/static/main/base.js"></script>
+            <script type="text/javascript" src="/static/main/base.js"></script>
         </div>
     </div>
 {% endblock %}

@@ -290,8 +290,18 @@ def edit_post(request, post_id):
     if request.method != 'POST':
         form = PostForm(instance=post)
     else:
+        i = request.POST.get('image-clear',0)
+        p = request.POST.get('pdf-clear',0)
+        if i != 0:
+            img = post.image
+        if p != 0:
+            pdf = post.pdf
         form = PostForm(instance=post, files=request.FILES, data=request.POST)
         if form.is_valid():
+            if i == 'on':
+                img.delete()
+            if p == 'on':
+                pdf.delete()
             form.save()
             return HttpResponseRedirect(reverse('project', args=[project.id]))
     context = {'post': post, 'project':project, 'form':form, 'nbar': 'project'}
@@ -305,8 +315,13 @@ def edit_project(request, project_id):
     if request.method != 'POST':
         form = ProjectForm(instance=project)
     else:
+        f = request.POST.get('banner-clear',0)
+        if f != 0:
+            b = project.banner
         form = ProjectForm(instance=project, files=request.FILES, data=request.POST)
         if form.is_valid():
+            if f == 'on':
+                b.delete()
             form.save()
             return HttpResponseRedirect(reverse('projects', args=[project.owner]))
     context = {'project':project, 'form':form, 'nbar': 'project'}
@@ -319,16 +334,30 @@ def delete_post(request, post_id):
     if post.project.owner != request.user:
         raise Http404
     else:
+        if post.image:
+            post.image.delete()
+        if post.pdf:
+            post.pdf.delete()
         post.delete()
         return HttpResponseRedirect(reverse('project', args=[project]))
 
 @login_required
 def delete_project(request, project_id):
     project = Project.objects.get(id=project_id)
+    posts_w_img = Post.objects.filter(project=project, image__isnull=False)
+    posts_w_pdf = Post.objects.filter(project=project, pdf__isnull=False)
     owner = project.owner.id
     if project.owner != request.user:
         raise Http404
     else:
+        if project.banner:
+            project.banner.delete()
+        if len(posts_w_img)> 1:
+            for post in posts_w_img:
+                post.image.delete()
+        if len(posts_w_pdf)> 1:
+            for post in posts_w_pdf:
+                post.pdf.delete()
         project.delete()
         return HttpResponseRedirect(reverse('projects', args=[owner]))
 

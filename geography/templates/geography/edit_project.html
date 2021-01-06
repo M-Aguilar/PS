@@ -43,15 +43,12 @@
                         {{ form.url.errors }}
                         {{ form.url }}
                     </div>
-                    <div class="form-group custom-file">
+                    <div class="form-group">
                         {{ form.banner.errors }}
-                        <label class="custom-file-label" for="{{ form.banner.id_for_label }}">Banner</label>
+                        <label for="{{ form.banner.id_for_label }}">Banner</label><br>
                         {{ form.banner }}
                     </div>
-                    <div class="form-group">
-                        {{ form.banner_path.errors }}
-                        {{ form.banner_path }}
-                    </div>
+                    <hr class='text-back'>
                     <button name="submit" class="btn btn-off mr-auto mt-3">save changes</button>
                     <a href="" class="btn btn-off mr-auto mt-3" data-toggle="modal" data-target="#centerconsole">delete project</a>
                     <div class="modal fade" id="centerconsole" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
@@ -78,12 +75,11 @@
                 </div>
     	   </form>
             {% load static %}
-            {% if project.banner_path or project.banner %}
+            {% if project.banner %}
             <div>
-                {% if project.banner %}
                 <p>Banner size: {{project.banner.width}} x {{project.banner.height}}</p>
-                {% endif %}
-                <img id="preview" src="{{ project.banner_p }}" class="mw-100 d-block rounded mt-3 mx-auto" alt="No Image">
+                <p>Size: {{ project.banner.size }} bytes</p>
+                <img id="preview" src="{{ project.banner.url }}" class="mw-100 d-block rounded mt-3 mx-auto" alt="No Image">
             </div>
             {% else %}
             <div>

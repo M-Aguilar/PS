@@ -36,16 +36,13 @@
                             {{ form.url.errors }}
                             {{ form.url }}
                         </div>
-                        <div class="form-group custom-file">
+                        <div class="form-group">
                             {{ form.banner.errors }}
-                            <label class="custom-file-label" for="{{ form.banner.id_for_label }}">Banner</label>
+                            <label for="{{ form.banner.id_for_label }}">Banner</label>
                             {{ form.banner }}
                         </div>
-                        <div class="form-group">
-                            {{ form.banner_path.errors }}
-                            {{ form.banner_path }}
-                        </div>
                     </div>
+                    <hr class='text-back'>
                     <div class="d-inline">
                         <button class="btn btn-off mt-3" name="submit">add project</button>
                         <div id="counter" class="float-right">

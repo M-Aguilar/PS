@@ -67,14 +67,14 @@
   {% load tz %}
   {% for project in projects %}
   <div class="card my-4">
-    <div class="card-header p-1">
+    <div class="card-header p-1 {% if not project.text %}rounded-bottom{% endif %}">
       <h5 class="card-title">
         <div class="d-inline">
-          <div class="float-left m-1">
+          <div class="float-left my-1">
             {% if project.url %}
-            <a class="t-link" href="{{ project.url }}">{{ project }}</a>
+            <a class="t-link ml-2" href="{{ project.url }}">{{ project }}</a>
             {% else %}
-            <a class="t-link" href="{% url 'project' project.id %}">{{ project }}</a>
+            <a class="t-link ml-2" href="{% url 'project' project.id %}">{{ project }}</a>
             {% endif %} 
           </div>
           <div class="float-right mx-1">
@@ -96,9 +96,9 @@
         </div>
       </h5>
     </div>
-    <div class="card-body p-0 rounded-bottom">
-    {% if project.banner or project.banner_path %}
-      <a href="{% if project.url %} {{project.url}} {% else %}{% url 'project' project.id %}{% endif %}"><img class="d-block mw-100 mx-auto {% if not project.text %}rounded-bottom{% endif %}" src="{{ project.banner_p }}" alt="My image"></a>
+    <div class="card-body p-0">
+    {% if project.banner %}
+      <a href="{% url 'project' project.id %}"><img class="d-block mw-100 mx-auto" src="{{ project.banner.url }}" alt="My image"></a>
     {% endif %}
     {% if project.text %}
       <p class="m-2 p-1">{{ project.text|safe }}</p>

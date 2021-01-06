@@ -14,7 +14,7 @@ def user_directory_path(instance, filename):
         print("Attribute Error: user_directory_path 1")
         pass
     try:
-        return 'user_{0}/{1}/{2}'.format(instance.owner.id, 'banner', filename)
+        return 'user_{0}/{1}/{2}/{3}'.format(instance.owner.id, instance.id, 'banner', filename)
     except AttributeError:
         print("Attribute Error: user_directory_path 2")
         pass
@@ -31,16 +31,9 @@ class Project(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     url = models.URLField(blank=True)
     banner = models.ImageField(upload_to=user_directory_path, blank=True)
-    banner_path = models.FilePathField(path=images_path, match=".*\.*jpg$|.*\.*jpeg$|.*\.*png$|.*\.*gif$", recursive=True, blank=True)
 
     def __str__(self):
         return self.title
-
-    def banner_p(self):
-        if self.banner:
-            return self.banner.url
-        elif self.banner_path:
-            return self.banner_path[self.banner_path.index(settings.MEDIA_URL):]
 
 class Post(models.Model):
     text = models.CharField(max_length=250, blank=True)
@@ -48,27 +41,11 @@ class Post(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     date_edited = models.DateTimeField(auto_now=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-
     image = models.ImageField(upload_to=user_directory_path, blank=True)
-    image_path = models.FilePathField(path=images_path, match=".*\.*jpg$|.*\.*jpeg$|.*\.*png$|.*\.*gif$", recursive=True, blank=True)
-
     pdf = models.FileField(upload_to=user_directory_path, blank=True)
-    pdf_path = models.FilePathField(path=images_path, match=".*\.pdf$", recursive=True, blank=True)
 
     class Meta:
         verbose_name_plural = 'posts'
-
-    def image_p(self):
-        if self.image:
-            return self.image.url
-        elif self.image_path:
-            return self.image_path[self.image_path.index(settings.MEDIA_URL):]
-
-    def pdf_p(self):
-        if self.pdf:
-            return self.pdf.url
-        elif self.pdf_path:
-            return self.pdf_path[self.pdf_path.index(settings.MEDIA_URL):]
 
     def __str__(self):
         return self.text[:50] + "..."

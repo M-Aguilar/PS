@@ -115,7 +115,7 @@ button.dropdown-item:hover {
 	color:var(--blank);
 }
 
-.blank, .theme, .bar-theme, .alt-btn, .card-body, .btn-off:hover, .btn-blank, .blank:focus {
+.blank, .theme, .bar-theme, .alt-btn, .btn-off:hover, .btn-blank, .blank:focus {
 	background-color: var(--blank);
 	color: var(--text-color);
 }
@@ -329,12 +329,11 @@ footer a {
 
 div.project-border {
 	padding:1%;
-	border: 5px solid var(--theme-color2);
+	border: 2px dashed var(--theme-color);
 	border-radius: 5px;
 }
 
 .card {
-	border-color:var(--theme-color);
 	background-color: transparent;
 }
 
@@ -346,7 +345,8 @@ div.project-border {
 
 .card-body {
 	background-color: var(--off);
-	border-radius: 5px;
+	border-radius: 0 0 5px 5px;
+	color: var(--text-color);
 }
 .pop-project {
 	margin-top:5px;

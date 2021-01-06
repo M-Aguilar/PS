@@ -57,7 +57,7 @@ $(document).ready(function(){
 		}
 	});
 });
-	
+
 		//$.ajax({url: $("#id_banner_path option [selected='']").value, success: function(result) {
 			//console.log("does this work");
 			//console.log($("#id_banner_path"));
