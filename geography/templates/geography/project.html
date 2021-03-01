@@ -74,6 +74,9 @@
   {% endif %}
   </span>
 </div>
+<p class='text-theme float-right'>
+    Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+</p>
 <div class='m-3'>
     <div class="dropdown">
         {% load deslug clean %}

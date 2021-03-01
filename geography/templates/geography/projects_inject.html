@@ -10,6 +10,9 @@
   {% endif %}
   </span>
 </div>
+<p class='text-theme float-right'>
+Page {{projects.number}} of {{projects.paginator.num_pages}}
+</p>
 <div id='project_list'>
   <div class="dropdown">
     {% load deslug clean%}

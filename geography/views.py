@@ -19,15 +19,7 @@ from django.views.generic import ListView
 
 from .models import Project, Post
 from .forms import ProjectForm, PostForm
-'''
-TODO: This could definitely be fleshed out more. It could allow for arguments
-for example user=username and listing the publuc posts of that user. Could also provide user
-page.
--keyword to exclude word in serach
-There needs to be priorty in the search results. I want the most relevant searches at the top.
-For example posts that contain multiple keywords should be higher up the search result list
 
-'''
 class SearchResultsView(ListView):
     model = Post
     template_name = 'geography/search_results.html'
@@ -41,11 +33,6 @@ class SearchResultsView(ListView):
 
         #future implementation of sorting
         sort='-date_edited'
-
-        #Debug printer
-        #print('query: ' + query + ' -  Type: ' + str(type(query)))
-
-        #Checks for page num otherwise sets it
         page_num = self.request.GET.get('page_num')
         if not page_num:
             page_num = 0
@@ -143,7 +130,7 @@ def projects(request, user_id='public'):
     if page_num and '&' in page_num:
         page_num = page_num[:page_num.index('&')]
     page_o = paginator.get_page(page_num)
-    context = {'projects':page_o, 'public': public, 'nbar': nbar, 'sort': p_sort, 'page_num':page_num, 'total': total, 'sort_options':sort_options}
+    context = {'projects':page_o, 'public': public, 'nbar': nbar, 'sort': p_sort,'total': total, 'sort_options':sort_options}
     return render(request, 'geography/projects.html', context)
 
 def project(request, project_id):
@@ -166,11 +153,14 @@ def project(request, project_id):
     total = len(posts)
     paginator = Paginator(posts, 10)
     page_num = request.GET.get('page')
-    if page_num and '&' in page_num:
-        page_num = page_num[:page_num.index('&')]
+    if not page_num:
+        page_num = 1
     page_o = paginator.get_page(page_num)
-    context = {'project': project, 'posts': page_o, 'nbar': 'project', 'sort': p_sort,'total':total,'sort_options': sort_options}
+    context = {'project': project, 'posts': page_o, 'pages': page_string(page_num,paginator.num_pages), 'nbar': 'project', 'sort': p_sort,'total':total,'sort_options': sort_options}
     return render(request, 'geography/project.html', context)
+
+def page_string(cur, page_count):
+    return "Page {0} of {1}".format(cur, page_count)
 
 @login_required
 def new_project(request):
@@ -284,10 +274,3 @@ def delete_project(request, project_id):
                 post.pdf.delete()
         project.delete()
         return HttpResponseRedirect(reverse('projects', args=[owner]))
-
-'''
-interesting command worth understanding further
-Project._meta.get_field(p_sort.replace('-',''))
-found at *
-
-'''
