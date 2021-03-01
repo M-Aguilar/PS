@@ -149,51 +149,27 @@ def projects(request, user_id='public'):
 def project(request, project_id):
     sort = request.GET.get('sort')
     sort_options = ['public','image','pdf', 'date_edited','date_added']
-    if sort.replace('-','') not in sort_options and sort != '':
-        raise Http404
-    if sort is '':
-        p_sort = '-date_edited'
-    else:
+    if sort and sort.replace('-','') in sort_options:
         p_sort = sort
-    try:
-        project = Project.objects.get(id=project_id)
-    except (ObjectDoesNotExist, ValueError) as e:
-        raise Http404
-    p_tot = 0
+    else:
+        p_sort = '-date_edited'
+    project = get_object_or_404(Project, id=project_id)
     if project.owner != request.user and not project.public:
         raise Http404
     if request.user.is_authenticated and request.user == project.owner:
-        try:#*
-            posts = project.post_set.order_by(p_sort)
-        except FieldDoesNotExist:
-            raise Http404
+        posts = project.post_set.order_by(p_sort)
     else:
-        try:#*
+        try:
             posts = project.post_set.filter(public=True).order_by(p_sort)
         except FieldDoesNotExist:
             raise Http404
-    next_p = False
     total = len(posts)
-    if len(posts) > 10:
-        if page_num == 0 or page_num == '0':
-            page_num = 1
-        else:
-            try:
-                page_num = int(page_num)
-            except ValueError:
-                raise Http404
-            if page_num < -1:
-                print(8)
-                raise Http404
-        if page_num == math.ceil(len(posts)/10):
-            if (math.floor(len(posts)/10)) == page_num:
-                posts = posts[(page_num-1)*10:10 * page_num]
-            else:
-                posts = posts[(math.floor(len(posts)/10))*10:]
-        else:
-            posts = posts[(page_num-1)*10:10 * page_num]
-            next_p = True
-    context = {'project': project, 'posts': posts, 'nbar': 'project', 'sort': p_sort, 'page_num': page_num, 'next': next_p,'total':total}
+    paginator = Paginator(posts, 10)
+    page_num = request.GET.get('page')
+    if page_num and '&' in page_num:
+        page_num = page_num[:page_num.index('&')]
+    page_o = paginator.get_page(page_num)
+    context = {'project': project, 'posts': page_o, 'nbar': 'project', 'sort': p_sort,'total':total,'sort_options': sort_options}
     return render(request, 'geography/project.html', context)
 
 @login_required
