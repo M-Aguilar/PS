@@ -5,16 +5,10 @@ register = template.Library()
 
 @stringfilter
 @register.filter
+@stringfilter
+@register.filter
 def deslug(term):
 	t = term
-	if t == 'post_num':
-		t = '# of posts'
-	elif t == '-post_num':
-		t = '-# of posts'
-	elif 'date_edited' in t:
-		t = t.replace('date_','')	
-	elif 'date_added' in t:
-		t = t.replace('date_added', 'created')
-	if '_' in t:
-		t = t.replace('_', ' ')
+	if '-' in t:
+		t = t.replace('-','')
 	return t

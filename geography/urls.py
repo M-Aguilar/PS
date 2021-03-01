@@ -3,18 +3,12 @@ from . import views
 
 urlpatterns = [
     path('', views.projects, name='projects'),
-    path('<user_id>/projects/<sort>/<page_num>', views.projects, name='projects'),
-    path('<user_id>/projects/<page_num>', views.projects, name='projects'),
-   	path('<user_id>/projects/<sort>', views.projects, name='projects'),
     path('<user_id>/projects', views.projects, name='projects'),
     
     #path('search/<page_num>/',views.SearchResultsView.as_view(), name='search_page'),
     #path('search', views.search, name='search'),
     path('search/', views.SearchResultsView.as_view(), name='search_results'),
 
-    path('project/<project_id>/<sort>/<page_num>', views.project, name='project'),
-    path('project/<project_id>/<page_num>', views.project, name='project'),
-    path('project/<project_id>/<sort>', views.project, name='project'),
     path('project/<project_id>', views.project, name='project'),
 
     path('new_project', views.new_project, name='new_project'),

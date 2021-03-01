@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
-from .models import Project, Post
-from .forms import ProjectForm, PostForm
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
+from django.contrib import messages
+from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist, FieldDoesNotExist
@@ -17,6 +17,8 @@ import os
 from django.db.models import Q
 from django.views.generic import ListView
 
+from .models import Project, Post
+from .forms import ProjectForm, PostForm
 '''
 TODO: This could definitely be fleshed out more. It could allow for arguments
 for example user=username and listing the publuc posts of that user. Could also provide user
@@ -66,11 +68,6 @@ class SearchResultsView(ListView):
             #if query is '' or none
             object_list={}
             projects={}
-        '''
-        Now that I have potentially two lists I need to adjust the function below to account for projects as a product of results ideally at the top
-        I want the total to still be 10.
-        '''
-        #to be or not to be. Concatinate total length.
         total = len(object_list) #+ len(projects)
         #assumes a single page to be changed if tested otherwise
         next_p = False
@@ -100,106 +97,57 @@ class SearchResultsView(ListView):
         object_list = {'object_list': object_list, 'projects' :projects, 'q': query, 'total': total, 'page_num': page_num, 'next':next_p, 'nbar':nbar}
         return object_list
 
-def pagination(q_list, page_num):
-    total=len(q_list)
-    return object_list
-
-def projects(request, user_id='public', sort='', page_num=0):
-    sort_options = ['public','title','post_num', 'date_edited','date_added']
-    if sort.replace('-','') not in sort_options and sort != '':
-        raise Http404
-    nbar='public'
-    if sort is '':
-        p_sort = '-date_edited'
-    else:
+#I dont like it
+def projects(request, user_id='public'):
+    sort = request.GET.get('sort')
+    sort_options = ['title','post_num', 'date_edited','date_added']
+    nbar= 'public'
+    if sort and sort.replace('-','') in sort_options:
         p_sort = sort
+    else:
+        p_sort = 'date_edited'
     if user_id != 'public':
         try:
             user_id = int(user_id)
         except ValueError:
             pass
         if isinstance(user_id, int):
-            try:
-                public = User.objects.get(id=user_id)
-            except (ObjectDoesNotExist, ValueError) as e:
-                print(1)
-                raise Http404
+            public = get_object_or_404(User, id=user_id)
         else:
-            try:
-                public = User.objects.get(username=user_id)
-            except (ObjectDoesNotExist, ValueError) as e:
-                print(2)
-                raise Http404
+            public = get_object_or_404(User, username=user_id)
         if request.user.is_authenticated and public == request.user:
             nbar='private'
             projects = Project.objects.filter(owner=public.id)
-            if sort == 'post_num':
-                projects = projects.annotate(count=Count('post')).order_by('count')
-            elif sort == '-post_num':
-                projects = projects.annotate(count=Count('post')).order_by('-count')
-            else: 
-                try:#*
-                    projects = projects.order_by(p_sort)
-                except FieldDoesNotExist:
-                    print(3)
-                    raise Http404
-        else: #for all other viewing of no owners projects 
+        else:
             try:
                 projects = Project.objects.filter(owner=public.id, public=True)
             except NameError:
                 print(4)
-                raise Http404
-            if sort == 'post_num' or sort == '-post_num':
-                projects = projects.annotate(Count('posts'))
-            else:
-                try:#*
-                    projects = projects.order_by(p_sort)
-                except FieldDoesNotExist:
-                    print(5)
-                    raise Http404        
+                raise Http404   
     else:
-        #All Public
         projects = Project.objects.filter(public=True)
-        if sort == 'post_num':
-                projects = projects.annotate(count=Count('post')).order_by('count')
-        elif sort == '-post_num':
-                projects = projects.annotate(count=Count('post')).order_by('-count')
-        else:
-            try:#*
-                projects = projects.order_by(p_sort)
-            except FieldDoesNotExist:
-                print(6)
-                raise Http404
         public = 'public'
-    next_p = False
+    if sort == 'post_num':
+        projects = projects.annotate(count=Count('post')).order_by('count')
+    elif sort == '-post_num':
+        projects = projects.annotate(count=Count('post')).order_by('-count')
+    else:
+        try:
+            projects = projects.order_by(p_sort)
+        except FieldDoesNotExist:
+            print(5)
+            raise Http404     
     total = len(projects)
-    if len(projects) > 10:
-        if page_num == 0 or page_num == '0':
-            page_num = 1
-        else:
-            try:
-                page_num = int(page_num)
-            except ValueError:
-                raise Http404
-            if page_num < 0:
-                print(7)
-                raise Http404
-        if page_num == math.ceil(len(projects)/10):
-            if (math.floor(len(projects)/10)) == page_num:
-                projects = projects[(page_num-1)*10:]
-            else:
-                projects = projects[(math.floor(len(projects)/10))*10:]
-        else:
-            projects = projects[(page_num-1)*10:10 * page_num]
-            next_p = True
-    context = {'projects':projects, 'public': public, 'nbar': nbar, 'sort': p_sort, 'page_num':page_num,'next': next_p, 'total': total}
-    #For another day
-    #if request.is_ajax():
-    #    print(locals())
-    #    return render(request, 'geography/projects_inject.html', locals())
+    paginator = Paginator(projects, 10)
+    page_num = request.GET.get('page')
+    if page_num and '&' in page_num:
+        page_num = page_num[:page_num.index('&')]
+    page_o = paginator.get_page(page_num)
+    context = {'projects':page_o, 'public': public, 'nbar': nbar, 'sort': p_sort, 'page_num':page_num, 'total': total, 'sort_options':sort_options}
     return render(request, 'geography/projects.html', context)
 
-def project(request, project_id, sort='', page_num=0):
+def project(request, project_id):
+    sort = request.GET.get('sort')
     sort_options = ['public','image','pdf', 'date_edited','date_added']
     if sort.replace('-','') not in sort_options and sort != '':
         raise Http404
@@ -347,7 +295,7 @@ def delete_project(request, project_id):
     posts_w_img = Post.objects.filter(project=project, image__isnull=False)
     posts_w_pdf = Post.objects.filter(project=project, pdf__isnull=False)
     owner = project.owner.id
-    if project.owner != request.user:
+    if not request.user.is_authenticated or project.owner != request.user:
         raise Http404
     else:
         if project.banner:

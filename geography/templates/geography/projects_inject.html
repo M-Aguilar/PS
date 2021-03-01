@@ -1,67 +1,24 @@
+<div class="pagination d-flex justify-content-center">
+  <span class="step-links">
+  {% if projects.has_previous %}
+    <a class="btn btn-sm btn-dark" href="?page=1&{% if sort %}sort={{sort}}{% endif %}">&laquo; first</a>
+    <a class="btn btn-sm btn-dark" href="?page={{ projects.previous_page_number }}{% if sort %}&sort={{sort}}{% endif %}">previous</a>
+  {% endif %}
+  {% if projects.has_next %}
+    <a class="btn btn-sm btn-dark" href="?page={{ projects.next_page_number }}{% if sort %}&sort={{sort}}{% endif %}">next</a>
+    <a class="btn btn-sm btn-dark" href="?page={{ projects.paginator.num_pages }}{% if sort %}&sort={{sort}}{% endif %}">last &raquo;</a>
+  {% endif %}
+  </span>
+</div>
 <div id='project_list'>
-  <div class='t-white'>
-    {% load cur_range %}
-    {% with c=projects|length|add:'-1' cur=page_num|cur_range:total %}
-    <p class="float-right text-theme">{{cur}}{% if cur != '0' %}-{{cur|add:c}}{% endif %} of {{total}}</p>
-    {% endwith %}
-  </div>
   <div class="dropdown">
-    {% load deslug %}
-    <button class="nav-link btn btn-1 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">{{ sort|deslug }}</button>
+    {% load deslug clean%}
+    <button class="nav-link btn btn-1 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">{% if '-' in sort %}-{% endif %}{{ sort|clean }}</button>
     <div class="dropdown-menu bg-off" aria-labelledby="dropdownMenuButton">
-      {% if sort == 'title' %}
-        {% with "-title" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item" type="button">-title</button></a>
-        {% endwith %}
-      {% else %}
-        {% with "title" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item" type="button">title</button></a>
-        {% endwith %}
-      {% endif %}
-      {% if sort == '-date_added' %}
-        {% with "date_added" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item" type="button">-created</button></a>
-        {% endwith %}
-      {% else %}
-        {% with "-date_added" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item" type="button">created</button></a>
-        {% endwith %}
-      {% endif %}
-      {% if sort == '-date_edited' %}
-        {% with "date_edited" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item" type="button">-edited</button></a>
-        {% endwith %}
-      {% else %}
-        {% with "-date_edited" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item" type="button">edited</button></a>
-        {% endwith %}
-      {% endif %}
-      {% if sort == "-post_num" %}
-        {% with "post_num" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item" type="button">-# of posts</button></a>
-        {% endwith %}
-      {% else %}
-        {% with "-post_num" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item" type="button"># of posts</button></a>
-        {% endwith %}
-      {% endif %}
-      {% if sort == "-public" %}
-        {% with "public" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item" type="button">-public</button></a>
-        {% endwith %}
-      {% else %}
-        {% with "-public" as s %}
-        <a href="{% url 'projects' public s 1 %}"><button class="dropdown-item" type="button">public</button></a>
-        {% endwith %}
-      {% endif %}
-    </div>
-    <div class="text-center">
-    {% if page_num > 1 %}
-      <a href="{% url 'projects' public sort page_num|add:'-1' %}"><button id="prev" class="btn btn-1">prev</button></a>
-    {% endif %}
-    {% if next %}
-      <a href="{% url 'projects' public sort page_num|add:'1' %}"><button id="next" class="btn btn-1">next</button></a>
-    {% endif %}
+      {% for option in sort_options %}
+        <a href="{% url 'projects' %}?sort={% if sort in option %}-{% endif %}{{option|deslug}}"><button class="dropdown-item" type="button">{% if sort in option %}-{% endif %}{{option|clean}}</button></a>
+      {% empty %}
+      {% endfor %}
     </div>
   </div>
   {% load tz %}
@@ -108,17 +65,21 @@
   {% empty %}
   <div>There is nothing here.</div>
   {% endfor %}
-  <div class="text-center">
-  {% if page_num > 1 %}
-    <a href="{% url 'projects' public sort page_num|add:'-1' %}"><button id="prev" class="btn btn-1">prev</button></a>
-  {% endif %}
-  {% if next %}
-    <a href="{% url 'projects' public sort page_num|add:'1' %}"><button id="next" class="btn btn-1">next</button></a>
-  {% endif %}
-  </div>
   <script>
     $(document).ready(function(){
       $('[data-toggle="popover"]').popover();
     });
   </script>
+</div>
+<div class="pagination d-flex justify-content-center">
+  <span class="step-links">
+  {% if projects.has_previous %}
+    <a class="btn btn-sm btn-dark" href="?page=1&{% if sort %}sort={{sort}}{% endif %}">&laquo; first</a>
+    <a class="btn btn-sm btn-dark" href="?page={{ projects.previous_page_number }}{% if sort %}&sort={{sort}}{% endif %}">previous</a>
+  {% endif %}
+  {% if projects.has_next %}
+    <a class="btn btn-sm btn-dark" href="?page={{ projects.next_page_number }}{% if sort %}&sort={{sort}}{% endif %}">next</a>
+    <a class="btn btn-sm btn-dark" href="?page={{ projects.paginator.num_pages }}{% if sort %}&sort={{sort}}{% endif %}">last &raquo;</a>
+  {% endif %}
+  </span>
 </div>
