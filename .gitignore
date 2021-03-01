@@ -15,3 +15,6 @@ asgi.py
 admin.py
 ps_env/
 favicon_io/
+vid_manager/
+.gitignore
+notes.txt

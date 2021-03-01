@@ -1,0 +1,11 @@
+<div class="mb-2 col-sm-6 col-md-4 mx-auto">
+	<a href="{% url 'video' video.id %}">
+		<div class='preview'>
+			<img src="{% if video.poster %}{{ video.poster.url }}{% elif video.has_events %}{{video.event.url}}{% endif %}" class="video_image" alt='No image'>
+			<div class="top-left">{{video}}</div>
+			<div class="top-right">{{video.height}}p</div>
+			<div class="bottom-right">{{video.time}}</div>
+			<div class="bottom-left">{{video.size_neat}} - {{video.b_rate}}</div>
+		</div>
+	</a>
+</div>

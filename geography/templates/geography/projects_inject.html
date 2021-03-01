@@ -15,7 +15,7 @@ Page {{projects.number}} of {{projects.paginator.num_pages}}
 </p>
 <div id='project_list'>
   <div class="dropdown">
-    {% load deslug clean%}
+    {% load deslug clean %}
     <button class="nav-link btn btn-1 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">{% if '-' in sort %}-{% endif %}{{ sort|clean }}</button>
     <div class="dropdown-menu bg-off" aria-labelledby="dropdownMenuButton">
       {% for option in sort_options %}
