@@ -2,8 +2,8 @@
 
 {% block title %}
 {{ project }}
-{% if page_num > 1 %}
- Page {{ page_num }}
+{% if posts.paginator.num_pages > 1 %}
+Page {{ posts.number }}
 {% endif %}
 {% endblock %}
 

@@ -22,28 +22,23 @@
 </div>
 <div class="container">
     <div class="text-theme">
-        <p class="d-inline">{{ object_list.total }} results found.</p>
-        {% load cur_range %}
-        {% with c=object_list.object_list|length|add:'-1' cur=object_list.page_num|cur_range:object_list.total %}
-        <p class="float-right">{{cur}}{% if cur != '0' %}-{{cur|add:c}}{% endif %} of {{object_list.total}}</p>
-        {% endwith %}
+        <p class="d-inline">{{ object_list.object_list.paginator.count }} results found.</p>
+        {% if object_list.object_list.paginator.num_pages > 1 %}
+        <p class='float-right'>Page {{ object_list.object_list.number }} of {{ object_list.object_list.paginator.num_pages }}</p>
+        {% endif %}
     </div>
     <br>
-    <div class="text-center">
-        {% if object_list.page_num > 1 %}
-        <form action="{% url 'search_results' %}" method='get' class='d-inline'>
-            <input name="q" class="form-control d-none" type="search" value='{{ request.GET.q }}'>
-            <input name="page_num" class="form-control d-none" type="search" value="{{ object_list.page_num|add:'-1' }}">
-            <button id="prev" class="btn btn-1" type="submit">prev</button>
-        </form>
+    <div class="pagination d-flex justify-content-center">
+        <span class="step-links">
+        {% if object_list.object_list.has_previous %}
+        <a class="btn btn-sm btn-dark" href="?q={{object_list.q}}&page=1&{% if sort %}sort={{sort}}{% endif %}">&laquo; first</a>
+        <a class="btn btn-sm btn-dark" href="?q={{object_list.q}}&page={{ object_list.object_list.previous_page_number }}{% if sort %}&sort={{sort}}{% endif %}">previous</a>
         {% endif %}
-        {% if object_list.next %}
-        <form action="{% url 'search_results' %}" method='get' class='d-inline'>
-            <input name="q" class="form-control d-none" type="search" value='{{ request.GET.q }}'>
-            <input name="page_num" class="form-control d-none" type="search" value="{{ object_list.page_num|add:'1' }}">
-            <button id="next" class="btn btn-1" type="submit">next</button>
-        </form>
+        {% if object_list.object_list.has_next %}
+        <a class="btn btn-sm btn-dark" href="?q={{object_list.q}}&page={{ object_list.object_list.next_page_number }}{% if sort %}&sort={{sort}}{% endif %}">next</a>
+        <a class="btn btn-sm btn-dark" href="?q={{object_list.q}}&page={{ object_list.object_list.paginator.num_pages }}{% if sort %}&sort={{sort}}{% endif %}">last &raquo;</a>
         {% endif %}
+        </span>
     </div>
     <div class="modal fade" id="centerconsole2" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -156,14 +151,14 @@
                 <p class='p-0'> {{ post.text|highlight:object_list.q|linebreaks|urlize }} </p>
             </div>
             {% endif %}
-            {% if post.image or post.image_path %}
+            {% if post.image %}
             <div>
-                <img class="mw-100 mx-auto d-block rounded" src="{{ post.image_p }}" alt="My image">
+                <img class="mw-100 mx-auto d-block rounded" src="{{ post.image.url }}" alt="My image">
             </div>
             {% endif %}
-            {% if post.pdf or post.pdf_path %}
+            {% if post.pdf %}
             <div>
-                <iframe src="https://docs.google.com/viewer?url={{request.scheme}}://{{request.get_host}}{{ post.pdf_p }}&embedded=true" frameborder="0" height="500px" width="100%"></iframe>
+                <iframe src="https://docs.google.com/viewer?url={{request.scheme}}://{{request.get_host}}{{ post.pdf.url }}&embedded=true" frameborder="0" height="500px" width="100%"></iframe>
             </div>
             {% endif %}
         </div>
@@ -171,21 +166,17 @@
     {% empty %}
     <p>No posts found.</p> 
     {% endfor %}
-    <div class="text-center">
-        {% if object_list.page_num > 1 %}
-        <form action="{% url 'search_results' %}" method='get' class='d-inline'>
-            <input name="q" class="form-control d-none" type="search" value='{{ request.GET.q }}'>
-            <input name="page_num" class="form-control d-none" type="search" value="{{ object_list.page_num|add:'-1' }}">
-            <button id="prev" class="btn btn-1" type="submit">prev</button>
-        </form>
+    <div class="pagination d-flex justify-content-center">
+        <span class="step-links">
+        {% if object_list.object_list.has_previous %}
+        <a class="btn btn-sm btn-dark" href="?q={{object_list.q}}&page=1&{% if sort %}sort={{sort}}{% endif %}">&laquo; first</a>
+        <a class="btn btn-sm btn-dark" href="?q={{object_list.q}}&page={{ object_list.object_list.previous_page_number }}{% if sort %}&sort={{sort}}{% endif %}">previous</a>
         {% endif %}
-        {% if object_list.next %}
-        <form action="{% url 'search_results' %}" method='get' class='d-inline'>
-            <input name="q" class="form-control d-none" type="search" value='{{ request.GET.q }}'>
-            <input name="page_num" class="form-control d-none" type="search" value="{{ object_list.page_num|add:'1' }}">
-            <button id="next" class="btn btn-1" type="submit">next</button>
-        </form>
+        {% if object_list.object_list.has_next %}
+        <a class="btn btn-sm btn-dark" href="?q={{object_list.q}}&page={{ object_list.object_list.next_page_number }}{% if sort %}&sort={{sort}}{% endif %}">next</a>
+        <a class="btn btn-sm btn-dark" href="?q={{object_list.q}}&page={{ object_list.object_list.paginator.num_pages }}{% if sort %}&sort={{sort}}{% endif %}">last &raquo;</a>
         {% endif %}
+        </span>
     </div>
 </div>
 {% else %}

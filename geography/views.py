@@ -33,18 +33,12 @@ class SearchResultsView(ListView):
 
         #future implementation of sorting
         sort='-date_edited'
-        page_num = self.request.GET.get('page_num')
-        if not page_num:
-            page_num = 0
-
         #if not logged in. and not an empty query.
         if self.request.user.is_authenticated and query not in ['', None]:
             #navbar styling
             nbar = 'private'
-
             #Post filter: query in test,username, project title, project text, public and public project or owned
-            object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__owner__username__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query), Q(public=True) & Q(project__public=True) | Q(project__owner=self.request.user)).order_by(sort)
-            
+            object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__owner__username__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query), Q(public=True) & Q(project__public=True) | Q(project__owner=self.request.user)).order_by(sort)            
             #project filter
             projects = Project.objects.filter(Q(title__icontains=query) | Q(owner__username__icontains=query) | Q(text__icontains=query), Q(public=True) | Q(owner=self.request.user)).order_by(sort)
         elif query not in ['',None]:
@@ -55,33 +49,13 @@ class SearchResultsView(ListView):
             #if query is '' or none
             object_list={}
             projects={}
-        total = len(object_list) #+ len(projects)
         #assumes a single page to be changed if tested otherwise
-        next_p = False
-        if total > 10:
-            #sets page to 1 if 0 or sets to passed page_num or raises 404 if out of bounds
-            if page_num == 0 or page_num == '0':
-                page_num = 1
-            else:
-                try:
-                    page_num = int(page_num)
-                except ValueError:
-                    raise Http404
-                if page_num < 0 or page_num > math.ceil((len(object_list)/10)):
-                    print(7)
-                    raise Http404
-
-            #pagination checks if page_num is last page
-            if page_num == math.ceil(total/10):
-                #what am i doing here??? I dont know but it works
-                if (math.floor(total/10)) == page_num:
-                    object_list = object_list[(page_num-1)*10:]
-                else:
-                    object_list = object_list[(math.floor(len(object_list)/10))*10:]
-            else:
-                object_list = object_list[(page_num-1)*10:10 * page_num]
-                next_p = True
-        object_list = {'object_list': object_list, 'projects' :projects, 'q': query, 'total': total, 'page_num': page_num, 'next':next_p, 'nbar':nbar}
+        paginator = Paginator(object_list, 10)
+        page_num = self.request.GET.get('page')
+        if not page_num:
+            page_num = 1
+        page_o = paginator.get_page(page_num)
+        object_list = {'object_list': page_o, 'projects' :projects, 'q': query, 'nbar':nbar}
         return object_list
 
 #I dont like it
@@ -124,13 +98,12 @@ def projects(request, user_id='public'):
         except FieldDoesNotExist:
             print(5)
             raise Http404     
-    total = len(projects)
     paginator = Paginator(projects, 10)
     page_num = request.GET.get('page')
-    if page_num and '&' in page_num:
-        page_num = page_num[:page_num.index('&')]
+    if not page_num:
+        page_num = 1
     page_o = paginator.get_page(page_num)
-    context = {'projects':page_o, 'public': public, 'nbar': nbar, 'sort': p_sort,'total': total, 'sort_options':sort_options}
+    context = {'projects':page_o, 'public': public, 'nbar': nbar, 'sort': p_sort, 'sort_options':sort_options}
     return render(request, 'geography/projects.html', context)
 
 def project(request, project_id):
@@ -150,17 +123,13 @@ def project(request, project_id):
             posts = project.post_set.filter(public=True).order_by(p_sort)
         except FieldDoesNotExist:
             raise Http404
-    total = len(posts)
     paginator = Paginator(posts, 10)
     page_num = request.GET.get('page')
     if not page_num:
         page_num = 1
     page_o = paginator.get_page(page_num)
-    context = {'project': project, 'posts': page_o, 'pages': page_string(page_num,paginator.num_pages), 'nbar': 'project', 'sort': p_sort,'total':total,'sort_options': sort_options}
+    context = {'project': project, 'posts': page_o, 'nbar': 'project', 'sort': p_sort,'sort_options': sort_options}
     return render(request, 'geography/project.html', context)
-
-def page_string(cur, page_count):
-    return "Page {0} of {1}".format(cur, page_count)
 
 @login_required
 def new_project(request):
