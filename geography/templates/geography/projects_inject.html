@@ -1,12 +1,12 @@
 <div class="pagination d-flex justify-content-center">
   <span class="step-links">
   {% if projects.has_previous %}
-    <a class="btn btn-sm btn-dark" href="?page=1&{% if sort %}sort={{sort}}{% endif %}">&laquo; first</a>
-    <a class="btn btn-sm btn-dark" href="?page={{ projects.previous_page_number }}{% if sort %}&sort={{sort}}{% endif %}">previous</a>
+    <a class="btn btn-sm btn-dark" href="{% if user %}{% url 'projects' user.username %}{% endif %}?page=1&{% if sort %}sort={{sort}}{% endif %}">&laquo; first</a>
+    <a class="btn btn-sm btn-dark" href="{% if user %}{% url 'projects' user.username %}{% endif %}?page={{ projects.previous_page_number }}{% if sort %}&sort={{sort}}{% endif %}">previous</a>
   {% endif %}
   {% if projects.has_next %}
-    <a class="btn btn-sm btn-dark" href="?page={{ projects.next_page_number }}{% if sort %}&sort={{sort}}{% endif %}">next</a>
-    <a class="btn btn-sm btn-dark" href="?page={{ projects.paginator.num_pages }}{% if sort %}&sort={{sort}}{% endif %}">last &raquo;</a>
+    <a class="btn btn-sm btn-dark" href="{% if user %}{% url 'projects' user.username %}{% endif %}?page={{ projects.next_page_number }}{% if sort %}&sort={{sort}}{% endif %}">next</a>
+    <a class="btn btn-sm btn-dark" href="{% if user %}{% url 'projects' user.username %}{% endif %}?page={{ projects.paginator.num_pages }}{% if sort %}&sort={{sort}}{% endif %}">last &raquo;</a>
   {% endif %}
   </span>
 </div>
@@ -19,7 +19,7 @@ Page {{projects.number}} of {{projects.paginator.num_pages}}
     <button class="nav-link btn btn-1 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">{% if '-' in sort %}-{% endif %}{{ sort|clean }}</button>
     <div class="dropdown-menu bg-off" aria-labelledby="dropdownMenuButton">
       {% for option in sort_options %}
-        <a href="{% url 'projects' %}?sort={% if sort in option %}-{% endif %}{{option|deslug}}"><button class="dropdown-item" type="button">{% if sort in option %}-{% endif %}{{option|clean}}</button></a>
+        <a href="{% if user %}{% url 'projects' user.username %}{% endif %}?sort={% if sort in option %}-{% endif %}{{option|deslug}}"><button class="dropdown-item" type="button">{% if sort in option %}-{% endif %}{{option|clean}}</button></a>
       {% empty %}
       {% endfor %}
     </div>
@@ -77,12 +77,12 @@ Page {{projects.number}} of {{projects.paginator.num_pages}}
 <div class="pagination d-flex justify-content-center">
   <span class="step-links">
   {% if projects.has_previous %}
-    <a class="btn btn-sm btn-dark" href="?page=1&{% if sort %}sort={{sort}}{% endif %}">&laquo; first</a>
-    <a class="btn btn-sm btn-dark" href="?page={{ projects.previous_page_number }}{% if sort %}&sort={{sort}}{% endif %}">previous</a>
+    <a class="btn btn-sm btn-dark" href="{% if user %}{% url 'projects' user.username %}{% endif %}?page=1&{% if sort %}sort={{sort}}{% endif %}">&laquo; first</a>
+    <a class="btn btn-sm btn-dark" href="{% if user %}{% url 'projects' user.username %}{% endif %}?page={{ projects.previous_page_number }}{% if sort %}&sort={{sort}}{% endif %}">previous</a>
   {% endif %}
   {% if projects.has_next %}
-    <a class="btn btn-sm btn-dark" href="?page={{ projects.next_page_number }}{% if sort %}&sort={{sort}}{% endif %}">next</a>
-    <a class="btn btn-sm btn-dark" href="?page={{ projects.paginator.num_pages }}{% if sort %}&sort={{sort}}{% endif %}">last &raquo;</a>
+    <a class="btn btn-sm btn-dark" href="{% if user %}{% url 'projects' user.username %}{% endif %}?page={{ projects.next_page_number }}{% if sort %}&sort={{sort}}{% endif %}">next</a>
+    <a class="btn btn-sm btn-dark" href="{% if user %}{% url 'projects' user.username %}{% endif %}?page={{ projects.paginator.num_pages }}{% if sort %}&sort={{sort}}{% endif %}">last &raquo;</a>
   {% endif %}
   </span>
 </div>

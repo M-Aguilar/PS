@@ -5,8 +5,6 @@ register = template.Library()
 
 @stringfilter
 @register.filter
-@stringfilter
-@register.filter
 def deslug(term):
 	t = term
 	if '-' in t:

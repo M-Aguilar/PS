@@ -59,51 +59,47 @@ class SearchResultsView(ListView):
         return object_list
 
 #I dont like it
-def projects(request, user_id='public'):
+def projects(request, user_id=None):
     sort = request.GET.get('sort')
-    sort_options = ['title','post_num', 'date_edited','date_added']
+    sort_options = ['title','post_num', 'date_edited','date_added','banner','public']
     nbar= 'public'
     if sort and sort.replace('-','') in sort_options:
         p_sort = sort
     else:
-        p_sort = 'date_edited'
-    if user_id != 'public':
+        p_sort = '-date_edited'
+    if user_id:
         try:
             user_id = int(user_id)
         except ValueError:
             pass
         if isinstance(user_id, int):
-            public = get_object_or_404(User, id=user_id)
+            user = get_object_or_404(User, id=user_id)
         else:
-            public = get_object_or_404(User, username=user_id)
-        if request.user.is_authenticated and public == request.user:
+            user = get_object_or_404(User, username=user_id)
+        if request.user.is_authenticated and user == request.user:
             nbar='private'
-            projects = Project.objects.filter(owner=public.id)
+            projects = Project.objects.filter(owner=user.id)
         else:
             try:
-                projects = Project.objects.filter(owner=public.id, public=True)
+                projects = Project.objects.filter(owner=user.id, public=True)
             except NameError:
                 print(4)
-                raise Http404   
+                raise Http404
     else:
+        user = user_id
         projects = Project.objects.filter(public=True)
-        public = 'public'
     if sort == 'post_num':
         projects = projects.annotate(count=Count('post')).order_by('count')
     elif sort == '-post_num':
         projects = projects.annotate(count=Count('post')).order_by('-count')
     else:
-        try:
-            projects = projects.order_by(p_sort)
-        except FieldDoesNotExist:
-            print(5)
-            raise Http404     
+        projects = projects.order_by(p_sort)
     paginator = Paginator(projects, 10)
     page_num = request.GET.get('page')
     if not page_num:
         page_num = 1
     page_o = paginator.get_page(page_num)
-    context = {'projects':page_o, 'public': public, 'nbar': nbar, 'sort': p_sort, 'sort_options':sort_options}
+    context = {'projects':page_o, 'nbar': nbar, 'sort': p_sort, 'sort_options':sort_options, 'user':user}
     return render(request, 'geography/projects.html', context)
 
 def project(request, project_id):
@@ -119,10 +115,7 @@ def project(request, project_id):
     if request.user.is_authenticated and request.user == project.owner:
         posts = project.post_set.order_by(p_sort)
     else:
-        try:
-            posts = project.post_set.filter(public=True).order_by(p_sort)
-        except FieldDoesNotExist:
-            raise Http404
+        posts = project.post_set.filter(public=True).order_by(p_sort)
     paginator = Paginator(posts, 10)
     page_num = request.GET.get('page')
     if not page_num:

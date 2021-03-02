@@ -1,11 +1,11 @@
 {% extends "main/base.html" %}
 {% block title %}
-    {% if public == 'public' %}
+    {% if not user %}
     All Public
-    {% elif request.user.is_authenticated and request.user == public %} 
+    {% elif request.user.is_authenticated and request.user == user %} 
     My
     {% else %}
-    {{ public }}'s Public
+    {{ user_id }}'s Public
     {% endif %} Projects
 {% endblock %}
 
@@ -13,12 +13,12 @@
 <div class="jumbotron pt-4 pb-4 c-1">
   <div class="d-inline-block w-100">
     <h2 class="display-4 text-center d-block">
-    {% if public == 'public' %}
+    {% if not user %}
     All Public
-    {% elif request.user.is_authenticated and request.user == public %} 
+    {% elif request.user.is_authenticated and request.user == user %} 
     My
     {% else %}
-    {{ public }}'s Public
+    {{ user }}'s Public
     {% endif %} Projects
     {% if request.user.is_authenticated and user.projector.admin and request.user == public %}
     <a class="btn alt-btn float-right my-3" href="{% url 'new_project' %}">new project</a>
