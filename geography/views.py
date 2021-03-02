@@ -26,25 +26,24 @@ class SearchResultsView(ListView):
 
     def get_queryset(self):
         #searches for query
+        sort_options = ['public','image','pdf', 'date_edited','date_added']
         query = self.request.GET.get('q')
-
-        #navbar styling. default public.
         nbar='public'
-
-        #future implementation of sorting
-        sort='-date_edited'
+        sort = self.request.GET.get('sort')
+        if not sort or sort.replace('-','') not in sort_options:
+            sort='-date_edited'
         #if not logged in. and not an empty query.
-        if self.request.user.is_authenticated and query not in ['', None]:
+        if self.request.user.is_authenticated and query not in ['',None]:
             #navbar styling
             nbar = 'private'
             #Post filter: query in test,username, project title, project text, public and public project or owned
             object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__owner__username__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query), Q(public=True) & Q(project__public=True) | Q(project__owner=self.request.user)).order_by(sort)            
             #project filter
-            projects = Project.objects.filter(Q(title__icontains=query) | Q(owner__username__icontains=query) | Q(text__icontains=query), Q(public=True) | Q(owner=self.request.user)).order_by(sort)
+            projects = Project.objects.filter(Q(title__icontains=query) | Q(owner__username__icontains=query) | Q(text__icontains=query), Q(public=True) | Q(owner=self.request.user))
         elif query not in ['',None]:
             #see above minus owned
             object_list = Post.objects.filter(Q(text__icontains=query) | Q(project__title__icontains=query) | Q(project__text__icontains=query) | Q(project__owner__username__icontains=query), Q(public=True) & Q(project__public=True)).order_by(sort)
-            projects = Project.objects.filter(Q(title__icontains=query) | Q(owner__username__icontains=query) | Q(text__icontains=query), Q(public=True)).order_by(sort)
+            projects = Project.objects.filter(Q(title__icontains=query) | Q(owner__username__icontains=query) | Q(text__icontains=query), Q(public=True))
         else:
             #if query is '' or none
             object_list={}
@@ -55,7 +54,7 @@ class SearchResultsView(ListView):
         if not page_num:
             page_num = 1
         page_o = paginator.get_page(page_num)
-        object_list = {'object_list': page_o, 'projects' :projects, 'q': query, 'nbar':nbar}
+        object_list = {'object_list': page_o, 'projects' :projects, 'q': query, 'nbar':nbar,'sort_options': sort_options,'sort':sort}
         return object_list
 
 #I dont like it

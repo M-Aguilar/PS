@@ -40,6 +40,18 @@
         {% endif %}
         </span>
     </div>
+    <div class='m-3'>
+        <div class="dropdown">
+            {% load deslug clean %}
+            <button class="nav-link btn btn-1 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">{% if '-' in object_list.sort %}-{% endif %}{{ object_list.sort|clean }}</button>
+            <div class="dropdown-menu bg-off text-light" aria-labelledby="dropdownMenuButton">
+            {% for option in object_list.sort_options %}
+                <a href="?q={{object_list.q}}&sort={% if object_list.sort in option %}-{% endif %}{{option|deslug}}"><button id="created" class="dropdown-item" type="button">{% if object_list.sort in option %}-{% endif %}{{option|clean}}</button></a>
+            {% empty %}
+            {% endfor %}
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="centerconsole2" tabindex="-1" role="dialog" aria-labelledby="centerTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content blank">
@@ -79,7 +91,7 @@
         </div>
     </div>
     {% load tz %}
-    {% if object_list.page_num == 1 %}
+    {% if object_list.object_list.number == 1 %}
     <div class="project-border py-0 mt-2">
         <p class='mt-2 mb-0'>Projects: {{ object_list.projects|length}}</p>
         {% for project in object_list.projects %}
