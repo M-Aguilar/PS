@@ -8,11 +8,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist, FieldDoesNotExist
 
-from itertools import chain
-
 from django.db.models import Count
-import math
-import os
 
 from django.db.models import Q
 from django.views.generic import ListView
@@ -66,7 +62,7 @@ def projects(request, user_id=None):
         p_sort = sort
     else:
         p_sort = '-date_edited'
-    if user_id:
+    if user_id and user_id != 'public':
         try:
             user_id = int(user_id)
         except ValueError:
@@ -85,7 +81,8 @@ def projects(request, user_id=None):
                 print(4)
                 raise Http404
     else:
-        user = user_id
+        user = None
+        sort_options.remove('public')
         projects = Project.objects.filter(public=True)
     if sort == 'post_num':
         projects = projects.annotate(count=Count('post')).order_by('count')

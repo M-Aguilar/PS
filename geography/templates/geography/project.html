@@ -44,7 +44,7 @@ Page {{ posts.number }}
     <h5 class='lead'>
         <div class="d-lg-inline d-inline-block">
             <div class='d-inline-block mb-3 mt-2'>
-                <a id="p-link" onmouseover="p()" onmouseleave="r()" href="{% url 'project' project.owner %}">Project:</a> {{ project }} by <a href="{% url 'account' project.owner %}">{{ project.owner }}</a>
+                <a id="p-link" onmouseover="p()" onmouseleave="r()" href="{% url 'projects' project.owner %}">Project:</a> {{ project }} by <a href="{% url 'account' project.owner %}">{{ project.owner }}</a>
             </div>
             <div class="ml-2 float-right my-1">
             {% if user.is_authenticated and request.user == project.owner %}
