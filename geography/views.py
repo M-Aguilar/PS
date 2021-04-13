@@ -16,6 +16,10 @@ from django.views.generic import ListView
 from .models import Project, Post
 from .forms import ProjectForm, PostForm
 
+from django.http import JsonResponse
+import requests
+import json
+
 class SearchResultsView(ListView):
     model = Post
     template_name = 'geography/search_results.html'
@@ -52,6 +56,15 @@ class SearchResultsView(ListView):
         page_o = paginator.get_page(page_num)
         object_list = {'object_list': page_o, 'projects' :projects, 'q': query, 'nbar':nbar,'sort_options': sort_options,'sort':sort}
         return object_list
+
+def get_order(request):
+    if request.method == 'POST':
+        userguid=request.header.get("UserGUID")
+        headers={"UserGUID": userguid}
+        data = {"OrderNumber":request.POST.get("OrderNumber")}
+        r = requests.post("http://post.uofw.e-courier.com/uofw/software/xml/ecJsonPost.asmx/GetOrder", headers=headers, data=json.dumps(data))
+        d = json.dumps(r.text[1:len(r.text)-1])
+        return JsonResponse(d, safe=False, content_type='application/json')
 
 #I dont like it
 def projects(request, user_id=None):
