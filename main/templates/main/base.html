@@ -54,7 +54,7 @@
 	    					<a class="nav-link text-left mx-auto {% if nbar == 'about' %} active {% endif %}" href="{% url 'about' %}">About</a>
 	    					<hr class="d-lg-none py-0 my-0">
 	    				</li>
-	    				{% if user.is_authenticated %}
+	    				{% if request.user.is_authenticated %}
 	    				<li class="nav-item">
     						<a class="nav-link text-left mx-auto {% if nbar == 'account' %} active {% endif %}" href="{% url 'account' request.user.username %}">Account</a>
     					</li>
