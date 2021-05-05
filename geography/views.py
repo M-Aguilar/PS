@@ -59,11 +59,18 @@ class SearchResultsView(ListView):
 
 def get_order(request):
     if request.method == 'POST':
-        userguid=request.header.get("UserGUID")
+        userguid=request.headers.get("UserGUID")
         headers={"UserGUID": userguid}
-        data = {"OrderNumber":request.POST.get("OrderNumber")}
-        r = requests.post("http://post.uofw.e-courier.com/uofw/software/xml/ecJsonPost.asmx/GetOrder", headers=headers, data=json.dumps(data))
-        d = json.dumps(r.text[1:len(r.text)-1])
+        r = requests.post("http://post.uofw.e-courier.com/uofw/software/xml/ecJsonPost.asmx/GetOrder", headers=headers, data=request.body)
+        l = r.text.replace('Stops\":', 'Stops\": [')
+        l = l.replace('}},\"OrderFees', ']}}],\"OrderFees')
+        l = l.replace('Pieces\": {', 'Pieces\": [{')
+        l = l.replace('}},\"OrderEvents', '}}],\"OrderEvents')
+        l = l.replace('},OrderStopPieces\": {', '},{OrderStopPieces\": [{')
+        l = l.replace('},\"OrderStopPiece\"', '}},{\"OrderStopPiece\"')
+        l = l.replace('},\"Piece\"','}},{\"Piece\"')
+        l = l.replace('}},\"Stop', '}]}}, {\"Stop')
+        d = l[1:len(l)-1]
         return JsonResponse(d, safe=False, content_type='application/json')
 
 #I dont like it

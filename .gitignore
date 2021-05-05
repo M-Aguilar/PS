@@ -19,3 +19,5 @@ vid_manager/
 .gitignore
 notes.txt
 .gitignore
+db.sqlite3
+*.code-workspace*
