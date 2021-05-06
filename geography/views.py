@@ -12,6 +12,7 @@ from django.db.models import Count
 
 from django.db.models import Q
 from django.views.generic import ListView
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import Project, Post
 from .forms import ProjectForm, PostForm
@@ -57,6 +58,7 @@ class SearchResultsView(ListView):
         object_list = {'object_list': page_o, 'projects' :projects, 'q': query, 'nbar':nbar,'sort_options': sort_options,'sort':sort}
         return object_list
 
+@csrf_exempt
 def get_order(request):
     if request.method == 'POST':
         userguid=request.headers.get("UserGUID")
