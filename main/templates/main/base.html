@@ -20,7 +20,7 @@
 	<body>
 		<div class="main-container">
 			<nav class='navbar navbar-expand-lg navbar-dark sticky-top'>
- 		  		<a class="navbar-brand" href="{% url 'index' %}">Home</a>
+ 		  		<a class="navbar-brand" href="{% url 'main:index' %}">Home</a>
  		  		<button class="navbar-toggler bg-transparent" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
  		  		<span class="navbar-toggler-icon"></span>
  		  		</button>
@@ -42,37 +42,37 @@
 	    						</div>
 	    					</div>
 	    					{% else %}
-	    					<a class="nav-link {% if nbar == 'public' %} active {% endif %}" href="{% url 'projects' 'public' %}">Public Projects</a>
+	    					<a class="nav-link {% if nbar == 'public' %} active {% endif %}" href="{% url 'geograpy:projects' 'public' %}">Public Projects</a>
 	    					{% endif %}
 	    					<hr class="d-lg-none py-0 my-0">
 	    				</li>
     					<li class="nav-item">
-	    					<a class="nav-link text-left mx-auto {% if nbar == 'games' %} active {% endif %}" href="{% url 'games' %}">Games</a>
+	    					<a class="nav-link text-left mx-auto {% if nbar == 'games' %} active {% endif %}" href="{% url 'games:games' %}">Games</a>
 	    					<hr class="d-lg-none py-0 my-0">
 	    				</li>
     					<li class="nav-item">
-	    					<a class="nav-link text-left mx-auto {% if nbar == 'about' %} active {% endif %}" href="{% url 'about' %}">About</a>
+	    					<a class="nav-link text-left mx-auto {% if nbar == 'about' %} active {% endif %}" href="{% url 'main:about' %}">About</a>
 	    					<hr class="d-lg-none py-0 my-0">
 	    				</li>
 	    				{% if request.user.is_authenticated %}
 	    				<li class="nav-item">
-    						<a class="nav-link text-left mx-auto {% if nbar == 'account' %} active {% endif %}" href="{% url 'account' request.user.username %}">Account</a>
+    						<a class="nav-link text-left mx-auto {% if nbar == 'account' %} active {% endif %}" href="{% url 'users:account' request.user.username %}">Account</a>
     					</li>
     					<li class="nav-item">
-    						<a class="nav-link text-left mx-auto " href="{% url 'logout' %}">Log out</a>
+    						<a class="nav-link text-left mx-auto " href="{% url 'users:logout' %}">Log out</a>
     					</li>
     					{% else %}
     					<li class="nav-item">
-	    					<a class="nav-link {% if not nbar %}active{% endif %} text-left mx-auto " href="{% url 'login' %}">Login</a>
+	    					<a class="nav-link {% if not nbar %}active{% endif %} text-left mx-auto " href="{% url 'users:login' %}">Login</a>
 	    					<hr class="d-lg-none py-0 my-0">
     					</li>
     					<li class="nav-item">
-	    					<a class="nav-link {% if nbar == 'register' %} active {% endif %} text-left mx-auto " href="{% url 'register' %}">Register</a>
+	    					<a class="nav-link {% if nbar == 'register' %} active {% endif %} text-left mx-auto " href="{% url 'users:register' %}">Register</a>
 	    				</li>
     					{% endif %}
     					<li class="nav-item ml-lg-auto mr-lg-2 search">
     						<hr class="d-lg-none py-0 mt-0 mb-1">
-    						<form action="{% url 'search_results' %}" method='get'>
+    						<form action="{% url 'geography:search_results' %}" method='get'>
 		    					<div class="form-row">
 		    						<div class='col pr-0'>
 			    						<input name="q" class="form-control blank" type="search" placeholder="Search" aria-label="Search">
