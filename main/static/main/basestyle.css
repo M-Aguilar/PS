@@ -155,15 +155,6 @@ nav.navbar {
 		color:var(--text-color);
 	}
 
-	.info {
-		border:none;
-		border-radius:50%;
-		font-size: 11px;
-		font-weight: bold;
-		text-align: center;
-		padding: 1px 5px;
-	}
-
 	.form-control, .form-control:focus {
 		color:#dbd7d7;
 		background-color: #222;
@@ -371,17 +362,6 @@ div.project-border {
 
 .pop-projects {
 	margin: auto 10px 0 4px;
-}
-
-.info {
-	line-height: 15.433px;
-	border:none;
-	border-radius:50%;
-	background-color: var(--text-color);
-	font-size: 12px;
-	font-weight: bold;
-	color:var(--blank);
-	padding: 0px 6px;
 }
 
 /*------ABOUT------*/

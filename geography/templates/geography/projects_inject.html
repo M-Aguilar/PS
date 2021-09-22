@@ -39,7 +39,7 @@ Page {{projects.number}} of {{projects.paginator.num_pages}}
           </div>
           <div class="float-right mx-1">
             <div data-placement="left" title="<span class='t-link'>Posts: {{ project.post_set.count }}</span>" data-toggle="popover" data-trigger="hover" data-content="Last edited {{ project.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ project.date_added|timezone:'America/Los_Angeles'}}<br>Created by {{ project.owner }}" data-html='true'>
-              <button class="info mt-1" role="button">i</button>
+              <i class="bi-info-circle" role="button"></i>
             </div>
           </div>
           {% if user.is_authenticated and user.projector.admin and request.user == project.owner %}

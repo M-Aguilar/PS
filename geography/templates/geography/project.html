@@ -117,14 +117,14 @@ Page {{ posts.number }}
             <div class='d-inline'>
                 <div class="float-right mx-1">
                     <div data-placement="left" class='post' data-toggle="popover" data-trigger="hover" data-content="Last edited {{ post.date_edited|timezone:'America/Los_Angeles'}}<br>Created {{ post.date_added|timezone:'America/Los_Angeles'}} {% if user.is_authenticated and user.projector.admin %}<br>{% if not post.public %}<p class='text-warning pb-0 mb-0'>Private</p>{% else %}<p class='text-success pb-0 mb-0'>Public</p>{% endif %}{% endif %}" data-html='true'>
-                        <button class="info mt-1" role="button">i</button>
+                        <i class="bi-info-circle" role="button"></i>
                     </div>
                 </div>
                 {% if user.is_authenticated and user.projector.admin %} 
                 <div class='float-right mx-1'>
                     {% url 'delete_post' post.id as p %}
-                    <a class="btn alt-btn" href="{% url 'edit_post' post.id %}">edit post</a>
-                    <button type="button" class="btn alt-btn" data-toggle="modal" data-target="#centerconsole2" onclick="document.getElementById('delete').href = '{{p}}'">delete</button>
+                    <a class="btn alt-btn" href="{% url 'edit_post' post.id %}"><i class="bi-pencil-square"></i></a>
+                    <button type="button" class="btn alt-btn" data-toggle="modal" data-target="#centerconsole2" onclick="document.getElementById('delete').href = '{{p}}'"><i class="bi-trash"></i></button>
                 </div>
                 {% endif %}
             </div>
