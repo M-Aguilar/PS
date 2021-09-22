@@ -49,8 +49,8 @@ Page {{projects.number}} of {{projects.paginator.num_pages}}
             {% else %}
             <p class="text-warning d-inline mr-2">Private</p>
             {% endif %}
-            <a class="btn alt-btn" href="{% url 'edit_project' project.id %}">edit project</a>
-            <a class="btn alt-btn" href="{% url 'new_post' project.id %}">new post</a>
+            <a class="btn alt-btn" href="{% url 'edit_project' project.id %}"><i class="bi-pencil-square"></i></a>
+            <a class="btn alt-btn" href="{% url 'new_post' project.id %}"><i class="bi-plus-square"></i></a>
           </div>
           {% endif %}
         </div>

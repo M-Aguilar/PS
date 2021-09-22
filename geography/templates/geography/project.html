@@ -48,9 +48,9 @@ Page {{ posts.number }}
             </div>
             <div class="ml-2 float-right my-1">
             {% if user.is_authenticated and request.user == project.owner %}
-                <a class="btn alt-btn ml-3" href="{% url 'new_post' project.id %}">new post</a>
-                <a class="btn alt-btn ml-3" href="{% url 'edit_project' project.id %}">edit project</a>
-                <a href="" class="btn alt-btn ml-3" data-toggle="modal" data-target="#centerconsole">delete project</a>
+                <a class="btn alt-btn ml-3" href="{% url 'new_post' project.id %}"><i class="bi-plus-square"></i></a>
+                <a class="btn alt-btn ml-3" href="{% url 'edit_project' project.id %}"><i class="bi-pencil-square"></i></a>
+                <a href="" class="btn alt-btn ml-3" data-toggle="modal" data-target="#centerconsole"><i class="bi-trash"></i></a>
             {% endif %}
             </div>
         </div>
