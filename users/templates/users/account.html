@@ -13,14 +13,16 @@ Account
 	<h5>Date Joined: {{ date_joined }}</h5>
 	{% endtimezone %}
 </div>
-{% if message %}
-<div class="alert alert-success" role="alert">
-  This is a success alert—check it out!
-</div>
-{% endif %}
 {% endblock %}
 
 {% block content %}
+<div class="messages list-group">
+{% if messages %}
+	{% for message in messages %}
+		<div class="list-group-item {% if message.tags %} bg-{{ message.tags }}{% endif %}">{{ message }}</div>
+	{% endfor %}
+{% endif %}
+</div>
 <div class="card">
 	<div class="card-body">
 		<div class="pb-4">
@@ -32,7 +34,21 @@ Account
 			<a class="btn btn-off mb-2" href="{% url 'edit_account' request.user.username %}">change username</a>
 			<a class="btn btn-off mb-2" href="{% url 'password_change' %}">change password</a>
 		</div>
+		<a class="btn btn-off" href="{% url 'new_page' %}">New Page</a>
 		{% endif %}
 	</div>
+</div>
+<a>
+	<h4>Pages</h4>
+	<hr class="bg-light">
+	{% for page in pages %}
+	<a href="{% url 'page' page.slug_url  %}">{{ page }}</a>
+	<a href="{% url 'edit_page' page.id %}">Edit Page</a>
+	{% if not forloop.last %}
+	<hr class="bg-off">
+	{% endif %}
+	{% empty %}
+	<p>There is nothing here.</p>
+	{% endfor %}
 </div>
 {% endblock %}

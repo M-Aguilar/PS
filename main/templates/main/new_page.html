@@ -1,0 +1,14 @@
+{% extends "main/base.html" %}
+
+{% block title %}New Page{% endblock %}
+
+{% block content %}
+{% load bootstrap4 %}
+    <div class="container">
+        <form action="{% url 'new_page' %}" method='post'>
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button class="btn btn-off mt-3" name="submit">add page</button>
+        </form>
+    </div>
+{% endblock %}
