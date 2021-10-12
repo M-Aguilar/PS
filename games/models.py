@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 import os
 from django.core.validators import MaxValueValidator, MinValueValidator
-
+from django.db.models import Avg
 # Create your models here.
 
 #wondering if it would be wise to allow for uploading a js file
@@ -19,6 +19,11 @@ class Game(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	@property
+	def avg_rating(self):
+		r = Rating.objects.filter(game=self.id).aggregate(avg_rating=Avg('rating'))
+		return r
 
 class Score(models.Model):
 	initial = models.CharField(max_length=3)

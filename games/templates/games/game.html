@@ -23,9 +23,9 @@
 	</div>
 	<div class="text-center">
 		<br>
-		{% if rating %}
+		{% if game.rating_set.count > 0 %}
 		{% load divide %}
-		<div>Rating: {{rating.total|divide:rating.rate_count}}/5</div>
+		<div>Rating: {{game.avg_rating|divide}}</div>
 		{% else %}
 		<div>No Current Rating</div>
 		{% endif %}

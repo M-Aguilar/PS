@@ -7,23 +7,13 @@ import csv
 import os
 from django.conf import settings
 from django.urls import reverse
-# Create your views here.
+from django.db.models import Avg
 
-def rate(game):
-	ratings = Rating.objects.filter(game=game)
-	total = 0
-	if ratings.count() > 0:
-		rate_count = len(ratings)
-		for rating in ratings:
-			total += rating.rating
-		return {'total':total, 'rate_count':rate_count}
-	return None
+# Create your views here.
 
 #IN THE WORKS
 def index(request):
 	games = Game.objects.all()
-	for game in games:
-		game.rating = rate(game)
 	context = {'nbar': 'games', 'games' : games}
 	return render(request, 'games/index.html', context)
 
@@ -31,7 +21,6 @@ def index(request):
 @login_required
 def rating(request, path):
 	game = get_object_or_404(Game, path=path)
-	rating = rate(game)
 	check = Rating.objects.filter(user=request.user,game=game)
 	if request.method!= 'POST':
 		if check.count() > 0:
@@ -53,16 +42,17 @@ def rating(request, path):
 				new_rating.game = game
 				new_rating.save()
 				return HttpResponseRedirect(reverse('game', args=[path]))
-	context = {'nbar':'games','game':game, 'form':form,'rating':rating}
+	context = {'nbar':'games','game':game, 'form':form}
 	return render(request,'games/rating.html',context)
 
-#When creating other games this may need to be chnged. 
-#this probabl needs to be changed
+'''
+Currently games depend on javascript to handle the UI. This view opens a .csv sharing the same filename as the .js file and returns the game elements.
+This is a crude way of handling games. 
+'''
 def game(request, path):
+	#Game Elements to display
 	ojs = {}
 	game = get_object_or_404(Game, path=path)
-	rating = rate(game)
-	#may need to add a try except for none js games
 	try:
 		with open(os.path.join(settings.STATIC_ROOT, 'games', (path + '.csv')), newline='') as c:
 			f = csv.reader(c)
@@ -70,7 +60,7 @@ def game(request, path):
 				ojs[i[2]] = list(i[:2])
 	except FileNotFoundError:
 		pass
-	context = {'nbar': 'games', 'game': game, 'gps': ojs, 'rating':rating}
+	context = {'nbar': 'games', 'game': game, 'gps': ojs}
 	return render(request, 'games/game.html', context)
 
 @login_required
