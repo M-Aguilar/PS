@@ -7,3 +7,7 @@ def divide(value):
 		return round(value['avg_rating'])
 	else:
 		return round(value['avg_rating'],1)
+
+@register.filter
+def full_path(value):
+	return 'games/flag_svgs/{0}{1}'.format(value[-1], '.html')
