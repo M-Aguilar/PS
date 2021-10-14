@@ -19,12 +19,12 @@
 		{% if user.is_authenticated %}
 		<a class="btn alt-btn" href="{% url 'rating' game.path %}">rate game</a>
 		{% endif %}
-		<button class="btn alt-btn" id="play" onclick="new_game({{gps}}); timer();" type="btn">play game</button>
+		<button class="btn alt-btn px-2 py-0" id="play" onclick="new_game({{gps}}); timer();" type="btn"><i class="bi bi-play-btn" style="font-size: 30px"></i></button>
 	</div>
 	<div class="text-center">
 		<br>
-		{% if game.rating_set.count > 0 %}
 		{% load divide %}
+		{% if game.rating_set.count > 0 %}
 		<div>Rating: {{game.avg_rating|divide}}</div>
 		{% else %}
 		<div>No Current Rating</div>
@@ -34,21 +34,26 @@
 {% endblock %}
 
 {% block content%}
-<div id='game'>
+<div id='game' class="mx-auto px-0">
 	<div class="start card mb-3">
 		<div class="start card-body">
 			<p class="start game_d">{{ game.text|safe }}</p>
 		</div>
 	</div>
 	{% if gps %}
-	<ul class='start'>
+	<div class='start row w-100 mx-auto px-0' id="gps-row">
+		{% load static %}
 		{% for k,v in gps.items %}
-			<li class='start'>{{k}}: {{ v|first }}</li>
+			<div class='start text-center start col-sm-6 col-md-4 col-lg-3 flag px-0' id='{{k}}'>{{k}}: {{v|first}}
+				<div class="start mx-1">{% include  v|full_path %}
+				</div>
+			</div>
 		{% endfor %}
-	</ul>
+	</div>
 	{% endif %}
 </div>
 {% load static %}
 <script type="text/javascript" src="{{game.js_p}}"></script>
 <script src="{% static 'games/timer.js' %}"></script>
+
 {% endblock%}

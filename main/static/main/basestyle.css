@@ -65,16 +65,17 @@ button.dropdown-item:hover {
 }
 
 /* BUTTON THEME 1*/
+
 .btn-1,.btn-blank:hover{
 	background-color:var(--theme-color);
 	color:white;
 }
-
-.btn-1:hover {
-	background-color: var(--off);
-	color:var(--text-color);
+@media (hover: hover) {
+	.btn-1:hover {
+		background-color: var(--off);
+		color:var(--text-color);
+	}
 }
-
 /* THEME COLOR 2 */
 .theme-color2 {
 	background-color: var(--theme-color2);
@@ -190,13 +191,19 @@ a.car-item:hover {
 	font-family: "Courier New", Courier, monospace;
 }
 
+div#canvas {
+	height:90%;
+}
 /*-------- ID ---------*/
 
-#a {
-	font-size: 25vw;
+div#a {
+	font-family: Segoe UI Emoji;
+	margin:auto;
+	width: 50%;
+	overflow: hidden;
 }
 
-div#prompt p, #a{
+div#prompt p {
 	margin:auto 5px;
 }
 
@@ -206,8 +213,21 @@ div#prompt {
 	width:100%;
 }
 
-
 /*--------SMALL SCREEN HORIZONTAL---------*/
+
+
+@media screen and (max-width: 768px) and (min-height: 768px) {
+	div#canvas {
+		height:75vw;
+	}
+	
+	div#a {
+		font-size: 25vw;
+		font-family: Segoe UI Emoji;
+		margin:auto;
+		width: 75%;
+	}
+}
 
 @media screen and (max-width: 768px) {
 	div.scope {
@@ -218,11 +238,7 @@ div#prompt {
 	#mapid {
 		min-height:50vh;
 	}
-	/*as related to games 
-	*/
-	#choices button {
-		width:100%;
-	}
+	
 }
 
 @media screen and (max-width: 992px) {
@@ -260,6 +276,9 @@ div#prompt {
 	.search {
 		margin:10px;
 	}
+	.foot {
+		font-size: 20px;
+	}
 
 }
 /*-------BIG SCREEN----------*/
@@ -281,6 +300,9 @@ div#prompt {
 	.dropdown-menu a.nav-link:hover {
 		background-color: var(--off);
 	}
+	.foot {
+		font-size: 30px;
+	}
 }
 
 /*--------FOOTER---------*/
@@ -295,6 +317,10 @@ div.footer footer {
 	display:flex;
 	justify-content: space-between;
 	border-top:2px black solid;
+}
+
+.foot {
+	vertical-align:middle;
 }
 
 footer a:visited {

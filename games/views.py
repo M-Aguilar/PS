@@ -57,7 +57,7 @@ def game(request, path):
 		with open(os.path.join(settings.STATIC_ROOT, 'games', (path + '.csv')), newline='') as c:
 			f = csv.reader(c)
 			for i in f:
-				ojs[i[2]] = list(i[:2])
+				ojs[i[2]] = list(i)
 	except FileNotFoundError:
 		pass
 	context = {'nbar': 'games', 'game': game, 'gps': ojs}
