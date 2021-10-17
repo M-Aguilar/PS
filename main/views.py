@@ -18,7 +18,7 @@ def index(request):
 	return render(request, 'main/index.html', context)
 
 def page(request, slug_url):
-	page = Page.objects.get(slug_url=slug_url)
+	page = get_object_or_404(Page, slug_url=slug_url)
 	context = {'page': page}
 	return render(request, 'main/page.html', context)
 
