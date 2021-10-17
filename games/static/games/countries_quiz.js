@@ -1,35 +1,22 @@
 //country_list keeps track of layers
-var country_list,
-	//name of all countries
-	names = [],
-	//map object
-	mymap,
-	//number of multiple choice.
-	option_num = 4,
-	//tracker for submitted answer
-	submitted,
-	//used for tracking selected country layer in pregame map
-	cur;
+var country_list, //name of all countries
+	names = [], //map object
+	mymap, //number of multiple choice.
+	option_num = 4, //tracker for submitted answer
+	m,
+	cur; //Current country 
 
-//start game
+//Place initial map
 setup();
 
-function print(message) {
-	format = ''
-	for (var i = 0; i < message.length; i++) {
-		format = format .concat(message[i],': [',i.toString(),']\n');
-	}
-	return format;
-}
-
-function new_game(gps) {
+function new_game() {
 	//REMOVE START COMPONENTS
 	var docs = document.getElementsByClassName('start');
-	for(var doc = docs.length-1; doc >= 0; doc--) {
+	for (let doc = docs.length-1; doc >= 0; doc--) {
 		var e = docs[doc];
 		e.parentNode.removeChild(e);
 	}
-	for (var i = 0; i < country_list.getLayers().length; i++) {
+	for (let i = 0; i < country_list.getLayers().length; i++) {
 		mymap.removeLayer(country_list.getLayers()[i]);
 	}
 	mymap.off('click', latlng_marker);
@@ -58,7 +45,7 @@ var GameManager = {
 		this.select();
 	},
 
-	//
+	//updates prompt and selects a new territory not yet decided
 	select: function(self) {
 		this.q.innerHTML = "Which country is this?";
 		this.current = this.name_pool[Math.floor(Math.random() * this.name_pool.length)];
@@ -78,62 +65,73 @@ var GameManager = {
 	},
 
 	toggle_buttons: function() {
-		for (var i = 0; i < this.buttons.length;i++) {
+		for (let i = 0; i < this.buttons.length;i++) {
 			if (this.toggle) {
+				if (this.buttons[i].innerHTML===this.current) {
+					this.buttons[i].setAttribute('class', 'btn btn-1 my-1 bg-success')
+				} else {
+					this.buttons[i].setAttribute('class','btn btn-1 my-1 bg-danger')
+				}
 				this.buttons[i].disabled = true;
 			} else{
+				this.buttons[i].setAttribute('class', 'btn btn-1 my-1');
 				this.buttons[i].disabled = false;
 			}
 		}
 		this.toggle = !this.toggle;
 	},
 
-	submit: function(self) {
-		this.toggle_buttons();
-		var s = this.name_pool.splice(this.name_pool.indexOf(this.current),1);
-		if (submitted == this.current) {
-			this.correct.push(s);
-			this.q.innerHTML = 'CORRECT! The answer is '.concat(this.current);
-			this.cur_layer.setStyle({color:'green'});
+	submit: (country) => {
+		GameManager.toggle_buttons();
+		var s = GameManager.name_pool.splice(GameManager.name_pool.indexOf(GameManager.current),1);
+		if (country == GameManager.current) {
+			GameManager.correct.push(s);
+			GameManager.q.innerHTML = 'CORRECT! The answer is '.concat(GameManager.current);
+			GameManager.cur_layer.setStyle({color:'green'});
 		} else {
-			this.incorrect.push(s);
-			this.q.innerHTML = "INCORRECT! The correct answer is ".concat(this.current);
-			this.cur_layer.setStyle({color:'red'});
+			GameManager.incorrect.push(s);
+			GameManager.q.innerHTML = "INCORRECT! The correct answer is ".concat(GameManager.current);
+			GameManager.cur_layer.setStyle({color:'red'});
 		}
-		this.sc.innerHTML = this.score();
-		if (this.name_pool.length > 1) {
+		GameManager.sc.innerHTML = GameManager.score();
+		if (GameManager.name_pool.length > 1) {
 			var timer = setTimeout(() => {
 				GameManager.select();
 			},3000);
 		} else {
-			this.endgame();
+			GameManager.endgame();
 		}
 	},
 
 	button_populate: function(self) {
-		var mix = Math.floor(Math.random() * (option_num-1));
-		var acceptable;
-		var r;
-		var temp;
-		var index = 0;
-		for (var i = 0; i < option_num; i++) {
-			acceptable = false;
+		let mix = Math.floor(Math.random() * (option_num-1))
+		for (let i = 0; i < option_num; i++) {
+			let acceptable = false,
+				index = 0;
 			if (i == mix) {
 				this.buttons[i].innerHTML = this.current;
 			} else {
 				while(!acceptable) {
 					index += 1;
 					//console.log('Attempt # ' + index.toString());
-					r = Math.floor(Math.random() * names.length);	
-					temp = names[r];
-					if (!this.buttons.slice(0,i+1).includes(temp) && (this.current != temp)) {
+					let r = Math.floor(Math.random() * names.length);	
+					let temp = names[r];
+					if (!this.buttons.slice(0,i+1).includes(temp) && (this.current != temp) && !this.check_buttons(index).includes(this.current)) {
 						this.buttons[i].innerHTML = temp;
 						acceptable = true;
 					}
 				}
 			}
-			this.buttons[i].setAttribute('onclick', "submitted='"+ this.buttons[i].innerHTML + "';GameManager.submit();");
+			this.buttons[i].setAttribute('onclick', `GameManager.submit('${this.buttons[i].innerHTML}')`);
 		}
+	},
+	
+	check_buttons: (index) => {
+		btns = []
+		for (let i = 0; i < index; i++) {
+			btns.push(GameManager.buttons[i])
+		}
+		return btns
 	},
 
 	prompt: function(self) {
@@ -141,23 +139,33 @@ var GameManager = {
 		var prompt = document.createElement('div');
 		prompt.setAttribute('class', 'c-1 text-color jumbotron p-1 m-auto text-center d-flex justify-content-between');
 		prompt.setAttribute('id','prompt')
+
+		//Center text Element		
 		this.q = document.createElement('p');
 		this.q.innerHTML = "Which country is this?";
 		prompt.appendChild(this.q);
+
+		//Score Element
 		this.sc = document.createElement('p');
 		this.sc.innerHTML = this.score();
 		prompt.appendChild(this.sc);
+
+		//Reset button. Reset view to current area of interest
 		var reset = document.createElement('button');
 		reset.setAttribute('class', 'btn alt-btn');
 		reset.innerHTML = 'Reset';
 		reset.setAttribute('onclick', 'GameManager.reset()');
 		prompt.appendChild(reset);
+
+		//Append prompt to game element
 		document.getElementById('main-view').insertBefore(prompt, document.getElementById('game'));
+		
+		//Create option buttons
 		this.buttons = [];
 		var buttons = document.createElement('DIV');
 		buttons.setAttribute('class','mx-auto d-md-flex justify-content-md-between');
 		buttons.setAttribute('id','choices');
-		for (var i = 0; i < option_num; i++) {
+		for (let i = 0; i < option_num; i++) {
 			var q = document.createElement('button');
 			q.setAttribute('class', 'btn btn-1 my-1');
 			this.buttons[i]=q;
@@ -166,6 +174,7 @@ var GameManager = {
 		document.getElementById('game').appendChild(buttons);
 	},
 
+	//Returns current score
 	score: function(self) {
 		var score = "";
 		if (this.correct.length > 0 || this.incorrect.length > 0){
@@ -176,6 +185,7 @@ var GameManager = {
 	},
 
 	endgame: function(self) {
+		stop_timer=true
 		message = 'Congratulations on completing the country map quiz.\nYour score is ';
 		this.q.innerHTML = message+this.score();
 	},
@@ -187,14 +197,15 @@ var GameManager = {
 
 	//RETURN WINDOW TO TOP.
 	//window.scrollTo(0,0)
-function setup() { 	//ADD MAP
-	//ADD CLEAN GAME SLATE
+
+//Populates game.html with map.
+function setup() {
 	var g = document.createElement('div');
 	g.setAttribute('id','mapid');
-	//g.setAttribute('class','start');
 	document.getElementById('game').appendChild(g);
 	
-	var southWest = L.latLng(-85.03, -180.45),
+	//Set bounds
+	const southWest = L.latLng(-85.03, -180.45),
     northEast = L.latLng(84.55, 193.71),
     bounds = L.latLngBounds(southWest, northEast);
 
@@ -212,32 +223,34 @@ function setup() { 	//ADD MAP
 function pregame() {
 	//LATLONG POPUP WHEN CLICKING ON MAP OUTSIDE OF COUNTRY BOUNDS
 	//mymap.on('click',latlng_marker);
+
+	//Pulls the geo.json file containing countries
 	const xhr = new XMLHttpRequest();
-	xhr.open('GET', '/static/games/countries.geo.json');
+	xhr.open('GET', '/static/games/country_capitals.json');
 	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.responseType = 'json';
 	xhr.onload = function() {
 	    if (xhr.status !== 200) return
 	   	country_list = new L.geoJSON(xhr.response,{
-		style: function(feature) {
-			return {color: '#F0F8FF'};
+		style: function() {
+			return {color: '#f0f8ff'};
 		},
 		onEachFeature:onEachFeature,
 	}).addTo(mymap);
 	};
 	xhr.send();
-	//COUNTRY NAME POPUP
 
-	//BOTTOM P TAG DEBUG	
-	p = document.createElement('p');
+	/*BOTTOM P TAG DEBUG	
+	let p = document.createElement('p');
 	p.setAttribute('class', 'text-theme pb-0');
+	p.innerHTML = "where am i?"
 	document.getElementById('main-view').appendChild(p);
-
+	*/
 }
 
 function onEachFeature(feature, layer) {
 	if (feature.properties && feature.properties.name) {
-		layer.bindPopup(feature.properties.name);
+		layer.bindPopup("<b>" + feature.properties.name + "</b><br>Capitol: " + feature.properties.capital);
 		names.push(feature.properties.name);
 	}
 	layer.on('click', popu);
@@ -245,21 +258,23 @@ function onEachFeature(feature, layer) {
 
 //LATLNG MARKER
 function latlng_marker(e) {
-	var popuploc = e.latlng;
-	var mes = e.latlng.lat.toFixed(2).toString() + ', ' + e.latlng.lng.toFixed(2).toString();
-	var popup = L.popup()
-	.setLatLng(popuploc)
-	.setContent(mes)
+	L.popup()
+	.setLatLng(e.latlng)
+	.setContent(e.latlng.lat.toFixed(2).toString() + ', ' + e.latlng.lng.toFixed(2).toString())
 	.openOn(mymap);
 }
 
 function popu(e) {
+	if (m) {
+		m.removeFrom(mymap);
+	}
 	if (cur != null) {
 		reset()
 	}
+	cur = this;
 	this.setStyle({color:'#DC143C'});
 	this.openPopup(e.latlng);
-	cur = this;
+	m =L.marker(cur.feature.properties.capital_coordinate).addTo(mymap);
 }
 
 function reset() {
