@@ -1,6 +1,6 @@
 var start_time,
 	prompt,
-	stop=false,
+	stop_timer=false,
 	timer;
 
 function timer() {
@@ -16,7 +16,7 @@ function updateTimer() {
 	var cur_time = new Date();
 	cur_time = minutes(((cur_time - start_time)/1000).toFixed(0));
 	timer.innerHTML = cur_time;
-	if (!stop){
+	if (!stop_timer){
 		setTimeout(updateTimer, 500);
 	}
 }
