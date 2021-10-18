@@ -5,7 +5,6 @@ from django.contrib.auth import login, logout, authenticate, update_session_auth
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 
-from main.models import Page
 from geography.models import Projector, Project, Post
 from django.db.models import Count
 from .models import User
@@ -31,8 +30,7 @@ def account(request, username):
 	p_tot = len(Project.objects.filter(owner__username=username))
 	po_tot = len(Post.objects.filter(project__owner__username=username))
 	date_joined = User.objects.get(username=username).date_joined
-	pages = Page.objects.filter(owner=request.user)
-	context = {"project_tot": p_tot, "post_tot": po_tot, 'date_joined': date_joined, 'username':username,'nbar':'account','pages':pages}
+	context = {"project_tot": p_tot, "post_tot": po_tot, 'date_joined': date_joined, 'username':username,'nbar':'account'}
 	return render(request, 'users/account.html', context)
 
 @login_required
