@@ -312,11 +312,11 @@ div.footer footer {
 	position: absolute;
 	left:0;
 	bottom:0;
-	height:36px;
+	height:50px;
 	width:100vw;
 	display:flex;
 	justify-content: space-between;
-	border-top:2px black solid;
+	border:2px black solid;
 }
 
 .foot {
