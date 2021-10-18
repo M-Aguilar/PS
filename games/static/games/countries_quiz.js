@@ -231,7 +231,7 @@ function pregame() {
 
 	//Pulls the geo.json file containing countries
 	const xhr = new XMLHttpRequest();
-	xhr.open('GET', '/static/games/countries2.geo.json');
+	xhr.open('GET', '/static/games/countries.geo.json');
 	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.responseType = 'json';
 	xhr.onload = function() {
