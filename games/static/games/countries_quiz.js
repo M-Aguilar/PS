@@ -1,9 +1,10 @@
+
 //country_list keeps track of layers
-var country_list, //name of all countries
-	names = [], //map object
-	mymap, //number of multiple choice.
-	option_num = 4, //tracker for submitted answer
-	m,
+var country_list, 
+	names = [], //name of all countries
+	mymap, 	//map object
+	option_num = 4, //number of multiple choice.
+	m, //capital popup marker
 	cur; //Current country 
 
 //Place initial map
@@ -103,6 +104,7 @@ var GameManager = {
 		}
 	},
 
+	//updates the buttons with the correct answer and 3 random territory names. Does not repeat answers.
 	button_populate: function(self) {
 		let mix = Math.floor(Math.random() * (option_num-1))
 		for (let i = 0; i < option_num; i++) {
@@ -113,7 +115,6 @@ var GameManager = {
 			} else {
 				while(!acceptable) {
 					index += 1;
-					//console.log('Attempt # ' + index.toString());
 					let r = Math.floor(Math.random() * names.length);	
 					let temp = names[r];
 					if (!this.buttons.slice(0,i+1).includes(temp) && (this.current != temp) && !this.check_buttons(index).includes(this.current)) {
@@ -126,6 +127,7 @@ var GameManager = {
 		}
 	},
 	
+	//Checks to see if the provided potential button name is not present in the current pool of buttons up to the current index being added
 	check_buttons: (index) => {
 		btns = []
 		for (let i = 0; i < index; i++) {
@@ -134,6 +136,7 @@ var GameManager = {
 		return btns
 	},
 
+	//Create the prompt element at the top of the map. Includes score, time, text and reset button
 	prompt: function(self) {
 		//CREATE TOP PROMPT
 		var prompt = document.createElement('div');
@@ -184,6 +187,7 @@ var GameManager = {
 		return score;
 	},
 
+	//stops time and provides score
 	endgame: function(self) {
 		stop_timer=true
 		message = 'Congratulations on completing the country map quiz.\nYour score is ';
@@ -220,13 +224,14 @@ function setup() {
 	pregame();
 }
 
+//Initial function that grabs json and populates the map with elements
 function pregame() {
 	//LATLONG POPUP WHEN CLICKING ON MAP OUTSIDE OF COUNTRY BOUNDS
 	//mymap.on('click',latlng_marker);
 
 	//Pulls the geo.json file containing countries
 	const xhr = new XMLHttpRequest();
-	xhr.open('GET', '/static/games/country_capitals.json');
+	xhr.open('GET', '/static/games/countries2.geo.json');
 	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.responseType = 'json';
 	xhr.onload = function() {
@@ -239,7 +244,6 @@ function pregame() {
 	}).addTo(mymap);
 	};
 	xhr.send();
-
 	/*BOTTOM P TAG DEBUG	
 	let p = document.createElement('p');
 	p.setAttribute('class', 'text-theme pb-0');
@@ -248,15 +252,20 @@ function pregame() {
 	*/
 }
 
+//Applies popups to each feature and adds country names to name list
 function onEachFeature(feature, layer) {
 	if (feature.properties && feature.properties.name) {
-		layer.bindPopup("<b>" + feature.properties.name + "</b><br>Capitol: " + feature.properties.capital);
+		country_label = `<b><a href="https://en.wikipedia.org/wiki/${feature.properties.name}">${feature.properties.name}</a>`;
+		if (feature.properties.capital != "N/A") {
+			country_label = country_label + `</b><br>Capital: <a href="https://en.wikipedia.org/wiki/${feature.properties.capital}">${feature.properties.capital}</a>`
+		}
+		layer.bindPopup(country_label);
 		names.push(feature.properties.name);
 	}
 	layer.on('click', popu);
 }
 
-//LATLNG MARKER
+//LATLNG MARKER Not implemented by default. see line #229
 function latlng_marker(e) {
 	L.popup()
 	.setLatLng(e.latlng)
@@ -264,6 +273,13 @@ function latlng_marker(e) {
 	.openOn(mymap);
 }
 
+//Capitals icon
+var myIcon = L.icon({
+    iconUrl: '/static/games/star.png',
+    iconSize: [20, 20],
+});
+
+//Popup function. Resets other popups and capital markers when a different area is selected
 function popu(e) {
 	if (m) {
 		m.removeFrom(mymap);
@@ -274,9 +290,14 @@ function popu(e) {
 	cur = this;
 	this.setStyle({color:'#DC143C'});
 	this.openPopup(e.latlng);
-	m =L.marker(cur.feature.properties.capital_coordinate).addTo(mymap);
+	if (cur.feature.properties.capital != "N/A") {
+		m = L.marker(cur.feature.properties.capital_coordinate, {icon: myIcon}).addTo(mymap);
+	}
 }
 
+//Reset color of selected area
 function reset() {
 	cur.setStyle({color: '#F0F8FF'});
 }
+
+console.log(names)
