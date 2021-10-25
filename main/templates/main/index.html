@@ -62,4 +62,11 @@
   <hr class='text-back'>
   <p></p>
 </div>
+{% if not recent_visit %}
+<style>
+nav, div {
+	animation: slidein 4s;
+}
+</style>
+{% endif %}
 {% endblock %}

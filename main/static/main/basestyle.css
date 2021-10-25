@@ -18,6 +18,21 @@ html,body {
 	background-color: var(--blank);
 }
 
+@keyframes slidein {
+	10% {
+	  opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+  
+#background-svg {
+	position: fixed;
+	height:100%;
+	width:100%;
+}
+
 div.main-container {
 	position:absolute;
 	min-height: 100%;
@@ -25,6 +40,21 @@ div.main-container {
 	width: 100%;
 	margin:0;
 	padding:0;
+}
+
+nav {
+	border-bottom: var(--blank) 1px solid;
+}
+.jumbotron, .b-1 {
+	border: var(--blank) 1px solid;
+}
+
+.circle1 {
+	fill: var(--theme-color);
+}
+
+.circle2 {
+	fill: var(--blank);
 }
 
 div.scope {
@@ -67,6 +97,7 @@ button.dropdown-item:hover {
 /* BUTTON THEME 1*/
 
 .btn-1,.btn-blank:hover{
+	border: var(--blank) 1px solid;
 	background-color:var(--theme-color);
 	color:white;
 }
@@ -351,18 +382,20 @@ div.project-border {
 }
 
 .card {
+	border: var(--blank) 1px solid;
+	border-radius: 5px;
 	background-color: transparent;
 }
 
 .card-header {
 	background-color: var(--theme-color);
-	border-style: none;
+	border-radius: 4px;
 	color:white;
 }
 
 .card-body {
 	background-color: var(--off);
-	border-radius: 0 0 5px 5px;
+	border-radius: 0 0 4px 4px;
 	color: var(--text-color);
 }
 .pop-project {
@@ -406,6 +439,7 @@ div.project-border {
 	padding-bottom: 5%;
 }
 .square-1, .square-2, .square-3, .square-4 {
+	border: var(--blank) 1px solid;
 	display:inline-block;
 	height: 10vw;
 	width: 10vw;
