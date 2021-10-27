@@ -2,76 +2,72 @@
 
 {% block title %}M.Aguilar{% endblock %}
 {% block header %}
-<div class="row mx-1">
-  <div class="col-9 messages list-group py-3">
+<div class="row mx-1 justify-content-center justify-content-sm-end">
+  <div class="col-12 col-sm-auto messages list-group pr-0 pr-sm-2">
       {% if messages %}
           {% for message in messages %}
-          <div class="message list-group-item pb-2 {% if message.tags %}bg-{{ message.tags }}{% endif %}">{{ message }}<i class='bi-x float-right btn btn-sm' onclick="hidemessage()"></i></div>
+          <div class="message text-light list-group-item pb-2 {% if message.tags %}bg-{{ message.tags }}{% endif %}">{{ message }}<i class='bi-x float-right btn btn-sm' onclick="hidemessage()"></i></div>
           {% endfor %}
       {% endif %}
   </div>
-  <div class='c-1 rounded my-3 py-3 col-3'>
+  <div class='c-1 rounded mb-3 mt-1 mt-sm-0 py-3 col-12 col-sm-6 col-xl-3'>
     <div class="text-center">
       <div id="time" class="text-center"></div> 
       {% load static %}
       <script type="text/javascript" src="{% static 'main/time.js' %}" onload="curTime()"></script>
       {% load tz %}
-      {% if not user.is_authenticated %}
-      <div>
-        <a class='btn alt-btn' href="{% url 'login' %}">Log in</a>
-        <a class='btn alt-btn' href="{% url 'register' %}">Register</a>
-      </div>
-      {% endif %}
     </div>
   </div>
 </div>
 {% endblock %}
 
 {% block content %}
-<div class="intro">
-	<div class="card mb-4 border-0">
-    <div class="card-body rounded">
-      <p class="mb-0">This is an ever expanding site meant to explore and display different ideas and <a href="{% url 'projects' %}">projects.</a></p>
+<div class="intro rounded-top">
+	<div class="row mx-1">
+    <div class="c-1 rounded pt-2 col-auto mx-auto mt-4">
+      <h3 class="text-center">Recent Projects</h3>
+    </div>
+    <div class="col-12 mx-auto">
+      <div id="carouselExampleControls" class="carousel slide my-5 mx-0" data-ride="carousel">
+        <div class="carousel-inner">
+          {% with projects|first as fb %}
+          {% for project in projects %}
+            {% if project is fb %}
+            <div class="carousel-item active">
+            {% else %}
+            <div class="carousel-item">
+            {% endif %}
+            {% if project.url %}
+            <a href="{{ project.url }}"><img class="d-block text-center mx-auto mw-100 rounded" src="{{ project.banner.url }}" alt="image"></a>
+            {% else %}
+            <a href="{% url 'project' project.id %}"><img class="d-block text-center mx-auto mw-100 rounded" src="{{ project.banner.url }}" alt="image"></a>
+            {% endif %}
+            </div>
+          {% empty %}
+            <p>Oh what a sad day. Nothing to see here. </p>
+          {% endfor %}
+          {% endwith %}
+        </div>
+        <a class="carousel-control-prev"  href="#carouselExampleControls" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
     </div>
   </div>
 </div>
-<div id="carouselExampleControls" class="carousel slide mb-5" data-ride="carousel">
-  <div class="carousel-inner">
-  	{% with projects|first as fb %}
-    {% for project in projects %}
-      {% if project is fb %}
-      <div class="carousel-item active">
-      {% else %}
-      <div class="carousel-item">
-      {% endif %}
-      {% if project.url %}
-      <a href="{{ project.url }}"><img class="d-block text-center mx-auto mw-100" src="{{ project.banner.url }}" alt="image"></a>
-      {% else %}
-      <a href="{% url 'project' project.id %}"><img class="d-block text-center mx-auto mw-100" src="{{ project.banner.url }}" alt="image"></a>
-      {% endif %}
-   		</div>
-    {% empty %}
-    	<p>Oh what a sad day. Nothing to see here. </p>
-  	{% endfor %}
-    {% endwith %}
-  </div>
-  <a class="carousel-control-prev car-item"  href="#carouselExampleControls" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next car-item" href="#carouselExampleControls" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-<div>
+<div class="intro rounded-bottom">
   <div>
   {% include "main/wave-haikei.svg" %}
   </div>
   <div class="card-body c-1 index-text border-0 pt-5">
     <div class="row">
       <div class="col-12 col-md-6">
-        <h5>Projects</h5>
+        <h5><a class="t-link" href="{% url 'projects' %}">Projects <i class="bi-journals float-right"></i></a></h5>
         <hr class="bg-off">
         <p>Various projects are showcased here. From academic accomplishments to personal successes. 
         Check out the <a href="{% url 'about' %}">about</a> page for more information related to the development and hosting of this site.
@@ -79,7 +75,7 @@
         </p>
       </div>
       <div class="col-12 col-md-6">
-        <h5>Disclaimer</h5>
+        <h5>Disclaimer <i class="bi-info-circle float-right"></i></h5>
         <hr class="bg-off">
         <p>While you are allowed to make an account there is no additional functionality provided. 
         Viewing <a href="{% url 'projects' %}">public projects</a> and playing <a href="{% url 'games' %}">games</a> do not require you to login.
@@ -92,22 +88,59 @@
   {% include 'main/layered-waves-haikei.svg' %}
   </div>
   <div class="card-body back-dark">
-    <h3 class="text-center mb-4">Games</h3>
+    <div class="row">
+      <h3 class="text-center mb-4 c-1 rounded col-auto mx-auto py-2"><a class="t-link" href="{% url 'games' %}">Games <i class="bi-joystick"></i></a></h3>
+    </div>
     <hr class="bg-off">
     <div class="row">
-      <div class="col-12 col-md-6">
-        <h5>Flag Game</h5>
+      <div id="flags" class="col-12 col-md-6">
+        <h5><a href="{% url 'game' 'flag_game' %}" class="t-link">Flag Game</a> <i class="bi-flag float-right"></i></h5>
         <hr class="bg-off">
-        <p>How well do you know the flags of the world? This quiz might help you... for now. 
+        <p class="game-p">How well do you know the flags of the world? This quiz might help you... for now. 
         </p>
+        <div class="row justify-content-between flags-top">
+          <div class="col-4">{% include "games/flag_svgs/1f1e6-1f1f7.svg.html" %}</div>
+          <div class="col-4">{% include "games/flag_svgs/1f1fa-1f1f8.svg.html" %}</div>
+        </div>
+        <div class="row justify-content-center flags-middle">
+          <div class="col-4" style="transform: skewY(-15deg);">{% include "games/flag_svgs/1f1e9-1f1ea.svg.html" %}</div>
+        </div>
+        <div class="row justify-content-between flags-bottom">
+          <div class="col-4">{% include "games/flag_svgs/1f1f5-1f1ed.svg.html" %}</div>
+          <div class="col-4">{% include "games/flag_svgs/1f1f7-1f1fc.svg.html" %}</div>
+        </div>
       </div>
-      <div class="col-12 col-md-6">
-        <h5>Map Quiz</h5>
+      <div id="map" class="col-12 col-md-6">
+        <h5><a href="{% url 'game' 'map_quiz' %}" class="t-link">Map Quiz </a><i class="bi-map float-right"></i></h5>
         <hr class="bg-off">
-        <p>How well do you know the countries and territories of the world. Geopolitics doesn't make the list easy to define, but this game makes it easy
-        to test your geography knowledge.
+        <p class="game-p">How well do you know the countries and territories of the world? Test your skills with the map quiz.
         </p>
+        <div class="row map-top">
+          <div class="col-4">
+            <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+              <rect x="0" y="0" fill="#001220"></rect>
+            </svg>
+          </div>
+        </div>
+        <div class="map-svg position-absolute">
+          {% include "main/Map.svg" %}
+        </div>
+        <div class="row map-middle">
+          <div class="col-4" style="transform: skewY(15deg);">
+              <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+                <rect x="0" y="0" fill="#001220"></rect>
+            </svg>
+          </div>
+        </div>
+        <div class="row map-bottom">
+          <div class="col-4">
+            <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+                <rect x="0" y="0" fill="#001220"></rect>
+            </svg>
+          </div>
+        </div>
       </div>
+    </div>
   </div>
   <div class="svg-2" style="margin-bottom:-5%;">
   {% include 'main/layered-waves-haikei.svg' %}
@@ -115,7 +148,7 @@
   <div class="card-body c-1 index-text border-0 pt-5 mt-3">
    <div class="row">
       <div class="col-12 col-md-6">
-        <h5>Home Helper</h5>
+        <h5>Home Helper <i class="bi-house-door float-right"></i></h5>
         <hr class="bg-off">
         <p>One of the projects in development is Home Helper. This Django app is meant to help keep track of tasks and chores.
         This hub is designed to consolidate a lot of the regular everyday necessities without overcomplicating the process. Apart from keeping track of 
@@ -125,7 +158,7 @@
         </p>
       </div>
       <div class="col-12 col-md-6">
-        <h5>Other Projects</h5>
+        <h5>Other Projects <i class="bi-journal-plus float-right"></i></h5>
         <hr class="bg-off">
         <p>There are many different project that I am going to eventually build and display on this site. Continually gaining knowledge about the tools available 
         brings about the issue of reimagining previous accomplishents. This site is an example as it is continually changing in order to keep up with what I have
@@ -148,6 +181,26 @@ $(function() {setTimeout(hidemessage, 10000)})
 function hidemessage() {
   $('.messages').empty()
 }
+
+const observer = new IntersectionObserver (entries => {
+  entries.forEach(entry => {
+    // If the element is visible
+  if (entry.isIntersecting) {
+      let flags = $("#flags svg")
+      flags.each(function(index) {
+        flags[index].classList.add("svg-animation")
+      })
+      var a = setTimeout(showmap, 1500)
+    }
+  })
+});
+
+function showmap() {
+  $("#map-svg")[0].classList.remove('d-none')
+  $("#map-svg")[0].classList.add("svg-animation");
+}
+
+observer.observe(document.querySelector('#flags'));
 </script>
 {% if not recent_visit %}
 <style>

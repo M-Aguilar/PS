@@ -18,15 +18,58 @@ html,body {
 	background-color: var(--blank);
 }
 
+.flags-top, .flags-middle, .map-top, .map-middle {
+	margin-bottom: -15%;
+}
+
+.flags-bottom, .map-bottom {
+	margin-bottom:15%;
+}
+
+p.game-p {
+	height:20%;
+}
+
+div.map-top {
+	z-index:0;
+}
+
+.map-svg {
+	margin-top:-10%;
+	z-index:1;
+	width: 95%;
+}
+
+div.map-middle {
+	z-index: auto;
+	background-color: var(--theme-color);
+	transform: skewY(-15deg);
+}
+
+div.flags-middle {
+	z-index: 0;
+	background-color: var(--theme-color);
+	transform: skewY(15deg);
+}
+
+.flags-top div {
+	z-index: 1;
+}
+
+
+.svg-animation {
+	animation: messageslidein 2s;
+}
+
 .message {
 	animation: messageslidein 4s;
 }
 
 @keyframes slidein {
-	10% {
+	from {
 		opacity: 0;
 	}
-	100% {
+	to {
 		opacity: 1;
 	}
 }
@@ -82,7 +125,7 @@ div.main-container {
 nav {
 	border-bottom: var(--blank) 1px solid;
 }
-.jumbotron, .b-1 {
+.jumbotron {
 	border: var(--blank) 1px solid;
 }
 
@@ -118,7 +161,7 @@ input.form-control.blank.jumbotron::-moz-placeholder {/* Firefox 19+ */
 	font-size: 300%;
 }
 
-.bg-off {
+.bg-off, .intro {
 	background-color: var(--off);
 }
 
@@ -134,7 +177,6 @@ button.dropdown-item:hover {
 /* BUTTON THEME 1*/
 
 .btn-1,.btn-blank:hover{
-	border: var(--blank) 1px solid;
 	background-color:var(--theme-color);
 	color:white;
 }
@@ -326,7 +368,6 @@ div#prompt {
 
 	a.nav-link:hover {
 		background-color:var(--theme-color);
-		border-radius: 5px;
 	}
 
 	li.nav-item a.nav-link:hover {

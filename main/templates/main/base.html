@@ -35,11 +35,11 @@
 	    						<div class="dropdown-menu text-center bg-transparent border-0 py-0 my-0">
 	    							<hr class="d-lg-none py-0 my-0 light-g">
 	    							<br class="d-none d-lg-inline my-0 py-0">
-		    						<a class="b-1 nav-link text-left dropdown-item rounded mx-auto {% if nbar == 'private' %} active {% endif %}" role="button" href="{% url 'projects' request.user %}">My Projects</a>
+		    						<a class="nav-link text-left dropdown-item rounded mx-auto {% if nbar == 'private' %} active {% endif %}" role="button" href="{% url 'projects' request.user %}">My Projects</a>
 	    							<hr class="d-lg-none py-0 my-0 light-g">
-		    						<a class="b-1 nav-link text-left dropdown-item rounded mx-auto {% if nbar == 'public' %} active {% endif %}" role="button" href="{% url 'projects' 'public' %}">Public Projects</a>
+		    						<a class="nav-link text-left dropdown-item rounded mx-auto {% if nbar == 'public' %} active {% endif %}" role="button" href="{% url 'projects' 'public' %}">Public Projects</a>
 	    							<hr class="d-lg-none py-0 my-0 light-g">
-	    							<a class="b-1 nav-link text-left dropdown-item rounded mx-auto {% if nbar == 'new_project' %} active {% endif %}" role="button" href="{% url 'new_project' %}">New Project <i class="float-right bi-journal-plus"></i></a>
+	    							<a class="nav-link text-left dropdown-item rounded mx-auto {% if nbar == 'new_project' %} active {% endif %}" role="button" href="{% url 'new_project' %}">New Project <i class="float-right bi-journal-plus"></i></a>
 	    						</div>
 	    					</div>
 	    					{% else %}
