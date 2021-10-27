@@ -6,11 +6,11 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.utils.text import slugify
 from django.contrib import messages
 from datetime import datetime
-from django.utils import timezone
 from datetime import datetime
 
 def index(request):
 	recent_visit = False
+	# check for existance of cookie
 	if 'last_visit' in request.session.keys():
 		last_visit = request.session['last_visit']
 		# the cookie is a string - convert back to a datetime type
@@ -25,7 +25,7 @@ def index(request):
 			if request.session['logout']:
 				recent_visit = False
 				request.session['logout'] = False
-	else:
+	else: # create cookie keeping track of last visit
 		request.session['last_visit'] = str(datetime.now())
 	banners = []
 	#control max num probably
