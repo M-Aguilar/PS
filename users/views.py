@@ -52,6 +52,7 @@ def password_change(request):
 @login_required
 def logout_view(request):
 	"""log the user out."""
+	request.session['logout'] = True
 	logout(request)
 	return HttpResponseRedirect(reverse('index'))
 
