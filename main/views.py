@@ -7,6 +7,7 @@ from django.utils.text import slugify
 from django.contrib import messages
 from datetime import datetime
 from django.utils import timezone
+from datetime import datetime
 
 def index(request):
 	recent_visit = False
@@ -17,17 +18,23 @@ def index(request):
 		curr_time = datetime.now()
 		if (curr_time-last_visit_time).days > 0:
 			# if at least one day has gone by then inc the visit count.
-			request.session['last_visit'] = datetime.now()
+			request.session['last_visit'] = str(datetime.now())
 		else:
 			recent_visit = True
+		if 'logout' in request.session.keys():
+			if request.session['logout']:
+				recent_visit = False
+				request.session['logout'] = False
 	else:
-		request.session['last_visit'] = datetime.now()
+		request.session['last_visit'] = str(datetime.now())
 	banners = []
 	#control max num probably
 	projects = Project.objects.filter(public=True)
 	for project in projects:
 		if project.banner:
 			banners.append(project)
+	if request.user.is_authenticated:
+		messages.success(request, "Welcome {0}".format(request.user))
 	context = {'nbar': 'index', 'projects': banners, 'recent_visit': recent_visit}
 	return render(request, 'main/index.html', context)
 
