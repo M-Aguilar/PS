@@ -2,21 +2,28 @@
 
 {% block title %}M.Aguilar{% endblock %}
 {% block header %}
-<div class='jumbotron py-4 c-1'>
-	<div class="display-4 text-center">
-    <div id="time" class="text-center mb-2"></div> 
-    {% load static %}
-    <script type="text/javascript" src="{% static 'main/time.js' %}" onload="curTime()"></script>
-    {% load tz %}
-		{% if user.is_authenticated %}
-			Hello {{user}}!
-    {% else %}
-    <div>
-      <a class='btn alt-btn' href="{% url 'login' %}">Log in</a>
-      <a class='btn alt-btn' href="{% url 'register' %}">Register</a>
-		</div>
-    {% endif %}
-	</div>
+<div class="row mx-1">
+  <div class="col-9 messages list-group py-3">
+      {% if messages %}
+          {% for message in messages %}
+          <div class="message list-group-item pb-2 {% if message.tags %}bg-{{ message.tags }}{% endif %}">{{ message }}<i class='bi-x float-right btn btn-sm' onclick="hidemessage()"></i></div>
+          {% endfor %}
+      {% endif %}
+  </div>
+  <div class='c-1 rounded my-3 py-3 col-3'>
+    <div class="text-center">
+      <div id="time" class="text-center"></div> 
+      {% load static %}
+      <script type="text/javascript" src="{% static 'main/time.js' %}" onload="curTime()"></script>
+      {% load tz %}
+      {% if not user.is_authenticated %}
+      <div>
+        <a class='btn alt-btn' href="{% url 'login' %}">Log in</a>
+        <a class='btn alt-btn' href="{% url 'register' %}">Register</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
 </div>
 {% endblock %}
 
@@ -58,10 +65,90 @@
   </a>
 </div>
 <div>
+  <div>
+  {% include "main/wave-haikei.svg" %}
+  </div>
+  <div class="card-body c-1 index-text border-0 pt-5">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <h5>Projects</h5>
+        <hr class="bg-off">
+        <p>Various projects are showcased here. From academic accomplishments to personal successes. 
+        Check out the <a href="{% url 'about' %}">about</a> page for more information related to the development and hosting of this site.
+        Feel free to reach out via <a href="mailto:support@magullar.com">email</a> for any other questions or concerns.
+        </p>
+      </div>
+      <div class="col-12 col-md-6">
+        <h5>Disclaimer</h5>
+        <hr class="bg-off">
+        <p>While you are allowed to make an account there is no additional functionality provided. 
+        Viewing <a href="{% url 'projects' %}">public projects</a> and playing <a href="{% url 'games' %}">games</a> do not require you to login.
+        So don't work about it and enjoy the site. 👍
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="svg-1">
+  {% include 'main/layered-waves-haikei.svg' %}
+  </div>
+  <div class="card-body back-dark">
+    <h3 class="text-center mb-4">Games</h3>
+    <hr class="bg-off">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <h5>Flag Game</h5>
+        <hr class="bg-off">
+        <p>How well do you know the flags of the world? This quiz might help you... for now. 
+        </p>
+      </div>
+      <div class="col-12 col-md-6">
+        <h5>Map Quiz</h5>
+        <hr class="bg-off">
+        <p>How well do you know the countries and territories of the world. Geopolitics doesn't make the list easy to define, but this game makes it easy
+        to test your geography knowledge.
+        </p>
+      </div>
+  </div>
+  <div class="svg-2" style="margin-bottom:-5%;">
+  {% include 'main/layered-waves-haikei.svg' %}
+  </div>
+  <div class="card-body c-1 index-text border-0 pt-5 mt-3">
+   <div class="row">
+      <div class="col-12 col-md-6">
+        <h5>Home Helper</h5>
+        <hr class="bg-off">
+        <p>One of the projects in development is Home Helper. This Django app is meant to help keep track of tasks and chores.
+        This hub is designed to consolidate a lot of the regular everyday necessities without overcomplicating the process. Apart from keeping track of 
+        tasks completed and offering feedback, it will also manage inventories helping keep track of those itmes you know you have, but don't know exactly where
+        they are. Keeping track of food is also a often cumbersome endeavor. Development will eventually bring about recipe importing and management. Keep track of the 
+        meals you have prepared and keep track of tips and tricks for future attempts. The current state of the project can be viewed on github.
+        </p>
+      </div>
+      <div class="col-12 col-md-6">
+        <h5>Other Projects</h5>
+        <hr class="bg-off">
+        <p>There are many different project that I am going to eventually build and display on this site. Continually gaining knowledge about the tools available 
+        brings about the issue of reimagining previous accomplishents. This site is an example as it is continually changing in order to keep up with what I have
+        learned, Other projects to come are a blog available to anyone who desires to join, fake news site, and a fake online shop. If you have any other ideas let me know.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="svg-2">
+  {% include "main/wave-haikei.svg" %}
+  </div>
+</div>
+<div>
   <p></p>
   <hr class='text-back'>
   <p></p>
 </div>
+<script>
+$(function() {setTimeout(hidemessage, 10000)})
+function hidemessage() {
+  $('.messages').empty()
+}
+</script>
 {% if not recent_visit %}
 <style>
 nav, div {

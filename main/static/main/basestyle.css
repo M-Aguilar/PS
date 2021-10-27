@@ -18,18 +18,55 @@ html,body {
 	background-color: var(--blank);
 }
 
+.message {
+	animation: messageslidein 4s;
+}
+
 @keyframes slidein {
 	10% {
-	  opacity: 0;
+		opacity: 0;
 	}
 	100% {
 		opacity: 1;
 	}
 }
-  
-#background-svg {
-	position: fixed;
-	height:100%;
+
+@keyframes messageslidein {
+	from {
+		transform: translateY(-50%);
+		opacity: 0;
+	} to {
+		opacity: 1;
+		transform: translateY(0%);
+	}
+}
+
+#visual path {
+	fill: var(--theme-color);
+}
+
+.card-body.back-dark {
+	margin-top: -1%;
+	background-color: #001220;
+	color: white;
+	width:100%;
+
+}
+
+svg#visial2, svg#visual {
+	width:100%;
+	position: relative;
+}
+
+.svg-2 svg {
+	transform: scaleY(-1);
+	transform: rotate(180deg);
+	width:100%;
+}
+
+.card-body.index-text {
+	border-radius: 0;
+	margin-top:-2%;
 	width:100%;
 }
 
@@ -398,6 +435,7 @@ div.project-border {
 	border-radius: 0 0 4px 4px;
 	color: var(--text-color);
 }
+
 .pop-project {
 	margin-top:5px;
 }
